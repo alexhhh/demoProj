@@ -1,0 +1,54 @@
+<section id="papa-view" class="mainbar" data-ng-controller="papaCtrl as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="alert alert-success" style="background-color:lavender;">
+                        <strong>Success!</strong> {{ vm.success }}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="widget wblue">
+                        <div data-cc-widget-header title="Speciality" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                            <table class="table table-condensed  table-striped" style="background-color:rgba(0, 0, 255, 0.05);">
+                                <thead>
+                                    <tr >
+                                        <th class="text-center" ><strong>Speciality Id</strong></th>
+                                        <th class="text-center"><strong>Speciality Name</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in vm.spec"  >
+                                        <td >{{item.id}}</td>
+                                        <td >{{item.specialityName}}</td>
+                                    </tr>
+                                    
+                                    <!--<tr ng-repeat="item in vm.idSpec track by $index">
+                                        <td >{{item}}</td>
+                                        <td > {{  vm.nameSpec[$index] }} </td>
+                                    </tr>-->
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <input ng-model="vm.addMesterRequest.specialityName"/>
+                    <input type="button" ng-click="vm.addMester()" value="Add mester"/>
+                </div>
+            </div>
+            
+        </div>
+        </div>
+    </section>
+</section>
