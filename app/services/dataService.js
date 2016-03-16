@@ -7,14 +7,22 @@ var App;
             function DataService($http, httpi) {
                 var _this = this;
                 this.serviceRoot = 'http://localhost:8080/mesteriApplication/rest';
-                this.getMesteri = function (requestData, callback) {
+                this.getSpecialities = function (requestData, callback) {
                     return _this.Request('GET', '/speciality/specialities', requestData, callback);
                 };
-                this.addMester = function (requestData, callback) {
+                this.addSpeciality = function (requestData, callback) {
                     return _this.Request('POST', '/speciality', requestData, callback);
                 };
-                this.test = function (callback) {
-                    return _this.Request('POST', 'http://192.168.0.29/uploadDocument', {}, callback);
+                this.deleteSpeciality = function (requestData, callback) {
+                    var urlParam = '/speciality/' + requestData.idSpeciality;
+                    return _this.Request('DELETE', urlParam, null, callback);
+                };
+                this.getMesteri = function (requestData, callback) {
+                    var urlParam = '/mesteri/' + requestData.idMester;
+                    return _this.Request('GET', '/mesteri', urlParam, callback);
+                };
+                this.addMester = function (requestData, callback) {
+                    return _this.Request('POST', '/mesteri', requestData, callback);
                 };
                 this.Request = function (method, url, requestData, callback) {
                     requestData = requestData || {};

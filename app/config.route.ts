@@ -48,18 +48,28 @@ module App
                     }
                 }
             },
-             {
-                url: '/papa',
+            {
+                url: '/mester',
                 config: {
-                    title: 'papa',
-                    templateUrl: 'app/papa/papa.html',
+                    title: 'mester',
+                    templateUrl: 'app/mester/mester.html',
                     settings: {
                         nav: 3,
-                        content: '<i class="fa fa-arrows"></i> Papa'
+                        content: '<i class="fa fa-arrows"></i> Mester'
+                    }
+                }
+            },
+             {
+                url: '/client',
+                config: {
+                    title: 'client',
+                    templateUrl: 'app/client/client.html',
+                    settings: {
+                        nav: 4,
+                        content: '<i class="fa fa-arrows"></i> Client'
                     }
                 }
             }
-            
         ];
     }
 

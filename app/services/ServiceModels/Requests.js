@@ -2,12 +2,30 @@ var App;
 (function (App) {
     var Services;
     (function (Services) {
-        var GetMesteriRequest = (function () {
-            function GetMesteriRequest() {
+        var GetSpecialityRequest = (function () {
+            function GetSpecialityRequest() {
             }
-            return GetMesteriRequest;
+            return GetSpecialityRequest;
         }());
-        Services.GetMesteriRequest = GetMesteriRequest;
+        Services.GetSpecialityRequest = GetSpecialityRequest;
+        var AddSpecialityRequest = (function () {
+            function AddSpecialityRequest() {
+            }
+            return AddSpecialityRequest;
+        }());
+        Services.AddSpecialityRequest = AddSpecialityRequest;
+        var DeleteSpecialityRequest = (function () {
+            function DeleteSpecialityRequest() {
+            }
+            return DeleteSpecialityRequest;
+        }());
+        Services.DeleteSpecialityRequest = DeleteSpecialityRequest;
+        var GetMesterRequest = (function () {
+            function GetMesterRequest() {
+            }
+            return GetMesterRequest;
+        }());
+        Services.GetMesterRequest = GetMesterRequest;
         var AddMesterRequest = (function () {
             function AddMesterRequest() {
             }
