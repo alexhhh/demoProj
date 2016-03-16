@@ -17,7 +17,7 @@ var App;
                     var urlParam = '/speciality/' + requestData.idSpeciality;
                     return _this.Request('DELETE', urlParam, null, callback);
                 };
-                this.getMesteri = function (requestData, callback) {
+                this.getMester = function (requestData, callback) {
                     var urlParam = '/mesteri/' + requestData.idMester;
                     return _this.Request('GET', '/mesteri', urlParam, callback);
                 };

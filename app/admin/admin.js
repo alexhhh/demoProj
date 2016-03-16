@@ -8,7 +8,6 @@ var App;
             //#endregion
             function AdminCtrl(common, datacontext, dataService) {
                 var _this = this;
-                //#endregion
                 this.getSpecialities = function () {
                     var requestData = new App.Services.GetSpecialityRequest();
                     var promise = _this.dataService.getSpecialities(requestData, function (response) {
@@ -32,9 +31,9 @@ var App;
                 };
                 this.common = common;
                 this.controllerId = AdminCtrl.controllerId;
-                this.dataService = dataService;
                 this.title = "Admin";
                 this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);
+                this.dataService = dataService;
                 this.addSpecialityRequest = new App.Services.AddSpecialityRequest();
                 this.activate([this.getSpecialities()]);
             }
