@@ -549,3 +549,11 @@ a {
 }
 
 /*#endregion */
+
+.ui-grid-pager-row-count-picker select[ui-grid-one-bind-aria-labelledby-grid]{
+    padding: 0;
+}
+
+abbr[ui-grid-one-bind-title] {
+    border-bottom: none;
+}

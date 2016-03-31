@@ -1,95 +1,128 @@
 ﻿'use strict';
-module App.Controllers
-{
+module App.Controllers {
 
-    export interface INews
-    {
+    export interface INews {
         title: string;
         description: string;
     }
 
-    export class DashboardCtrl
-    {
+    export class DashboardCtrl {
         public static controllerId: string = 'dashboardCtrl';
-//#region Variables
+        //#region Variables
         controllerId = DashboardCtrl.controllerId;
+
+        $scope: any;
         common: App.Shared.ICommon;
         datacontext: App.Services.IDatacontext;
+        dataService: Services.IDataService;
+        specialityList: Array<any>;
         log: any;
-        messageCount: number;
-        news: INews;
-        people: Array<any> = [];
-
-        alex: string;
-        
-        alexarray: Array<string>;
+        logSuccess: Function;
+        logError: Function;
+        logWarning: Function;
+        searchMesterRequest: App.Services.SearchMesterRequest;
+        mesterResultPage: any;
+        ngDialog: any;
 
         //#endregion
-        constructor(common, datacontext)
-        {
+        constructor($scope, common, datacontext, dataService: Services.IDataService, ngDialog: any) {
+            this.$scope = $scope;
+
+            this.ngDialog = ngDialog;
             this.common = common;
             this.datacontext = datacontext;
+            this.dataService = dataService;
             this.log = common.logger.getLogFn();
-            this.news = this.getNews();
-            
-            this.alex = 'asdfasdf';
-            this.alexarray = new Array<string>();
-            this.alexarray.push('val 1');
-            this.alexarray.push('val 2');
-            this.alexarray.push('val 3');
-            
+            this.logError = common.logger.getLogFn('', 'error');
+            this.logWarning = common.logger.getLogFn('', 'warn');
+            this.logSuccess = common.logger.getLogFn('', 'success');
+
+            this.searchMesterRequest = new App.Services.SearchMesterRequest();
+
+
             // Queue all promises and wait for them to finish before loading the view
-            this.activate([this.getMessageCount(), this.getPeople()]);
+            this.activate([this.getSpecialities()]);
         }
 
         // TODO: is there a more elegant way of activating the controller - base class?
-        activate(promises: Array<ng.IPromise<any>>)
-        {
+        private activate(promises: Array<ng.IPromise<any>>) {
             this.common.activateController(promises, this.controllerId)
                 .then(() => { this.log('Activated Dashboard View'); });
         }
 
-//#region Public Methods
-        getNews(): INews
-        {
-            return {
-                title: "Hot Towel Typescript",
-                description: 'Hot Towel Typescript is a SPA template using Angular, Breeze and Typescript. '
-                    + 'This is a conversion of John Papas HotTowel.Angular.Breeze package'
-            };
-        }
-        
-        Do = () => {
-            this.alex = "tralalalalala";
-            
-            this.alexarray[0] = 'teeeeeeeeeeeeeest';
-            
-            this.alexarray.push('val 4');
-            this.alexarray.push('val 5');
-            this.alexarray.push('val 6');
-        }
 
-        getMessageCount()
-        {
-            return this.datacontext.getMessageCount().then(data =>
-            {
-                return this.messageCount = data;
+        //#region Public Methods
+
+        getSpecialities = () => {
+            var requestData = new App.Services.GetSpecialityRequest();
+            var promise = this.dataService.getSpecialities(requestData, (response, success) => {
+                this.specialityList = response;
             });
+            return promise;
         }
 
-        getPeople()
-        {
-            return this.datacontext.getPeople().then(data =>
-            {
-                return this.people = data;
+        searchMester = () => {
+            var promise = this.dataService.searchMester(this.searchMesterRequest, (response, success) => {
+                this.mesterResultPage = response;
+                this.gridOptions.data = response.contentPage;
+                if (success) {
+                    this.logSuccess('The search was succesful !');
+                } else {
+                    this.logError('The search failed ! review the input data! ');
+                }
             });
+            return promise;
         }
 
-//#endregion
+        advanceSearch = () => {
+           
+           this.ngDialog.open({ template: 'templateId', scope: this.$scope });
+           
+           this.searchMester();
+        }
+
+
+
+        gridOptions = {
+            multiSelect: false,
+            modifierKeysToMultiSelect: false,
+            enableRowSelection: true,
+            enableFullRowSelection: true,
+            selectAllRows: true,
+            noUnselect: true,
+            enablePaginationControls: true,
+            paginationPageSizes: [10, 25, 50, 75],
+            paginationPageSize: 10,
+            data: [],
+            columnDefs: [
+                { name: 'firstName' },
+                { name: 'lastName' },
+                { name: 'location' },
+                { name: 'description' }
+            ],
+            toggleFullRowSelection: () => { },
+
+            onRegisterApi: (gridApi) => {
+
+                // this.$scope.gridApi = gridApi;
+
+                // // ceva nu ii ok aci !???
+                // gridApi.selection.on.rowSelectionChanged(this.$scope, (item) => {
+                //     alert('1');
+                // });
+                // gridApi.selection.on.rowSelectionChangedBatch(this.$scope, (item) => {
+                //     alert("2");
+
+                // });
+            }
+        }
+        //#endregion
+
+
     }
 
     // register controller with angular
-    app.controller(DashboardCtrl.controllerId, ['common', 'datacontext',
-        (c, dc) => new App.Controllers.DashboardCtrl(c, dc)
+    app.controller(DashboardCtrl.controllerId, ['$scope', 'common', 'datacontext', 'dataService', 'ngDialog',
+        ($scope, c, dc, dataService, ngDialog) => new App.Controllers.DashboardCtrl($scope, c, dc, dataService, ngDialog)
     ]);
 }

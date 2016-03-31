@@ -29,7 +29,10 @@
     <link href="content/toastr.css" rel="stylesheet" />
     <link href="content/customtheme.css" rel="stylesheet">
     <link href="content/styles.css" rel="stylesheet" />
-    <link href="content/breeze.directives.css" rel="stylesheet" />
+    <link href="scripts/lib/uiGrid/ui-grid.css" rel="stylesheet" />
+    <link href="scripts/lib/ngDialog/ngDialog.css" rel="stylesheet" />
+    <link href="scripts/lib/ngDialog/ngDialog-theme-default.css" rel="stylesheet" />
+    <!--<link href="content/breeze.directives.css" rel="stylesheet" />-->
 </head>
 <body>
     <div>
@@ -61,18 +64,23 @@
     <script src="scripts/spin.js"></script>
     <script src="scripts/breeze.debug.js"></script>
     <script src="scripts/breeze.angular.js"></script>
-    <script src="scripts/breeze.directives.js"></script>
+    <script src="scripts/lib/uiGrid/ui-grid.js"></script>
+    <script src="scripts/lib/ngDialog/ngDialog.js"> </script>
+    
+    <!--<script src="scripts/breeze.directives.js"></script>-->
     <script src="scripts/breeze.saveErrorExtensions.js"></script>
-
-
+    <script src="scripts/checklist-model.js"></script>
+    <script src="scripts/lib/ng-mail-validator.js"></script>
+    <script src="scripts/lib/ng-phoneNr-validator.js"></script>
+    
     <!-- Bootstrapping -->
     <script src="app/app.js"></script>
     <script src="app/common/commonModule.js"></script>
     <script src="app/config.js"></script>
     <script src="app/config.exceptionHandler.js"></script>
     <script src="app/config.route.js"></script>
-    <!-- common Modules -->
     
+    <!-- common Modules -->    
     <script src="app/common/commonConfig.js"></script>
     <script src="app/common/common.js"></script>
     <script src="app/common/logger.js"></script>
@@ -89,6 +97,7 @@
     <script src="app/layout/sidebarCtrl.js"></script>
     <script src="app/mester/mesterCtrl.js"></script>
     <script src="app/client/clientCtrl.js"></script>
+    <script src="app/details/detailsCtrl.js"></script>
     
     <!-- app Directives -->
     <script src="app/directives/cc-sidebar.js"></script>

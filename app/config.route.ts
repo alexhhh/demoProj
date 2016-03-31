@@ -1,31 +1,25 @@
 ﻿/// <reference path="../scripts/typings/angularjs/angular.d.ts" />
 'use strict';
-module App
-{
-    export interface IAppRoute
-    {
+module App {
+    export interface IAppRoute {
         url: string;
         config: ng.route.IRoute;
     }
 
 
-    export class RouteConfigurator
-    {
-        constructor($routeProvider: ng.route.IRouteProvider, routes: any)
-        {
-            routes.forEach(r =>
-            {
+    export class RouteConfigurator {
+        constructor($routeProvider: ng.route.IRouteProvider, routes: any) {
+            routes.forEach(r => {
                 $routeProvider.when(r.url, r.config);
             });
             $routeProvider.otherwise({ redirectTo: '/' });
         }
-        
+
     }
 
     // Define the routes - since this goes right to an app.constant, no use for a class
     // Could make it a static property of the RouteConfigurator class
-    function getRoutes(): IAppRoute[] | any
-    {
+    function getRoutes(): IAppRoute[] | any {
         return [
             {
                 url: '/',
@@ -37,6 +31,8 @@ module App
                         content: '<i class="fa fa-dashboard"></i> Dashboard'
                     }
                 }
+
+
             }, {
                 url: '/admin',
                 config: {
@@ -59,7 +55,15 @@ module App
                     }
                 }
             },
-             {
+            // {
+            //     url: '/details',
+            //     config: {
+            //         title: 'details',
+            //         templateUrl: 'app/details/details.html'
+               
+            //     }
+            // },
+            {
                 url: '/client',
                 config: {
                     title: 'client',
@@ -67,6 +71,17 @@ module App
                     settings: {
                         nav: 4,
                         content: '<i class="fa fa-arrows"></i> Client'
+                    }
+                }
+            },
+            {
+                url: '/details',
+                config: {
+                    title: 'details',
+                    templateUrl: 'app/details/details.html',
+                    settings: {
+                        nav: 5,
+                        content: '<i class="fa fa-arrows"></i> details'
                     }
                 }
             }

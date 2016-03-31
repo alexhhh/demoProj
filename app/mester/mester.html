@@ -2,79 +2,220 @@
     <section class="matter">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <div class="widget wblue">
-                        <div data-cc-widget-header title="Create mester" allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <div class="col-md-10"> <strong>Basic Info</strong> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">First Name:</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" id="focusedInput" type="text" value="First Name...">
+
+                <div class="widget wblue">
+                    <div data-cc-widget-header title="Create/Edit mester" allow-collapse="true"></div>
+                    <div class="widget-content text-center text-info">
+                        <h1 align="left"> <strong>Mester Profile </strong> </h1>
+                        <div class="row">
+                            <form class="form-horizontal" role="form" name="mesteriForm" novalidate>
+                                <h3 align="left"> <strong>Basic Info</strong> </h3>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Username:</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" id="focusedInput" name="username" type="text" ng-required="true" /> </div>
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.lastName.$error.required && mesteriForm.lastName.$dirty">This field is required!</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Password:</label>
+                                        <div class="col-md-8">
+                                            <div align="left">
+                                                <a align="left" href="http://amuritiliescu.ro/">Change password</a>
+                                            </div>
+                                        </div>
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.lastName.$error.required && mesteriForm.lastName.$dirty">This field is required!</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">First Name:</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" id="focusedInput" name="firstName" ng-model="vm.addMesterRequest.firstName" ng-model="vm.dbMester.firstName"
+                                            type="text" ng-required="true" />
+                                        </div>
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.firstName.$error.required && mesteriForm.firstName.$dirty">This field is required!</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Last Name:</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" id="focusedInput" name="lastName" ng-model="vm.addMesterRequest.lastName" type="text" ng-required="true"
+                                            /> </div>
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.lastName.$error.required && mesteriForm.lastName.$dirty">This field is required!</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"> Location: </label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" id="focusedInput" name="location" ng-model="vm.addMesterRequest.location" type="text" ng-required="true"
+                                            /> </div>
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.location.$error.required && mesteriForm.location.$dirty">This field is required!</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Description:</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" id="focusedInput" rows="4" ng-model="vm.addMesterRequest.description" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <h3 align="left"> <strong>Contact Info</strong> </h3>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Email:</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" id="focusedInput" name="mesterMail" ng-model="vm.addMesterRequest.contact.email" type="email"
+                                            overwrite-email /> </div>
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.mesterMail.$error.email">This email format is invalid!</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Phone Nr:</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" id="focusedInput" name="mesterPhoneNr" ng-model="vm.addMesterRequest.contact.telNr" type="phone"
+                                            overwrite-phone-nr /> </div>
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.mesterPhoneNr.$error.phone">This phone number format is invalid!</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Website:</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" id="focusedInput" name="socialPlatform" ng-model="vm.addMesterRequest.contact.socialPlatform"
+                                            type="text" ng-required="true" />
+                                        </div>
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.socialPlatform.$error.required && mesteriForm.socialPlatform.$dirty">This field is required!</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Last Name:</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" id="focusedInput" type="text" value="Last Name...">
+                                <div class="col-md-5">
+                                    <h3 align="left"> <strong>Specialities</strong> </h3>
+
+                                    <div align="left">
+                                        <label class="col-md-4" ng-repeat="item in vm.specialityList">
+                                            <input type="checkbox" name="specialityLabel" checklist-model="vm.addMesterRequest.speciality" checklist-value="item"> {{item.specialityName}}
+                                        </label>
+
+                                        <div align="right">
+                                            <span class="alert alert-danger" ng-show="mesteriForm.specialitylabel.$error.required ">At least one speciality must be selected!</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label"> Location: </label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" id="focusedInput" type="text" value="Location...">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Description:</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" id="focusedInput" type="text" value="Description...">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-10"> <strong>Contact</strong> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Phone Nr:</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" id="focusedInput" type="text" value="Phone Number:...">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Email:</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" id="focusedInput" type="text" value="Email...">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Site:</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" id="focusedInput" type="text" value="Site...">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Social:</label>
-                                    <div class="col-md-10">
-                                        <input class="form-control" id="focusedInput" type="text" value="Social Platform...">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-10"> <strong>Specialities</strong> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Speciality:</label>
-                                    
+                            </form>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9"> </div>
+                            <div class="col-md-1">
+                                <div align="right">
+                                    <input type="button" ng-show="vm.addMesterRequest.isEdit == false" class="btn btn-primary" ng-click="vm.addMester(item.id) && vm.clearForm()"
+                                    value="Save" />
                                 </div>
                                 <div align="right">
-                                    <input type="button" class="btn btn-primary" ng-click="vm.addMester(item.id)" value="Add Mester" />
+                                    <input type="button" ng-show="mesteriForm.$valid  && vm.addMesterRequest.isEdit" class="btn btn-primary" ng-click="vm.editMester(item.id) && vm.clearForm()"
+                                    value="Edit Mester" />
+                                    <!-- <input type="button" value="asdf" ng-click="vm.clearForm()"> -->
                                 </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div align="right">
+                                    <input type="button" value="cancel" class="btn btn-primary" ng-click="vm.clearForm()" value="Cancel" />
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
+            <div class="col-lg-5">
+                <div class="widget wgreen">
+                    <div data-cc-widget-header title="Mester" allow-collapse="true"></div>
+                    <div class="widget-content text-center text-info">
+                        <div class="row">
+                            <div class="col-md-3 ">Mester Id: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.id }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ">First Name: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.firstName }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ">Last Name: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.lastName }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ">Location: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.location }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">Description: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.description }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ">Phone Nr: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.contact.telNr }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ">Email: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.contact.email }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">Site: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.contact.site }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ">Social: </div>
+                            <div class="col-md-9" align="left">{{ vm.fullMester.contact.socialPlatform }} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ">Specialities: </div>
+                            <div align="left" ng-repeat="item in vm.fullMester.speciality">
+                                <div class="col-md-9"> {{item.specialityName}} </div>
+                                <div class="col-md-3"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="widget wgreen">
+                        <div data-cc-widget-header title="Find Mester" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+
+                            <div class="row">
+                                <label class="col-md-2 control-label">Mester id:</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" id="focusedInput" name="mesterId" ng-model="vm.getMesterRequest.idMester" type="text" ng-required="true"
+                                    />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="button" class="btn btn-success" ng-click="vm.getMester()" value="Get Mester" />
+                                </div>
+                                <div class="col-md-8"> </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-warning" ng-click="vm.deleteMester()" value="Delete Mester" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </section>
 </section>

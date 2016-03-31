@@ -18,11 +18,30 @@ var App;
                     return _this.Request('DELETE', urlParam, null, callback);
                 };
                 this.getMester = function (requestData, callback) {
-                    var urlParam = '/mesteri/' + requestData.idMester;
-                    return _this.Request('GET', '/mesteri', urlParam, callback);
+                    //  var urlParam = '/mesteri/' + requestData.idMester;
+                    return _this.Request('GET', '/mesteri/query', requestData, callback);
                 };
                 this.addMester = function (requestData, callback) {
                     return _this.Request('POST', '/mesteri', requestData, callback);
+                };
+                this.editMester = function (requestData, callback) {
+                    return _this.Request('PUT', '/mesteri/edit', requestData, callback);
+                };
+                this.searchMester = function (requestData, callback) {
+                    return _this.Request('POST', '/mesteri/search', requestData, callback);
+                };
+                this.searchReviewMester = function (requestData, callback) {
+                    // var urlParam = '/reviews/mester/query' + requestData.idMester + 'size=' + requestData.pageSize + 'number=' + requestData.pageNumber ;
+                    return _this.Request('GET', '/reviews/mester/query', requestData, callback);
+                };
+                this.getMesterRating = function (requestData, callback) {
+                    return _this.Request('GET', '/reviews/rating/query', requestData, callback);
+                };
+                this.addMesterReview = function (requestData, callback) {
+                    return _this.Request('POST', '/reviews', requestData, callback);
+                };
+                this.deleteMester = function (requestData, callback) {
+                    return _this.Request('DELETE', '/mesteri/query', requestData, callback);
                 };
                 this.Request = function (method, url, requestData, callback) {
                     requestData = requestData || {};
@@ -48,11 +67,16 @@ var App;
                     var request = _this.Httpi.Request(hxr).
                         success(function (data, status, headers, config) {
                         if (callback != null) {
-                            callback(data);
+                            callback(data, true);
                         }
                     }).
                         error(function (data, status, headers, config) {
                         if (callback != null) {
+                            if (!data) {
+                                data = {};
+                            }
+                            var value = data.message;
+                            callback(value, false);
                         }
                     });
                     return request;

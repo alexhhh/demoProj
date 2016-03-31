@@ -17,6 +17,9 @@ module App.Controllers{
         controllerId: string;
         title: string;
         private log: Function;
+        logError: Function;
+        logWarning: Function;
+        logSuccess: Function;
         
         datacontext: App.Services.IDatacontext;
         dataService: Services.IDataService; 
@@ -31,6 +34,10 @@ module App.Controllers{
             this.controllerId = AdminCtrl.controllerId;
             this.title = "Admin";
             this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);
+             this.log = common.logger.getLogFn();
+            this.logError = common.logger.getLogFn('', 'error');
+            this.logWarning = common.logger.getLogFn('', 'warn');
+            this.logSuccess = common.logger.getLogFn('', 'success');
             
             this.dataService = dataService; 
             this.addSpecialityRequest = new App.Services.AddSpecialityRequest();
@@ -41,24 +48,37 @@ module App.Controllers{
         getSpecialities = () => {
           var requestData = new App.Services.GetSpecialityRequest();
           
-            var promise = this.dataService.getSpecialities(requestData, (response) =>{
+            var promise = this.dataService.getSpecialities(requestData, (response, success) =>{
                 this.spec = response;
             } );
             return promise;
         }
         
         addSpeciality = () => {
-             var promise = this.dataService.addSpeciality( this.addSpecialityRequest, (response) =>{
+             var promise = this.dataService.addSpeciality( this.addSpecialityRequest, (response, success) =>{
+                 if(success){
+                    this.logSuccess('The speciality was created');}else {
+                    this.logError('This speciality cannot be created');
+                }
                  this.getSpecialities();
              } );
              return promise;
         }
  
          deleteSpeciality = (id: string) => {
+             
+            if(!confirm('Are you sure about this ?')){
+                return;            
+            }          
             var deleteSpecialityRequest =  new App.Services.DeleteSpecialityRequest();
             deleteSpecialityRequest.idSpeciality = id;
             
-             var promise = this.dataService.deleteSpeciality(deleteSpecialityRequest, (response) =>{
+             var promise = this.dataService.deleteSpeciality(deleteSpecialityRequest, (response, success) =>{
+                 if(success){
+                    this.logSuccess('The speciality was deleted');
+                } else {
+                   this.logError('This speciality is used by workers and cannot be deleted !');
+                }
                  this.getSpecialities(); 
              } );
              return promise;

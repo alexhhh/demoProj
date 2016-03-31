@@ -1,0 +1,114 @@
+<style>
+    .mystyle {
+        border: 1px solid grey;
+        width: 250px;
+        height: 200px;
+        padding: 10px;
+    }
+    
+    .specStyle {
+        border: 1px solid grey;
+        width: 110px;
+        height: 200px;
+        padding: 10px;
+        overflow: auto;
+    }
+    
+    .reviewStyle {
+        width: 840px;
+        height: 400px;
+        overflow: auto;
+    }
+    
+    .review1Style {
+        border: 1px solid grey;
+        width: 800px;
+        height: 100px;
+        padding: 10px;
+    }
+</style>
+
+<section id="detalis-view" class="mainbar" data-ng-controller="detailsCtrl as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+
+                <h1 align="left"> <strong>Mester:</strong> </h1>
+                <div class="row-md-8">
+                    <div class="col-md-3">
+                        <h4 align="left"> <strong>Basic Info:</strong> </h4>
+                        <div class="mystyle">
+                            <strong>First Name:</strong>{{vm.dbMester.firstName}}</br>
+                            <strong>Last Name: </strong>{{vm.dbMester.lastName}}</br>
+                            <strong>Location: </strong>{{vm.dbMester.location}}</br>
+                            <strong>Details: </strong>{{vm.dbMester.description}}</br>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 align="left"> <strong>Contact Detalis:</strong> </h4>
+                        <div class="mystyle">
+                            <strong>Tel nr: </strong> {{ vm.dbMester.contact.telNr }} </br>
+                            <strong>Email: </strong> {{ vm.dbMester.contact.email }} </br>
+                            <strong>Site: </strong> {{ vm.dbMester.contact.site }} </br>
+                            <strong>Social: </strong>{{ vm.dbMester.contact.socialPlatform }} </brdiv>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <h4 align="left"> <strong>Speciality:</strong> </h4>
+                        <div class="specStyle">
+                            <p ng-repeat="item in vm.dbMester.speciality">
+                                {{item.specialityName}} </br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                 <h4>     <strong>Avg Rating: </strong></br>{{vm.mesterAvgRating}} </br></h4>
+                    </br>
+                    </br>
+                </div>
+                <div class="col-md-2">
+                   <h4>  <strong>Price:</strong> </h4></br>
+                </div>
+                
+            </div>
+            <div class="row">
+              
+                 <div class="col-md-8"> 
+                       <h1 align="left"> <strong>Reviews:</strong> </h1> </div>
+                <div class="col-md-4">
+                    <input type="button"  class="btn btn-primary" ng-click="vc.addMesterReview(vc.mesterResultPage.contentPage.id)"
+                    value="Add Review" />
+                </div>
+            </div>
+               <div class="row"> 
+                <div class="col-md-1"> &nbsp; </div>
+                <div class="col-md-10">
+                    <div class="reviewStyle">
+                        <div ng-repeat="item in vm.reviewMesterResultPage.contentPage">
+                            <div class="review1Style">
+                                <div class="col-md-6">
+                                    <strong>Feedback: </strong></br>{{item.feedback}}
+                                </div>
+
+                                <div class="col-md-3">
+                                    <strong>Rating: </strong></br>{{item.rating}}
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Price:</strong></br>{{item.price}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="padding: 0 0 0 13px;"> <strong>Total results: </strong> {{ vm.reviewMesterResultPage.totalResults }} </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </section>
+</section>

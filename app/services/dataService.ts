@@ -7,7 +7,13 @@ module App.Services {
         addSpeciality(requestData: AddSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         deleteSpeciality(requestData: DeleteSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         getMester(requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any>;
-        addMester(requestData: AddMesterRequest, callback: Function): ng.IHttpPromise<any>;
+        addMester(requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any>;
+        editMester(requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any>;
+        searchMester(requestData: SearchMesterRequest, callback: Function): ng.IHttpPromise<any>;
+        searchReviewMester(requestData: SearchReviewMesterRequest, callback: Function): ng.IHttpPromise<any>;
+        getMesterRating(requestData: GetMesterAvgRatingRequest, callback: Function): ng.IHttpPromise<any>;
+        addMesterReview(requestData: AddMesterReviewRequest, callback: Function): ng.IHttpPromise<any>;
+        deleteMester(requestData: DeleteMesterRequest, callback: Function): ng.IHttpPromise<any>;
     }
 
     export class DataService implements IDataService {
@@ -37,15 +43,40 @@ module App.Services {
         }
 
 
-         public getMester = (requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any> => {
-              var urlParam = '/mesteri/' + requestData.idMester;
-            return this.Request('GET', '/mesteri', urlParam, callback);
+        public getMester = (requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any> => {
+            //  var urlParam = '/mesteri/' + requestData.idMester;
+            return this.Request('GET', '/mesteri/query', requestData, callback);
         }
 
-        public addMester = (requestData: AddMesterRequest, callback: Function): ng.IHttpPromise<any> => {
+        public addMester = (requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('POST', '/mesteri', requestData, callback);
         }
 
+        public editMester = (requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('PUT', '/mesteri/edit', requestData, callback);
+        }
+
+        public searchMester = (requestData: SearchMesterRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('POST', '/mesteri/search', requestData, callback);
+        }
+
+        public searchReviewMester = (requestData: SearchReviewMesterRequest, callback: Function): ng.IHttpPromise<any> => {
+            // var urlParam = '/reviews/mester/query' + requestData.idMester + 'size=' + requestData.pageSize + 'number=' + requestData.pageNumber ;
+            return this.Request('GET', '/reviews/mester/query', requestData, callback);
+        }
+
+        public getMesterRating = (requestData: GetMesterAvgRatingRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/reviews/rating/query', requestData, callback);
+        }
+
+
+        public addMesterReview = (requestData: AddMesterReviewRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('POST', '/reviews', requestData, callback);
+        }
+        
+        public deleteMester = (requestData: DeleteMesterRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('DELETE', '/mesteri/query', requestData, callback);
+        }
 
         private Request = (method: string, url: string, requestData: any, callback: Function): ng.IHttpPromise<any> => {
 
@@ -77,18 +108,25 @@ module App.Services {
             var request = this.Httpi.Request(hxr).
                 success(function(data: any, status, headers, config) {
                     if (callback != null) {
-                        callback(data);
+                        callback(data, true);
                     }
                 }).
                 error(function(data, status, headers, config) {
+
                     if (callback != null) {
-                        //callback(data.message);
+                        if (!data) {
+                            data = {};
+                        }
+
+                        var value = data.message;
+
+                        callback(value, false);
                     }
                 });
 
             return request;
         }
-        
+
     }
     // Register with angular
     app.factory(DataService.serviceId, ['$http', 'Httpi', ($http, Httpi) => new DataService($http, Httpi)]);

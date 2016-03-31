@@ -1,0 +1,19 @@
+<md-dialog>
+    <form name="advanceSearch"  ng-submit="ctrl.search()">
+        <md-dialog-content>
+            <div layout="collumn" layout-padding>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label> ceva cica avatar </label>
+                        <md-select ng-model=""
+        </md-dialog-content>
+        
+        <md-dialog-action layout="row">
+            <md-button ng-click="crlt.cancel()"> Cancel
+            </md-button>
+            <md-button type="submit" class="md-primary md-raised">
+            Search
+            </md-button>
+        </md-dialog-action>
+    </form>
+</md-dialog>

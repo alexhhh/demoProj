@@ -9,10 +9,15 @@ var App;
         // Custom modules 
         'common',
         'common.bootstrap',
+        'checklist-model',
         // 3rd Party Modules
+        'ng-mesteri-validator',
         'breeze.angular',
-        'breeze.directives',
-        'ui.bootstrap' // ui-bootstrap (ex: carousel, pagination, dialog)
+        //'breeze.directives', // contains the breeze validation directive (zValidate)
+        'ui.bootstrap',
+        'ui.grid',
+        'ui.grid.pagination',
+        'ngDialog'
     ]);
     // Handle routing errors and success events
     App.app.run(['$route', function ($route) {

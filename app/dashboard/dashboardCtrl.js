@@ -5,29 +5,76 @@ var App;
     (function (Controllers) {
         var DashboardCtrl = (function () {
             //#endregion
-            function DashboardCtrl(common, datacontext) {
+            function DashboardCtrl($scope, common, datacontext, dataService, ngDialog) {
                 var _this = this;
                 //#region Variables
                 this.controllerId = DashboardCtrl.controllerId;
-                this.people = [];
-                this.Do = function () {
-                    _this.alex = "tralalalalala";
-                    _this.alexarray[0] = 'teeeeeeeeeeeeeest';
-                    _this.alexarray.push('val 4');
-                    _this.alexarray.push('val 5');
-                    _this.alexarray.push('val 6');
+                //#region Public Methods
+                this.getSpecialities = function () {
+                    var requestData = new App.Services.GetSpecialityRequest();
+                    var promise = _this.dataService.getSpecialities(requestData, function (response, success) {
+                        _this.specialityList = response;
+                    });
+                    return promise;
                 };
+                this.searchMester = function () {
+                    var promise = _this.dataService.searchMester(_this.searchMesterRequest, function (response, success) {
+                        _this.mesterResultPage = response;
+                        _this.gridOptions.data = response.contentPage;
+                        if (success) {
+                            _this.logSuccess('The search was succesful !');
+                        }
+                        else {
+                            _this.logError('The search failed ! review the input data! ');
+                        }
+                    });
+                    return promise;
+                };
+                this.advanceSearch = function () {
+                    _this.ngDialog.open({ template: 'templateId', scope: _this.$scope });
+                    _this.searchMester();
+                };
+                this.gridOptions = {
+                    multiSelect: false,
+                    modifierKeysToMultiSelect: false,
+                    enableRowSelection: true,
+                    enableFullRowSelection: true,
+                    selectAllRows: true,
+                    noUnselect: true,
+                    enablePaginationControls: true,
+                    paginationPageSizes: [10, 25, 50, 75],
+                    paginationPageSize: 10,
+                    data: [],
+                    columnDefs: [
+                        { name: 'firstName' },
+                        { name: 'lastName' },
+                        { name: 'location' },
+                        { name: 'description' }
+                    ],
+                    toggleFullRowSelection: function () { },
+                    onRegisterApi: function (gridApi) {
+                        // this.$scope.gridApi = gridApi;
+                        // // ceva nu ii ok aci !???
+                        // gridApi.selection.on.rowSelectionChanged(this.$scope, (item) => {
+                        //     alert('1');
+                        // });
+                        // gridApi.selection.on.rowSelectionChangedBatch(this.$scope, (item) => {
+                        //     alert("2");
+                        // });
+                    }
+                };
+                this.$scope = $scope;
+                this.ngDialog = ngDialog;
                 this.common = common;
                 this.datacontext = datacontext;
+                this.dataService = dataService;
                 this.log = common.logger.getLogFn();
-                this.news = this.getNews();
-                this.alex = 'asdfasdf';
-                this.alexarray = new Array();
-                this.alexarray.push('val 1');
-                this.alexarray.push('val 2');
-                this.alexarray.push('val 3');
+                this.logError = common.logger.getLogFn('', 'error');
+                this.logWarning = common.logger.getLogFn('', 'warn');
+                this.logSuccess = common.logger.getLogFn('', 'success');
+                this.searchMesterRequest = new App.Services.SearchMesterRequest();
                 // Queue all promises and wait for them to finish before loading the view
-                this.activate([this.getMessageCount(), this.getPeople()]);
+                this.activate([this.getSpecialities()]);
             }
             // TODO: is there a more elegant way of activating the controller - base class?
             DashboardCtrl.prototype.activate = function (promises) {
@@ -35,33 +82,13 @@ var App;
                 this.common.activateController(promises, this.controllerId)
                     .then(function () { _this.log('Activated Dashboard View'); });
             };
-            //#region Public Methods
-            DashboardCtrl.prototype.getNews = function () {
-                return {
-                    title: "Hot Towel Typescript",
-                    description: 'Hot Towel Typescript is a SPA template using Angular, Breeze and Typescript. '
-                        + 'This is a conversion of John Papas HotTowel.Angular.Breeze package'
-                };
-            };
-            DashboardCtrl.prototype.getMessageCount = function () {
-                var _this = this;
-                return this.datacontext.getMessageCount().then(function (data) {
-                    return _this.messageCount = data;
-                });
-            };
-            DashboardCtrl.prototype.getPeople = function () {
-                var _this = this;
-                return this.datacontext.getPeople().then(function (data) {
-                    return _this.people = data;
-                });
-            };
             DashboardCtrl.controllerId = 'dashboardCtrl';
             return DashboardCtrl;
         }());
         Controllers.DashboardCtrl = DashboardCtrl;
         // register controller with angular
-        App.app.controller(DashboardCtrl.controllerId, ['common', 'datacontext',
-            function (c, dc) { return new App.Controllers.DashboardCtrl(c, dc); }
+        App.app.controller(DashboardCtrl.controllerId, ['$scope', 'common', 'datacontext', 'dataService', 'ngDialog',
+            function ($scope, c, dc, dataService, ngDialog) { return new App.Controllers.DashboardCtrl($scope, c, dc, dataService, ngDialog); }
         ]);
     })(Controllers = App.Controllers || (App.Controllers = {}));
 })(App || (App = {}));

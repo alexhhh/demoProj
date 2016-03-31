@@ -10,11 +10,16 @@ module App{
         // Custom modules 
         'common',           // common functions, logger, spinner
         'common.bootstrap', // bootstrap dialog wrapper functions
-
+        'checklist-model',
+        
         // 3rd Party Modules
+        'ng-mesteri-validator',
         'breeze.angular',    // configures breeze for an angular app
-        'breeze.directives', // contains the breeze validation directive (zValidate)
-        'ui.bootstrap'       // ui-bootstrap (ex: carousel, pagination, dialog)
+        //'breeze.directives', // contains the breeze validation directive (zValidate)
+        'ui.bootstrap',       // ui-bootstrap (ex: carousel, pagination, dialog)
+        'ui.grid',
+        'ui.grid.pagination',
+        'ngDialog'
     ]);
     
     // Handle routing errors and success events

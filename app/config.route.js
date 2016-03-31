@@ -48,6 +48,13 @@ var App;
                     }
                 }
             },
+            // {
+            //     url: '/details',
+            //     config: {
+            //         title: 'details',
+            //         templateUrl: 'app/details/details.html'
+            //     }
+            // },
             {
                 url: '/client',
                 config: {
@@ -56,6 +63,17 @@ var App;
                     settings: {
                         nav: 4,
                         content: '<i class="fa fa-arrows"></i> Client'
+                    }
+                }
+            },
+            {
+                url: '/details',
+                config: {
+                    title: 'details',
+                    templateUrl: 'app/details/details.html',
+                    settings: {
+                        nav: 5,
+                        content: '<i class="fa fa-arrows"></i> details'
                     }
                 }
             }

@@ -26,12 +26,44 @@ var App;
             return GetMesterRequest;
         }());
         Services.GetMesterRequest = GetMesterRequest;
-        var AddMesterRequest = (function () {
-            function AddMesterRequest() {
+        var AddEditMesterRequest = (function () {
+            function AddEditMesterRequest() {
+                this.speciality = new Array();
+                this.isEdit = false;
             }
-            return AddMesterRequest;
+            return AddEditMesterRequest;
         }());
-        Services.AddMesterRequest = AddMesterRequest;
+        Services.AddEditMesterRequest = AddEditMesterRequest;
+        var SearchMesterRequest = (function () {
+            function SearchMesterRequest() {
+            }
+            return SearchMesterRequest;
+        }());
+        Services.SearchMesterRequest = SearchMesterRequest;
+        var SearchReviewMesterRequest = (function () {
+            function SearchReviewMesterRequest() {
+            }
+            return SearchReviewMesterRequest;
+        }());
+        Services.SearchReviewMesterRequest = SearchReviewMesterRequest;
+        var GetMesterAvgRatingRequest = (function () {
+            function GetMesterAvgRatingRequest() {
+            }
+            return GetMesterAvgRatingRequest;
+        }());
+        Services.GetMesterAvgRatingRequest = GetMesterAvgRatingRequest;
+        var DeleteMesterRequest = (function () {
+            function DeleteMesterRequest() {
+            }
+            return DeleteMesterRequest;
+        }());
+        Services.DeleteMesterRequest = DeleteMesterRequest;
+        var AddMesterReviewRequest = (function () {
+            function AddMesterReviewRequest() {
+            }
+            return AddMesterReviewRequest;
+        }());
+        Services.AddMesterReviewRequest = AddMesterReviewRequest;
     })(Services = App.Services || (App.Services = {}));
 })(App || (App = {}));
 //# sourceMappingURL=Requests.js.map

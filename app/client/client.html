@@ -1,15 +1,269 @@
-<section id="client-view" class="mainbar" data-ng-controller="clientCtrl as vm">
+<section id="client-view" class="mainbar" data-ng-controller="clientCtrl as vc">
     <section class="matter">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <p class="alert alert-success" style="background-color:lavender;">
-                        <strong>Success!</strong> {{ vm.success }}
-                    </p>
+                <div class="col-md-6">
+                    <div class="widget wblue">
+                        <div data-cc-widget-header title="Search for mester" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                            <form class="form-horizontal" role="form" name="searchForm" novalidate>
+
+                                <h4 align="left">Search mester after :</h4>
+
+                                <div class="form-group">
+                                    <label ng-repeat="item in vc.searchCriteria">
+                                        <input type="checkbox" name="searchLabel" ng-model="item" checklist-model="vc.searchMesterRequest.searchCriteria" checklist-value="item"
+                                        aria-label="Toggle ngShow"> {{item}}
+                                    </label>
+                                    <div align="right">
+                                        <span class="alert alert-danger" ng-show="searchForm.searchLabel.$error.required ">At least one criteria must be selected!</span>
+                                    </div>
+                                </div>
+
+                                <!--partea asta sa apara dupa ce ai apasat butonu-->
+                                <h5 align="left">Search criteria :</h5>
+                                <div ng-hide="false">
+                                    <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('First Name') >= 0">
+                                        <div class="check-element animate-show" ng-show="vc.searchCriteria">
+                                            <label class="col-md-2 control-label"> First Name: </label>
+                                            <div class="col-md-10">
+                                                <input class="form-control" id="focusedInput" name="firstName" ng-model="vc.searchMesterRequest.firstName" type="text" /> </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('Last Name') >= 0">
+                                        <label class="col-md-2 control-label"> Last Name: </label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" id="focusedInput" name="lastName" ng-model="vc.searchMesterRequest.lastName" type="text" /> </div>
+                                    </div>
+                                    <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('Location') >= 0">
+                                        <label class="col-md-2 control-label"> Location: </label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" id="focusedInput" name="location" ng-model="vc.searchMesterRequest.location" type="text" /> </div>
+                                    </div>
+                                    <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('Speciality Name') >= 0">
+                                        <label class="col-md-2 control-label">Speciality Name:</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" id="focusedInput" name="specialityName" ng-model="vc.searchMesterRequest.specialityName" type="text"
+                                            /> </div>
+                                    </div>
+                                    <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('Email') >= 0">
+                                        <label class="col-md-2 control-label">Email: </label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" id="focusedInput" name="email" ng-model="vc.searchMesterRequest.email" type="text" /> </div>
+                                    </div>
+                                    <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('Phone Number') >= 0">
+                                        <label class="col-md-2 control-label">Phone Nr:</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" id="focusedInput" name="phoneNumber" ng-model="vc.searchMesterRequest.phoneNumber" type="text"
+                                            /> </div>
+                                    </div>
+                                    <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('Rating') >= 0">
+                                        <label class="col-md-2 control-label">Rating: </label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" id="focusedInput" name="rating" ng-model="vc.searchMesterRequest.rating" type="number" /> </div>
+                                    </div>
+                                    <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('Price') >= 0">
+                                        <label class="col-md-2 control-label">Price:</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" id="focusedInput" name="price" ng-model="vc.searchMesterRequest.price" type="text" /> </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Page Size:</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" id="focusedInput" name="pageSize" ng-model="vc.searchMesterRequest.pageSize" type="number" /> </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Page Nr:</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" id="focusedInput" name="pageNumber" ng-model="vc.searchMesterRequest.pageNumber" type="number"
+                                        /> </div>
+
+
+                                </div>
+                                <div align="right">
+                                    <input type="button" class="btn btn-primary" ng-click="vc.searchMester(item.id)" value="Search Mester" />
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
                 </div>
-            
-            
-        </div>
+                <div class="col-md-6">
+                    <div class="widget wred">
+                        <div data-cc-widget-header title="Display search results" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+
+                            <table class="table table-condensed  table-striped" style="background-color:rgba(0, 0, 255, 0.05);">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><strong>First Name</strong></th>
+                                        <th class="text-center"><strong>Last Name</strong></th>
+                                        <th class="text-center"><strong>Location</strong></th>
+                                        <th class="text-center"><strong>Description</strong></th>
+                                        <th class="text-center"><strong>Details</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in vc.mesterResultPage.contentPage">
+                                        <td>{{item.firstName}}</td>
+                                        <td>{{item.lastName}}</td>
+                                        <td>{{item.location}}</td>
+                                        <td>{{item.description}}</td>
+                                        <td>
+                                            <input type="button" class="btn btn-primary" ng-click="vc.getMester(item.id)" value="Mester Details" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row">
+                                <div class="col-lg-3"> <strong>Total results:</strong> </div>
+                                <div class="col-md-3" align="left">{{ vc.mesterResultPage.totalResults }} </div>
+                            </div>
+
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget wblue">
+                        <div data-cc-widget-header title="Mester details" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+
+                            <h5>  Contact: </strong> </h5>
+
+                            <div class="row">
+                                <div class="col-lg-3 ">Phone Nr: </div>
+                                <div class="col-md-3" align="left">{{ vc.dbMester.contact.telNr }} </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 ">Email: </div>
+                                <div class="col-md-3" align="left">{{ vc.dbMester.contact.email }} </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">Site: </div>
+                                <div class="col-md-3" align="left">{{ vc.dbMester.contact.site }} </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 ">Social: </div>
+                                <div class="col-md-3" align="left">{{ vc.dbMester.contact.socialPlatform }} </div>
+                            </div>
+
+                            <h5>  Specialities: </strong> </h5>
+
+                            <div class="row">
+                                <div ng-repeat="item in vc.dbMester.speciality">
+                                    <div class="col-md-4"> {{item.specialityName}} </div>
+                                </div>
+                            </div>
+
+
+                            <h5>  Reviews: </strong> </h5>
+
+                            <div class="row">
+                                <div class="col-md-3 ">Page Size:</div>
+                                <div class="col-md-5">
+                                    <input class="form-control" id="focusedInput" name="pageSize" ng-model="vc.searchReviewMesterRequest.pageSize" type="number"
+                                    /> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 ">Page Nr:</div>
+                                <div class="col-md-5">
+                                    <input class="form-control" id="focusedInput" name="pageNumber" ng-model="vc.searchReviewMesterRequest.pageNumber" type="number"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="button" class="btn btn-primary" ng-click="vc.searchReviewMester(vc.mesterResultPage.contentPage.id )" value="Mester Review"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h6>{{ }} </h6>
+                            </div>
+                            <div class="row">
+                                <table class="table table-condensed  table-striped" style="background-color:rgba(0, 0, 255, 0.05);">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center"><strong>Price</strong></th>
+                                            <th class="text-center"><strong>Rating</strong></th>
+                                            <th class="text-center"><strong>Feedback</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in vc.reviewMesterResultPage.contentPage">
+                                            <td>{{item.price}}</td>
+                                            <td>{{item.rating}}</td>
+                                            <td>{{item.feedback}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3"><strong>Total results:</strong> </div>
+                                <div class="col-md-3" align="left">{{ vc.reviewMesterResultPage.totalResults }} </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="button" align="left" class="btn btn-primary" ng-click="vc.getMesterRating(vc.mesterResultPage.contentPage.id)"
+                                    value="AVG Rating" />
+                                </div>
+                                <div class="col-md-3 "><strong>Rating:</strong> </div>
+                                <div class="col-md-3" align="left">{{ vc.mesterAvgRating }} </div>
+                                <div class="col-md-3"> </div>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="widget wgreen">
+                        <div data-cc-widget-header title="Add review" allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                            <form class="form-horizontal" role="form" name="searchForm" novalidate>
+                                <h5>  Review: </strong> </h5>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Price: </label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" id="focusedInput" name="price" ng-model="vc.addMesterReviewRequest.price" type="text" /> </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Rating:</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" id="focusedInput" name="rating" ng-model="vc.addMesterReviewRequest.rating" type="number" /> </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Feedback: </label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" id="focusedInput" name="feedback" ng-model="vc.addMesterReviewRequest.feedback" type="text" /> </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        <input type="button" align="left" class="btn btn-primary" ng-click="vc.addMesterReview(vc.mesterResultPage.contentPage.id)"
+                                        value="Add Review" />
+                                    </div>
+                                    <div class="col-md-9"> </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </section>

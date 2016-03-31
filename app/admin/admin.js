@@ -10,21 +10,36 @@ var App;
                 var _this = this;
                 this.getSpecialities = function () {
                     var requestData = new App.Services.GetSpecialityRequest();
-                    var promise = _this.dataService.getSpecialities(requestData, function (response) {
+                    var promise = _this.dataService.getSpecialities(requestData, function (response, success) {
                         _this.spec = response;
                     });
                     return promise;
                 };
                 this.addSpeciality = function () {
-                    var promise = _this.dataService.addSpeciality(_this.addSpecialityRequest, function (response) {
+                    var promise = _this.dataService.addSpeciality(_this.addSpecialityRequest, function (response, success) {
+                        if (success) {
+                            _this.logSuccess('The speciality was created');
+                        }
+                        else {
+                            _this.logError('This speciality cannot be created');
+                        }
                         _this.getSpecialities();
                     });
                     return promise;
                 };
                 this.deleteSpeciality = function (id) {
+                    if (!confirm('Are you sure about this ?')) {
+                        return;
+                    }
                     var deleteSpecialityRequest = new App.Services.DeleteSpecialityRequest();
                     deleteSpecialityRequest.idSpeciality = id;
-                    var promise = _this.dataService.deleteSpeciality(deleteSpecialityRequest, function (response) {
+                    var promise = _this.dataService.deleteSpeciality(deleteSpecialityRequest, function (response, success) {
+                        if (success) {
+                            _this.logSuccess('The speciality was deleted');
+                        }
+                        else {
+                            _this.logError('This speciality is used by workers and cannot be deleted !');
+                        }
                         _this.getSpecialities();
                     });
                     return promise;
@@ -33,6 +48,10 @@ var App;
                 this.controllerId = AdminCtrl.controllerId;
                 this.title = "Admin";
                 this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);
+                this.log = common.logger.getLogFn();
+                this.logError = common.logger.getLogFn('', 'error');
+                this.logWarning = common.logger.getLogFn('', 'warn');
+                this.logSuccess = common.logger.getLogFn('', 'success');
                 this.dataService = dataService;
                 this.addSpecialityRequest = new App.Services.AddSpecialityRequest();
                 this.activate([this.getSpecialities()]);
