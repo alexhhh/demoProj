@@ -6,85 +6,80 @@ module App.Controllers {
 
         //#region Variables
         controllerId = MesterCtrl.controllerId;
-        
         $scope: any;
         common: App.Shared.ICommon;
-        datacontext: App.Services.IDatacontext;
-        dataService: Services.IDataService;
+        core: App.Services.ICore;
         log: Function;
         logError: Function;
         logWarning: Function;
         logSuccess: Function;
         specialityList: Array<any>;
         dbMester: Array<any>;
-        addMesterRequest: App.Services.AddEditMesterRequest;     
+        addMesterRequest: App.Services.AddEditMesterRequest;
         getMesterRequest: App.Services.GetMesterRequest;
         deleteMesterRequest: App.Services.DeleteMesterRequest;
         fullMester: any;
         //#endregion
 
-        constructor($scope: any, common: App.Shared.ICommon, datacontext, dataService: Services.IDataService) {
+        constructor($scope: any, common: App.Shared.ICommon, core: App.Services.ICore) {
             this.$scope = $scope;
             this.common = common;
-            this.datacontext = datacontext;
+            this.core = core;
             this.log = common.logger.getLogFn();
             this.logError = common.logger.getLogFn('', 'error');
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');
-           
-
-            this.dataService = dataService;
             this.addMesterRequest = new App.Services.AddEditMesterRequest();
             this.getMesterRequest = new App.Services.GetMesterRequest();
             this.deleteMesterRequest = new App.Services.DeleteMesterRequest();
             // Queue all promises and wait for them to finish before loading the view
             this.activate([this.getSpecialities()]);
         }
+        
+        // TODO: is there a more elegant way of activating the controller - base class?
+        private activate(promises: Array<ng.IPromise<any>>) {
+            this.common.activateController(promises, this.controllerId)
+                .then(() => { this.log('Activated Dashboard View'); });
+        }
+
 
         getSpecialities = () => {
             var requestData = new App.Services.GetSpecialityRequest();
-            var promise = this.dataService.getSpecialities(requestData, (response, success) => {
+            var promise = this.core.dataService.getSpecialities(requestData, (response, success) => {
                 this.specialityList = response;
             });
             return promise;
         }
 
         addMester = () => {
-            var promise = this.dataService.addMester(this.addMesterRequest, (response, success) => {
+            var promise = this.core.dataService.addMester(this.addMesterRequest, (response, success) => {
                 this.fullMester = response;
                 if (success) {
                     this.logSuccess('The mester was created !');
                 } else {
                     this.logError('Cannot create the mester ! review the input data! ');
                 }
-            });           
+            });
             return promise;
-               
         }
         
-        
         getMester = () => {
-           this.clearForm();
-           
-            var promise = this.dataService.getMester(this.getMesterRequest, (response, success) => {
+            this.clearForm();
+            var promise = this.core.dataService.getMester(this.getMesterRequest, (response, success) => {
                 this.fullMester = response;
-                //this.addMesterRequest = response;
                 this.addMesterRequest.isEdit = true;
-                this.addMesterRequest.firstName= response.firstName;
-                this.addMesterRequest.lastName= response.lastName;
-                this.addMesterRequest.location=response.location;
+                this.addMesterRequest.firstName = response.firstName;
+                this.addMesterRequest.lastName = response.lastName;
+                this.addMesterRequest.location = response.location;
                 this.addMesterRequest.description = response.description;
                 this.addMesterRequest.contact = response.contact;
                 this.addMesterRequest.speciality = response.speciality;
-               // this.addMesterRequest.speciality = ['128df176-4b2d-4f6b-a60e-91c557e0c3cd'];
-                
+                //this.addMesterRequest.speciality = ['128df176-4b2d-4f6b-a60e-91c557e0c3cd'];
                 //this.addMesterRequest.speciality.length = 0;
                 //this.addMesterRequest.speciality.push('128df176-4b2d-4f6b-a60e-91c557e0c3cd');
-               
                 //this.addMesterRequest.speciality.length = 0;
                 //this.addMesterRequest.speciality.push('128df176-4b2d-4f6b-a60e-91c557e0c3cd');
-                
-                 if (success) {
+                if (success) {
                     this.logSuccess('The mester was found !');
                 } else {
                     this.logError('There was an error in search! ');
@@ -93,15 +88,10 @@ module App.Controllers {
             return promise;
         }
 
-        clearForm = () => {
-            this.addMesterRequest = new App.Services.AddEditMesterRequest();
-            this.$scope.mesteriForm.$setPristine();
-        }
-        
-        editMester = () => {  
+        editMester = () => {
             this.clearForm();
-            this.addMesterRequest.isEdit=false;             
-            var promise = this.dataService.editMester(this.addMesterRequest, (response, success) => {
+            this.addMesterRequest.isEdit = false;
+            var promise = this.core.dataService.editMester(this.addMesterRequest, (response, success) => {
                 this.fullMester = response;
                 if (success) {
                     this.logSuccess('The mester was edited !');
@@ -110,12 +100,11 @@ module App.Controllers {
                 }
             });
             return promise;
-
         }
 
-        deleteMester=() => {
-            this.deleteMesterRequest=this.getMesterRequest;
-            var promise = this.dataService.deleteMester(this.deleteMesterRequest, (response, success) => {            
+        deleteMester = () => {
+            this.deleteMesterRequest = this.getMesterRequest;
+            var promise = this.core.dataService.deleteMester(this.deleteMesterRequest, (response, success) => {
                 if (success) {
                     this.logSuccess('The mester was deleted !');
                 } else {
@@ -123,21 +112,18 @@ module App.Controllers {
                 }
             });
             return promise;
-
-            
         }
 
 
-        // TODO: is there a more elegant way of activating the controller - base class?
-        //#region private methods
-        private activate(promises: Array<ng.IPromise<any>>) {
-            this.common.activateController(promises, this.controllerId)
-                .then(() => { this.log('Activated Dashboard View'); });
+                //#region private methods
+       private  clearForm = () => {
+            this.addMesterRequest = new App.Services.AddEditMesterRequest();
+            this.$scope.mesteriForm.$setPristine();
         }
+
     }
-
     // register controller with angular
-    app.controller(MesterCtrl.controllerId, ['$scope','common', 'datacontext', 'dataService',
-        ($scope, c, dc, dataService) => new App.Controllers.MesterCtrl($scope, c, dc, dataService)
+    app.controller(MesterCtrl.controllerId, ['$scope', 'common', 'core',
+        ($scope, common, core) => new App.Controllers.MesterCtrl($scope, common, core)
     ]);
 }

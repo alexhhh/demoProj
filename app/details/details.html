@@ -1,111 +1,151 @@
-<style>
-    .mystyle {
-        border: 1px solid grey;
-        width: 250px;
-        height: 200px;
-        padding: 10px;
-    }
-    
-    .specStyle {
-        border: 1px solid grey;
-        width: 110px;
-        height: 200px;
-        padding: 10px;
-        overflow: auto;
-    }
-    
-    .reviewStyle {
-        width: 840px;
-        height: 400px;
-        overflow: auto;
-    }
-    
-    .review1Style {
-        border: 1px solid grey;
-        width: 800px;
-        height: 100px;
-        padding: 10px;
-    }
-</style>
-
 <section id="detalis-view" class="mainbar" data-ng-controller="detailsCtrl as vm">
     <section class="matter">
         <div class="container">
             <div class="row">
-
-                <h1 align="left"> <strong>Mester:</strong> </h1>
-                <div class="row-md-8">
-                    <div class="col-md-3">
-                        <h4 align="left"> <strong>Basic Info:</strong> </h4>
-                        <div class="mystyle">
-                            <strong>First Name:</strong>{{vm.dbMester.firstName}}</br>
-                            <strong>Last Name: </strong>{{vm.dbMester.lastName}}</br>
-                            <strong>Location: </strong>{{vm.dbMester.location}}</br>
-                            <strong>Details: </strong>{{vm.dbMester.description}}</br>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <h4 align="left"> <strong>Contact Detalis:</strong> </h4>
-                        <div class="mystyle">
-                            <strong>Tel nr: </strong> {{ vm.dbMester.contact.telNr }} </br>
-                            <strong>Email: </strong> {{ vm.dbMester.contact.email }} </br>
-                            <strong>Site: </strong> {{ vm.dbMester.contact.site }} </br>
-                            <strong>Social: </strong>{{ vm.dbMester.contact.socialPlatform }} </brdiv>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <h4 align="left"> <strong>Speciality:</strong> </h4>
-                        <div class="specStyle">
-                            <p ng-repeat="item in vm.dbMester.speciality">
-                                {{item.specialityName}} </br>
-                            </p>
-                        </div>
-                    </div>
+                <div class="col-md-3">
+                    <h1 align="left"> <strong>Mester:</strong> </h1>
                 </div>
-                <div class="col-md-2">
-                 <h4>     <strong>Avg Rating: </strong></br>{{vm.mesterAvgRating}} </br></h4>
-                    </br>
-                    </br>
+                <div class="col-md-6"> </div>
+                <div class="col-md-3">   </br>   
+                   <input type="submit" value="Go Back" ng-click="vm.goBack()">                
                 </div>
-                <div class="col-md-2">
-                   <h4>  <strong>Price:</strong> </h4></br>
-                </div>
-                
             </div>
             <div class="row">
-              
-                 <div class="col-md-8"> 
-                       <h1 align="left"> <strong>Reviews:</strong> </h1> </div>
+
+                <div class="col-md-3">
+                    <h4 align="left"> <strong>Basic Info:</strong> </h4>
+                    <div class="mystyle">
+                        <strong>First Name:</strong>{{vm.dbMester.firstName}}</br>
+                        <strong>Last Name: </strong>{{vm.dbMester.lastName}}</br>
+                        <strong>Location: </strong>{{vm.dbMester.location}}</br>
+                        <strong>Details: </strong>{{vm.dbMester.description}}</br>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h4 align="left"> <strong>Contact Detalis:</strong> </h4>
+                    <div class="mystyle">
+                        <strong>Tel nr: </strong> {{ vm.dbMester.contact.telNr }} </br>
+                        <strong>Email: </strong> {{ vm.dbMester.contact.email }} </br>
+                        <strong>Site: </strong> {{ vm.dbMester.contact.site }} </br>
+                        <strong>Social: </strong>{{ vm.dbMester.contact.socialPlatform }} </brdiv>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h4 align="left"> <strong>Speciality:</strong> </h4>
+                    <div class="specStyle">
+                        <p ng-repeat="item in vm.dbMester.speciality">
+                            {{item.specialityName}} </br>
+                        </p>
+                    </div>
+                </div>
+
                 <div class="col-md-4">
-                    <input type="button"  class="btn btn-primary" ng-click="vc.addMesterReview(vc.mesterResultPage.contentPage.id)"
-                    value="Add Review" />
+                    <h4><strong>Avg Rating: </strong></br> </br>
+                    <uib-rating ng-model="vm.dbMester.avgRating" max="5" read-only="true" ></uib-rating>
+                 </br></h4>
+   
+                </div>
+                <div class="col-md-4"> &nbsp;</br>
+                </div>
+                <div class="col-md-4">
+                    <h4><strong>Price: </strong></br>{{vm.thePrice | priceFilter}}</br></h4>
+                </div>
+                <div class="row-md-4"> &nbsp;</br></br>
+                </div>
+                 
+                <div class="col-md-4">
+                    <button ng-click="vm.addReview()">Add Review</button>
+
+                    <script type="text/ng-template" id="templateId">
+                        <div id="target">
+                            <form class="form-horizontal" role="form" name="reviewForm" novalidate>
+                                <h5>Add  Review: </strong> </h5>
+                                <div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Price: </label>
+                                        <div class="col-md-8">
+                                            <select name="price" ng-model="vm.addMesterReviewRequest.price">
+                                                <option value="1">LOW</option>
+                                                <option value="2">MEDIUM</option>
+                                                <option value="3">HIGH</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Rating:</label>
+                                        <div class="col-md-8">
+                                            <select name="rating" ng-model="vm.addMesterReviewRequest.rating">
+                                                <option value="1">*</option>
+                                                <option value="2">**</option>
+                                                <option value="3">***</option>
+                                                <option value="4">****</option>
+                                                <option value="5">*****</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Title: </label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" id="focusedInput" name="feedback" ng-model="vm.addMesterReviewRequest.title" type="text" /> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Feedback: </label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" id="focusedInput" rows="4" name="feedback" ng-model="vm.addMesterReviewRequest.feedback" type="text"
+                                            /> </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="button" align="left" value="Add Review" ng-click="vm.addMesterReview() && closeThisDialog() " />
+                                </div>
+                            </form>
+                        </div>
+                    </script>
                 </div>
             </div>
-               <div class="row"> 
-                <div class="col-md-1"> &nbsp; </div>
+                <div class="row "> &nbsp;</br>
+                </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 align="left"> <strong>Reviews:</strong> </h1> </div>
+            </div>
+
+            <div class="row">
+                <div style="padding: 0 0 0 13px; "> <strong>Total results: </strong> {{ vm.reviewMesterResultPage.totalResults }} </div>
+            </div>
+            <div class="row">
                 <div class="col-md-10">
                     <div class="reviewStyle">
-                        <div ng-repeat="item in vm.reviewMesterResultPage.contentPage">
-                            <div class="review1Style">
-                                <div class="col-md-6">
-                                    <strong>Feedback: </strong></br>{{item.feedback}}
+                        <div infinite-scroll="vm.myPagingFunction()" infinite-scroll-distance='1'>
+                            <div ng-repeat="item in vm.itemResults">
+                                <div class="review1Style {{test && 'show-more' || null}}"  ng-init="showFeedback=true ">
+                                <div class="row ">
+                                    <div class="col-md-6 ">
+                                        <strong>Title:&nbsp;&nbsp;&nbsp;</strong>{{item.title}}
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <strong>Rating: </strong></br> 
+                                         <uib-rating ng-model="item.rating" max="5" read-only="true" ></uib-rating>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <strong>Price:</strong></br>  
+                                       {{item.price | priceFilter}}</span>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-10 ">                                                                             
+                                        <strong>Feedback: </strong> </br> <p > <span> &nbsp; &nbsp;{{item.feedback}}</span></p>    <br/>
+                                           <input type="button" value="Show More/Less" ng-init="test=false" ng-click="test=!test "/>
+                                    </div>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <strong>Rating: </strong></br>{{item.rating}}
-                                </div>
-                                <div class="col-md-3">
-                                    <strong>Price:</strong></br>{{item.price}}
-                                </div>
-                            </div>
+                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div style="padding: 0 0 0 13px;"> <strong>Total results: </strong> {{ vm.reviewMesterResultPage.totalResults }} </div>
+                  </div>
 
-                    </div>
                 </div>
-            </div>
+          </div>
 
         </div>
 

@@ -4,19 +4,23 @@ var App;
 (function (App) {
     var Controllers;
     (function (Controllers) {
+        // export interface IAdminCtrl {
+        //     common:App.Shared.ICommon;
+        //     controllerId: string;
+        //     title:string;
+        // }
         var AdminCtrl = (function () {
             //#endregion
-            function AdminCtrl(common, datacontext, dataService) {
+            function AdminCtrl(common, core) {
                 var _this = this;
                 this.getSpecialities = function () {
-                    var requestData = new App.Services.GetSpecialityRequest();
-                    var promise = _this.dataService.getSpecialities(requestData, function (response, success) {
+                    var promise = _this.core.dataService.getSpecialities(_this.requestData, function (response, success) {
                         _this.spec = response;
                     });
                     return promise;
                 };
                 this.addSpeciality = function () {
-                    var promise = _this.dataService.addSpeciality(_this.addSpecialityRequest, function (response, success) {
+                    var promise = _this.core.dataService.addSpeciality(_this.addSpecialityRequest, function (response, success) {
                         if (success) {
                             _this.logSuccess('The speciality was created');
                         }
@@ -31,9 +35,8 @@ var App;
                     if (!confirm('Are you sure about this ?')) {
                         return;
                     }
-                    var deleteSpecialityRequest = new App.Services.DeleteSpecialityRequest();
-                    deleteSpecialityRequest.idSpeciality = id;
-                    var promise = _this.dataService.deleteSpeciality(deleteSpecialityRequest, function (response, success) {
+                    _this.deleteSpecialityRequest.idSpeciality = id;
+                    var promise = _this.core.dataService.deleteSpeciality(_this.deleteSpecialityRequest, function (response, success) {
                         if (success) {
                             _this.logSuccess('The speciality was deleted');
                         }
@@ -46,17 +49,17 @@ var App;
                 };
                 this.common = common;
                 this.controllerId = AdminCtrl.controllerId;
-                this.title = "Admin";
-                this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);
+                this.core = core;
+                // this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);
                 this.log = common.logger.getLogFn();
                 this.logError = common.logger.getLogFn('', 'error');
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
-                this.dataService = dataService;
                 this.addSpecialityRequest = new App.Services.AddSpecialityRequest();
+                this.requestData = new App.Services.GetSpecialityRequest();
+                this.deleteSpecialityRequest = new App.Services.DeleteSpecialityRequest();
                 this.activate([this.getSpecialities()]);
             }
-            //#region private methods
             AdminCtrl.prototype.activate = function (promises) {
                 var _this = this;
                 this.common.activateController([], AdminCtrl.controllerId)
@@ -67,9 +70,7 @@ var App;
         }());
         Controllers.AdminCtrl = AdminCtrl;
         // Register with angular
-        App.app.controller(AdminCtrl.controllerId, ['common', 'datacontext', 'dataService',
-            function (common, datacontext, dataService) { return new AdminCtrl(common, datacontext, dataService); }
-        ]);
+        App.app.controller(AdminCtrl.controllerId, ['common', 'core', function (common, core) { return new AdminCtrl(common, core); }]);
     })(Controllers = App.Controllers || (App.Controllers = {}));
 })(App || (App = {}));
 //# sourceMappingURL=admin.js.map

@@ -11,12 +11,15 @@ module App.Controllers
 
     export class SidebarCtrl implements ISidebarCtrl
     {
+        core: App.Services.ICore
+         
         public static controllerId:string = 'sidebarCtrl';
         navRoutes: Array<Object>;
 
         //using shortcut syntax on private variables in the constructor
-        constructor(private $route, private config, private routes)
+        constructor(private $route, private config, private routes, core: App.Services.ICore)
         {
+            this.core = core;
             this.activate();
         }
 
@@ -44,10 +47,15 @@ module App.Controllers
             this.navRoutes = this.routes.filter(r => r.config.settings && r.config.settings.nav)
                 .sort((r1, r2) => r1.config.settings.nav - r2.config.settings.nav);
         }
+        
+         private hasAccess = (route): boolean => {
+             var result = this.core.sesionService.hasRole(route.config.settings.roles);
+             return result;
+         }
     }
 
     // Register with angular
     app.controller(
         SidebarCtrl.controllerId,
-        ['$route', 'config', 'routes', ($r, c, r) => new SidebarCtrl($r, c, r)]);
+        ['$route', 'config', 'routes', 'core', ($r, c, r, core) => new SidebarCtrl($r, c, r, core)]);
 }

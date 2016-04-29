@@ -46,12 +46,6 @@ var App;
             return SearchReviewMesterRequest;
         }());
         Services.SearchReviewMesterRequest = SearchReviewMesterRequest;
-        var GetMesterAvgRatingRequest = (function () {
-            function GetMesterAvgRatingRequest() {
-            }
-            return GetMesterAvgRatingRequest;
-        }());
-        Services.GetMesterAvgRatingRequest = GetMesterAvgRatingRequest;
         var DeleteMesterRequest = (function () {
             function DeleteMesterRequest() {
             }
@@ -64,6 +58,24 @@ var App;
             return AddMesterReviewRequest;
         }());
         Services.AddMesterReviewRequest = AddMesterReviewRequest;
+        var GetLogCredentialsRequest = (function () {
+            function GetLogCredentialsRequest() {
+            }
+            return GetLogCredentialsRequest;
+        }());
+        Services.GetLogCredentialsRequest = GetLogCredentialsRequest;
+        var AddUserRequest = (function () {
+            function AddUserRequest() {
+            }
+            return AddUserRequest;
+        }());
+        Services.AddUserRequest = AddUserRequest;
+        var ActivateUserRequest = (function () {
+            function ActivateUserRequest() {
+            }
+            return ActivateUserRequest;
+        }());
+        Services.ActivateUserRequest = ActivateUserRequest;
     })(Services = App.Services || (App.Services = {}));
 })(App || (App = {}));
 //# sourceMappingURL=Requests.js.map

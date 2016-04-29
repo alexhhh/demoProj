@@ -16,8 +16,10 @@ var App;
         //'breeze.directives', // contains the breeze validation directive (zValidate)
         'ui.bootstrap',
         'ui.grid',
+        'ui.grid.selection',
         'ui.grid.pagination',
-        'ngDialog'
+        'ngDialog',
+        'infinite-scroll'
     ]);
     // Handle routing errors and success events
     App.app.run(['$route', function ($route) {
@@ -27,8 +29,9 @@ var App;
             // ...
             // delete header from client:
             // http://stackoverflow.com/questions/17289195/angularjs-post-data-to-external-rest-api
+            // delete $httpProvider.defaults.headers.common['X-Requested-With'];
             $httpProvider.defaults.useXDomain = true;
-            delete $httpProvider.defaults.headers.common['X-Requested-With'];
+            $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
         }]);
 })(App || (App = {}));
 //# sourceMappingURL=app.js.map

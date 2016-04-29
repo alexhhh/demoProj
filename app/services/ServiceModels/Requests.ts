@@ -53,21 +53,41 @@ module App.Services {
         public idMester: string;   
         public pageSize: number;
         public pageNumber: number;
+        
+        //public startFromIndex: number;
+        //public rowsCount: number;
     }
-     
-    export class GetMesterAvgRatingRequest {
-        public idMester: string;
-    }
+ 
     export class DeleteMesterRequest {
         public idMester: string;
     }
      
     export class AddMesterReviewRequest{
          public idMester: string;
-         public idClinet: string;
+         public idClient: string;
+         public title: string;
          public price: any;
          public rating: number;
          public feedback: string;
     } 
     
+    export class GetLogCredentialsRequest {
+        
+        public userName: string;
+        public password: string;
+    }
+    
+    export class AddUserRequest{
+         public userName: string;
+         public password: string;
+         public email: string;
+         public roleId: number;
+         public confirm: boolean; 
+    }
+
+
+      export class ActivateUserRequest{
+             public tokenId: string;
+      }
+
 }

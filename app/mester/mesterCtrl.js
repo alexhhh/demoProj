@@ -5,19 +5,19 @@ var App;
     (function (Controllers) {
         var MesterCtrl = (function () {
             //#endregion
-            function MesterCtrl($scope, common, datacontext, dataService) {
+            function MesterCtrl($scope, common, core) {
                 var _this = this;
                 //#region Variables
                 this.controllerId = MesterCtrl.controllerId;
                 this.getSpecialities = function () {
                     var requestData = new App.Services.GetSpecialityRequest();
-                    var promise = _this.dataService.getSpecialities(requestData, function (response, success) {
+                    var promise = _this.core.dataService.getSpecialities(requestData, function (response, success) {
                         _this.specialityList = response;
                     });
                     return promise;
                 };
                 this.addMester = function () {
-                    var promise = _this.dataService.addMester(_this.addMesterRequest, function (response, success) {
+                    var promise = _this.core.dataService.addMester(_this.addMesterRequest, function (response, success) {
                         _this.fullMester = response;
                         if (success) {
                             _this.logSuccess('The mester was created !');
@@ -30,9 +30,8 @@ var App;
                 };
                 this.getMester = function () {
                     _this.clearForm();
-                    var promise = _this.dataService.getMester(_this.getMesterRequest, function (response, success) {
+                    var promise = _this.core.dataService.getMester(_this.getMesterRequest, function (response, success) {
                         _this.fullMester = response;
-                        //this.addMesterRequest = response;
                         _this.addMesterRequest.isEdit = true;
                         _this.addMesterRequest.firstName = response.firstName;
                         _this.addMesterRequest.lastName = response.lastName;
@@ -40,7 +39,7 @@ var App;
                         _this.addMesterRequest.description = response.description;
                         _this.addMesterRequest.contact = response.contact;
                         _this.addMesterRequest.speciality = response.speciality;
-                        // this.addMesterRequest.speciality = ['128df176-4b2d-4f6b-a60e-91c557e0c3cd'];
+                        //this.addMesterRequest.speciality = ['128df176-4b2d-4f6b-a60e-91c557e0c3cd'];
                         //this.addMesterRequest.speciality.length = 0;
                         //this.addMesterRequest.speciality.push('128df176-4b2d-4f6b-a60e-91c557e0c3cd');
                         //this.addMesterRequest.speciality.length = 0;
@@ -54,14 +53,10 @@ var App;
                     });
                     return promise;
                 };
-                this.clearForm = function () {
-                    _this.addMesterRequest = new App.Services.AddEditMesterRequest();
-                    _this.$scope.mesteriForm.$setPristine();
-                };
                 this.editMester = function () {
                     _this.clearForm();
                     _this.addMesterRequest.isEdit = false;
-                    var promise = _this.dataService.editMester(_this.addMesterRequest, function (response, success) {
+                    var promise = _this.core.dataService.editMester(_this.addMesterRequest, function (response, success) {
                         _this.fullMester = response;
                         if (success) {
                             _this.logSuccess('The mester was edited !');
@@ -74,7 +69,7 @@ var App;
                 };
                 this.deleteMester = function () {
                     _this.deleteMesterRequest = _this.getMesterRequest;
-                    var promise = _this.dataService.deleteMester(_this.deleteMesterRequest, function (response, success) {
+                    var promise = _this.core.dataService.deleteMester(_this.deleteMesterRequest, function (response, success) {
                         if (success) {
                             _this.logSuccess('The mester was deleted !');
                         }
@@ -84,14 +79,18 @@ var App;
                     });
                     return promise;
                 };
+                //#region private methods
+                this.clearForm = function () {
+                    _this.addMesterRequest = new App.Services.AddEditMesterRequest();
+                    _this.$scope.mesteriForm.$setPristine();
+                };
                 this.$scope = $scope;
                 this.common = common;
-                this.datacontext = datacontext;
+                this.core = core;
                 this.log = common.logger.getLogFn();
                 this.logError = common.logger.getLogFn('', 'error');
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
-                this.dataService = dataService;
                 this.addMesterRequest = new App.Services.AddEditMesterRequest();
                 this.getMesterRequest = new App.Services.GetMesterRequest();
                 this.deleteMesterRequest = new App.Services.DeleteMesterRequest();
@@ -99,7 +98,6 @@ var App;
                 this.activate([this.getSpecialities()]);
             }
             // TODO: is there a more elegant way of activating the controller - base class?
-            //#region private methods
             MesterCtrl.prototype.activate = function (promises) {
                 var _this = this;
                 this.common.activateController(promises, this.controllerId)
@@ -110,8 +108,8 @@ var App;
         }());
         Controllers.MesterCtrl = MesterCtrl;
         // register controller with angular
-        App.app.controller(MesterCtrl.controllerId, ['$scope', 'common', 'datacontext', 'dataService',
-            function ($scope, c, dc, dataService) { return new App.Controllers.MesterCtrl($scope, c, dc, dataService); }
+        App.app.controller(MesterCtrl.controllerId, ['$scope', 'common', 'core',
+            function ($scope, common, core) { return new App.Controllers.MesterCtrl($scope, common, core); }
         ]);
     })(Controllers = App.Controllers || (App.Controllers = {}));
 })(App || (App = {}));

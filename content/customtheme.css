@@ -443,12 +443,14 @@ form{
 	line-height: 18px;
 }
 
-.dropdown-menu li > a{
+.dropdown-menu li > a,
+.dropdown-menu li > div > a{
 	color: #555;
 	line-height: 23px !important;
 }
 
-.dropdown-menu li > a:hover{
+.dropdown-menu li > a:hover,
+.dropdown-menu li > div > a:hover{
 	background: #f9f9f9 !important;
 	filter:none;
 	color: #888;
@@ -482,9 +484,21 @@ form{
 	color: #fff !important;
 }
 
-.navbar .nav > li > a{
+.navbar .nav > li > a,
+.navbar .nav > li > div > a {
 	font-size: 13px !important;
 	color: #fff !important;
+}
+
+.nav > li > div > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
+.navbar-nav > li > div > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .navbar i{
@@ -573,7 +587,8 @@ form{
 	margin: 0px;
 }
 
-.sidebar .navi > li > a{ 
+.sidebar .navi > li > a,
+.sidebar .navi > li > div > a{ 
   display: block; 
   padding: 12px 20px;
   font-size: 15px;
@@ -584,7 +599,13 @@ form{
   background-color: #111;
 }
 
-.sidebar .navi > li > a:hover, .sidebar .navi > li.open > a { 
+.sidebar .navi > li > a:hover, 
+.sidebar .navi > li.open > a,
+.sidebar .navi > li > a:hover,
+
+.sidebar .navi > li > div > a:hover, 
+.sidebar .navi > li.open > div > a,
+.sidebar .navi > li > div > a:hover { 
   border-bottom: 1px solid #222;
   background-color: #222;
   color: #fff;
@@ -626,7 +647,11 @@ form{
 
 .sidebar .navi > li.nlightblue > a:hover, 
 .sidebar .navi > li.open.nlightblue > a, 
-.sidebar .navi > li.current.nlightblue > a { 
+.sidebar .navi > li.current.nlightblue > a,
+
+.sidebar .navi > li.nlightblue > div > a:hover, 
+.sidebar .navi > li.open.nlightblue > div > a, 
+.sidebar .navi > li.current.nlightblue > div > a { 
   background:#52b9e9 !important;
   -webkit-transition:background 0.5s ease;
   -moz-transition:background 0.5s ease;
@@ -636,7 +661,11 @@ form{
 
 .sidebar .navi > li.nblue > a:hover, 
 .sidebar .navi > li.open.nblue > a,
-.sidebar .navi > li.current.nblue > a { 
+.sidebar .navi > li.current.nblue > a,
+
+.sidebar .navi > li.nblue > div > a:hover, 
+.sidebar .navi > li.open.nblue > div > a,
+.sidebar .navi > li.current.nblue > div > a { 
   background:#1171a3 !important;
   -webkit-transition:background 0.5s ease;
   -moz-transition:background 0.5s ease;
@@ -646,7 +675,11 @@ form{
 
 .sidebar .navi > li.ngreen > a:hover, 
 .sidebar .navi > li.open.ngreen > a,
-.sidebar .navi > li.current.ngreen > a { 
+.sidebar .navi > li.current.ngreen > a,
+
+.sidebar .navi > li.ngreen > div > a:hover, 
+.sidebar .navi > li.open.ngreen > div > a,
+.sidebar .navi > li.current.ngreen > div > a { 
   background:#43c83c !important;
   -webkit-transition:background 0.5s ease;
   -moz-transition:background 0.5s ease;
@@ -656,7 +689,11 @@ form{
 
 .sidebar .navi > li.norange > a:hover, 
 .sidebar .navi > li.open.norange > a,
-.sidebar .navi > li.current.norange > a { 
+.sidebar .navi > li.current.norange > a,
+
+.sidebar .navi > li.norange > div > a:hover, 
+.sidebar .navi > li.open.norange > div > a,
+.sidebar .navi > li.current.norange > div > a { 
   background:#f88529 !important;
   -webkit-transition:background 0.5s ease;
   -moz-transition:background 0.5s ease;
@@ -666,7 +703,11 @@ form{
 
 .sidebar .navi > li.nred > a:hover, 
 .sidebar .navi > li.open.nred > a,
-.sidebar .navi > li.current.nred > a { 
+.sidebar .navi > li.current.nred > a,
+
+.sidebar .navi > li.nred > div > a:hover, 
+.sidebar .navi > li.open.nred > div > a,
+.sidebar .navi > li.current.nred > div > a { 
   background:#fa3031 !important;
   -webkit-transition:background 0.5s ease;
   -moz-transition:background 0.5s ease;
@@ -676,7 +717,11 @@ form{
 
 .sidebar .navi > li.nviolet > a:hover, 
 .sidebar .navi > li.open.nviolet > a,
-.sidebar .navi > li.current.nviolet > a { 
+.sidebar .navi > li.current.nviolet > a,
+
+.sidebar .navi > li.nviolet > div > a:hover, 
+.sidebar .navi > li.open.nviolet > div > a,
+.sidebar .navi > li.current.nviolet > div > a { 
   background:#932ab6 !important;
   -webkit-transition:background 0.5s ease;
   -moz-transition:background 0.5s ease;
@@ -889,14 +934,16 @@ form{
 	margin-bottom: 0px !important;
 }
 
-.slide-content .nav-tabs > li > a{
+.slide-content .nav-tabs > li > a,
+.slide-content .nav-tabs > li > div > a{
 	background: #111 !important;
 	margin: 0px !important;
 	border: 1px solid #222 !important; 
 	color: #888 !important;
 }
 
-.slide-content .nav-tabs > li.active > a{
+.slide-content .nav-tabs > li.active > a,
+.slide-content .nav-tabs > li.active > div > a{
 	color: #ccc !important;
 	background: #1c1c1c !important;
 }
@@ -1547,7 +1594,7 @@ border:1px solid #eee;
 		max-width:300px;
 		padding:0px 20px;
 	}
-	.sidebar .sidebar-widget{
+	.sidebar .sidebar-widget {
 	}
 	.mainbar{
 		margin: 0px;

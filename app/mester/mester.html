@@ -14,9 +14,12 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Username:</label>
                                         <div class="col-md-8">
-                                            <input class="form-control" id="focusedInput" name="username" type="text" ng-required="true" /> </div>
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.lastName.$error.required && mesteriForm.lastName.$dirty">This field is required!</span>
+                                            <input class="form-control" id="focusedInput" name="username" type="text" ng-required="true" />
+                                            <div class="msg-block" ng-show="mesteriForm.$error">
+                                                <span class="msg-error" ng-show="mesteriForm.username.$error.required && mesteriForm.username.$dirty">
+                                                     <font color="red">   This fild is required! </font>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -26,36 +29,41 @@
                                                 <a align="left" href="http://amuritiliescu.ro/">Change password</a>
                                             </div>
                                         </div>
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.lastName.$error.required && mesteriForm.lastName.$dirty">This field is required!</span>
-                                        </div>
+
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">First Name:</label>
                                         <div class="col-md-8">
                                             <input class="form-control" id="focusedInput" name="firstName" ng-model="vm.addMesterRequest.firstName" ng-model="vm.dbMester.firstName"
                                             type="text" ng-required="true" />
-                                        </div>
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.firstName.$error.required && mesteriForm.firstName.$dirty">This field is required!</span>
+                                            <div class="msg-block" ng-show="mesteriForm.$error">
+                                                <span class="msg-error" ng-show="mesteriForm.firstName.$error.required && mesteriForm.firstName.$dirty">
+                                                     <font color="red">   This fild is required! </font>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Last Name:</label>
                                         <div class="col-md-8">
                                             <input class="form-control" id="focusedInput" name="lastName" ng-model="vm.addMesterRequest.lastName" type="text" ng-required="true"
-                                            /> </div>
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.lastName.$error.required && mesteriForm.lastName.$dirty">This field is required!</span>
+                                            /> <div class="msg-block" ng-show="mesteriForm.$error">
+                                                <span class="msg-error" ng-show="mesteriForm.lastName.$error.required && mesteriForm.lastName.$dirty">
+                                                     <font color="red">   This fild is required! </font>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label"> Location: </label>
                                         <div class="col-md-8">
                                             <input class="form-control" id="focusedInput" name="location" ng-model="vm.addMesterRequest.location" type="text" ng-required="true"
-                                            /> </div>
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.location.$error.required && mesteriForm.location.$dirty">This field is required!</span>
+                                            />
+                                            <div class="msg-block" ng-show="mesteriForm.$error">
+                                                <span class="msg-error" ng-show="mesteriForm.location.$error.required && mesteriForm.location.$dirty">
+                                                     <font color="red">   This fild is required! </font>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -70,18 +78,25 @@
                                         <label class="col-md-4 control-label">Email:</label>
                                         <div class="col-md-8">
                                             <input class="form-control" id="focusedInput" name="mesterMail" ng-model="vm.addMesterRequest.contact.email" type="email"
-                                            overwrite-email /> </div>
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.mesterMail.$error.email">This email format is invalid!</span>
+                                            alexmail />
+                                            <div class="msg-block" ng-show="mesteriForm.$error">
+                                                <span class="msg-error" ng-show="mesteriForm.mesterMail.$error.email && mesteriForm.mesterMail.$dirty">
+                                                     <font color="red">This email format is invalid! </font>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Phone Nr:</label>
                                         <div class="col-md-8">
                                             <input class="form-control" id="focusedInput" name="mesterPhoneNr" ng-model="vm.addMesterRequest.contact.telNr" type="phone"
-                                            overwrite-phone-nr /> </div>
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.mesterPhoneNr.$error.phone">This phone number format is invalid!</span>
+                                            overwrite-phone-nr /> 
+                                                <div class="msg-block" ng-show="mesteriForm.$error">
+                                                        <span class="msg-error" ng-show="mesteriForm.mesterPhoneNr.$error.phone && mesteriForm.mesterPhoneNr.$dirty">
+                                                            <font color="red">This phone number format is invalid!</font>
+                                                        </span>
+                                                </div> 
                                         </div>
                                     </div>
 
@@ -90,55 +105,55 @@
                                         <div class="col-md-8">
                                             <input class="form-control" id="focusedInput" name="socialPlatform" ng-model="vm.addMesterRequest.contact.socialPlatform"
                                             type="text" ng-required="true" />
-                                        </div>
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.socialPlatform.$error.required && mesteriForm.socialPlatform.$dirty">This field is required!</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <h3 align="left"> <strong>Specialities</strong> </h3>
-
-                                    <div align="left">
-                                        <label class="col-md-4" ng-repeat="item in vm.specialityList">
-                                            <input type="checkbox" name="specialityLabel" checklist-model="vm.addMesterRequest.speciality" checklist-value="item"> {{item.specialityName}}
-                                        </label>
-
-                                        <div align="right">
-                                            <span class="alert alert-danger" ng-show="mesteriForm.specialitylabel.$error.required ">At least one speciality must be selected!</span>
+                                            <div class="msg-block" ng-show="mesteriForm.$error">
+                                                <span class="msg-error" ng-show="mesteriForm.socialPlatform.$error.required && mesteriForm.socialPlatform.$dirty">
+                                                     <font color="red">   This fild is required! </font>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="col-md-5">
+                                        <h3 align="left"> <strong>Specialities</strong> </h3>
+
+                                        <div align="left">
+                                            <label class="col-md-4" ng-repeat="item in vm.specialityList">
+                                                <input type="checkbox" name="specialityLabel" checklist-model="vm.addMesterRequest.speciality" checklist-value="item"> {{item.specialityName}}
+                                            </label>
+
+                                            <div align="right">
+                                                <span class="alert alert-danger" ng-show="mesteriForm.specialitylabel.$error.required ">At least one speciality must be selected!</span>
+                                            </div>
+                                        </div>
+                                    </div>
                             </form>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-9"> </div>
-                            <div class="col-md-1">
-                                <div align="right">
-                                    <input type="button" ng-show="vm.addMesterRequest.isEdit == false" class="btn btn-primary" ng-click="vm.addMester(item.id) && vm.clearForm()"
-                                    value="Save" />
-                                </div>
-                                <div align="right">
-                                    <input type="button" ng-show="mesteriForm.$valid  && vm.addMesterRequest.isEdit" class="btn btn-primary" ng-click="vm.editMester(item.id) && vm.clearForm()"
-                                    value="Edit Mester" />
-                                    <!-- <input type="button" value="asdf" ng-click="vm.clearForm()"> -->
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div align="right">
-                                    <input type="button" value="cancel" class="btn btn-primary" ng-click="vm.clearForm()" value="Cancel" />
-                                </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-9"> </div>
+                                <div class="col-md-1">
+                                    <div align="right">
+                                        <input type="button" ng-show="vm.addMesterRequest.isEdit == false" class="btn btn-primary" ng-click="vm.addMester(item.id) && vm.clearForm()"
+                                        value="Save" />
+                                    </div>
+                                    <div align="right">
+                                        <input type="button" ng-show="mesteriForm.$valid  && vm.addMesterRequest.isEdit" class="btn btn-primary" ng-click="vm.editMester(item.id) && vm.clearForm()"
+                                        value="Edit Mester" />
+                                        <!-- <input type="button" value="asdf" ng-click="vm.clearForm()"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div align="right">
+                                        <input type="button" value="cancel" class="btn btn-primary" ng-click="vm.clearForm()" value="Cancel" />
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
-
-
+                <!--
             <div class="col-lg-5">
                 <div class="widget wgreen">
                     <div data-cc-widget-header title="Mester" allow-collapse="true"></div>
@@ -215,7 +230,7 @@
                     </div>
                 </div>
             </div>
-            
-        </div>
+            -->
+            </div>
     </section>
 </section>

@@ -33,28 +33,28 @@ var App;
                     templateUrl: 'app/admin/admin.html',
                     settings: {
                         nav: 2,
-                        content: '<i class="fa fa-lock"></i> Admin'
+                        content: '<i class="fa fa-lock"></i> Admin',
+                        roles: ['ROLE_ADMIN']
                     }
                 }
-            },
-            {
+            }, {
                 url: '/mester',
                 config: {
                     title: 'mester',
                     templateUrl: 'app/mester/mester.html',
                     settings: {
                         nav: 3,
-                        content: '<i class="fa fa-arrows"></i> Mester'
+                        content: '<i class="fa fa-arrows"></i> Mester',
+                        roles: ['ROLE_ADMIN', 'ROLE_MESTER']
                     }
                 }
+            }, {
+                url: '/details/:clientId/:mesterId',
+                config: {
+                    title: 'details',
+                    templateUrl: 'app/details/details.html'
+                }
             },
-            // {
-            //     url: '/details',
-            //     config: {
-            //         title: 'details',
-            //         templateUrl: 'app/details/details.html'
-            //     }
-            // },
             {
                 url: '/client',
                 config: {
@@ -62,19 +62,21 @@ var App;
                     templateUrl: 'app/client/client.html',
                     settings: {
                         nav: 4,
-                        content: '<i class="fa fa-arrows"></i> Client'
+                        content: '<i class="fa fa-arrows"></i> Client',
+                        roles: ['ROLE_ADMIN', 'ROLE_CLIENT']
                     }
                 }
-            },
-            {
-                url: '/details',
+            }, {
+                url: '/signUp',
                 config: {
-                    title: 'details',
-                    templateUrl: 'app/details/details.html',
-                    settings: {
-                        nav: 5,
-                        content: '<i class="fa fa-arrows"></i> details'
-                    }
+                    title: 'signUp',
+                    templateUrl: 'app/signUp/signUp.html'
+                }
+            }, {
+                url: '/activateUser/:tokenId',
+                config: {
+                    title: 'activate',
+                    templateUrl: 'app/activate/activate.html'
                 }
             }
         ];

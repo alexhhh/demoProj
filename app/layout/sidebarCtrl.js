@@ -5,10 +5,16 @@ var App;
     (function (Controllers) {
         var SidebarCtrl = (function () {
             //using shortcut syntax on private variables in the constructor
-            function SidebarCtrl($route, config, routes) {
+            function SidebarCtrl($route, config, routes, core) {
+                var _this = this;
                 this.$route = $route;
                 this.config = config;
                 this.routes = routes;
+                this.hasAccess = function (route) {
+                    var result = _this.core.sesionService.hasRole(route.config.settings.roles);
+                    return result;
+                };
+                this.core = core;
                 this.activate();
             }
             SidebarCtrl.prototype.isCurrent = function (route) {
@@ -32,7 +38,7 @@ var App;
         }());
         Controllers.SidebarCtrl = SidebarCtrl;
         // Register with angular
-        App.app.controller(SidebarCtrl.controllerId, ['$route', 'config', 'routes', function ($r, c, r) { return new SidebarCtrl($r, c, r); }]);
+        App.app.controller(SidebarCtrl.controllerId, ['$route', 'config', 'routes', 'core', function ($r, c, r, core) { return new SidebarCtrl($r, c, r, core); }]);
     })(Controllers = App.Controllers || (App.Controllers = {}));
 })(App || (App = {}));
 //# sourceMappingURL=sidebarCtrl.js.map

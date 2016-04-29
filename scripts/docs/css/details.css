@@ -1,0 +1,47 @@
+.mystyle {
+    border: 1px solid grey;
+    width: 250px;
+    height: 200px;
+    padding: 10px;
+}
+
+.specStyle {
+    border: 1px solid grey;
+    width: 110px;
+    height: 200px;
+    padding: 10px;
+    overflow: auto;
+}
+
+
+.review1Style {
+    border: 1px solid grey;
+    width: 850px;
+    height: auto;
+    padding: 10px;
+
+}
+
+.review1Style p {
+    overflow: hidden;     
+    text-overflow: ellipsis;
+    width: 200px;
+    
+}
+
+
+.review1Style p span{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.review1Style.show-more p{
+overflow: auto;
+width: auto;
+word-break: break-all;
+}
+
+.review1Style.show-more  p span {
+white-space: normal;
+word-break: break-all;
+}

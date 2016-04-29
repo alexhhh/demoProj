@@ -3,6 +3,12 @@
 module App.Services {
 
     export interface IDataService {
+        isLogged: boolean;
+        activateUser(requestData:ActivateUserRequest, callback: Function): ng.IHttpPromise<any>;
+        getLoggedUser(requestData: GetLogCredentialsRequest, callback: Function): ng.IHttpPromise<any>; 
+        getLogOut(requestData: GetLogCredentialsRequest, callback: Function): ng.IHttpPromise<any>;
+        addUser(requestData: AddUserRequest, callback: Function): ng.IHttpPromise<any>;
+        checkUser(requestData: AddUserRequest, callback: Function): ng.IHttpPromise<any>;
         getSpecialities(requestData: GetSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         addSpeciality(requestData: AddSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         deleteSpeciality(requestData: DeleteSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
@@ -11,77 +17,99 @@ module App.Services {
         editMester(requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any>;
         searchMester(requestData: SearchMesterRequest, callback: Function): ng.IHttpPromise<any>;
         searchReviewMester(requestData: SearchReviewMesterRequest, callback: Function): ng.IHttpPromise<any>;
-        getMesterRating(requestData: GetMesterAvgRatingRequest, callback: Function): ng.IHttpPromise<any>;
         addMesterReview(requestData: AddMesterReviewRequest, callback: Function): ng.IHttpPromise<any>;
         deleteMester(requestData: DeleteMesterRequest, callback: Function): ng.IHttpPromise<any>;
     }
 
     export class DataService implements IDataService {
         public static serviceId: string = 'dataService';
-
+        public authenticated: boolean = false;
+        public secondCheck: boolean = false;
+        private userToken;
         private $http: ng.IHttpService;
         private Httpi: IHttpi;
-
+        public  common: App.Shared.ICommon;
+        public  log: Function;
+        public  logError: Function;
+        public  logWarning: Function;
+        public  logSuccess: Function;
         private serviceRoot = 'http://localhost:8080/mesteriApplication/rest';
 
-        constructor($http: ng.IHttpService, httpi: IHttpi) {
-            this.$http = $http;
+        constructor(common, httpi: IHttpi) {
             this.Httpi = httpi;
+            this.common = common;
+            this.log = common.logger.getLogFn();
+            this.logError = common.logger.getLogFn('', 'error');
+            this.logWarning = common.logger.getLogFn('', 'warn');
+            this.logSuccess = common.logger.getLogFn('', 'success');
         }
 
-        public getSpecialities = (requestData: GetSpecialityRequest, callback: Function): ng.IHttpPromise<any> => {
-            return this.Request('GET', '/speciality/specialities', requestData, callback);
+        public get isLogged(): boolean {
+            var result = this.userToken != null;
+            return result;
         }
 
+        //  user query
+       public  activateUser= (requestData: ActivateUserRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/user/activate/query' , requestData, callback);
+       }
+       public getLoggedUser = (requestData: GetLogCredentialsRequest, callback: Function): ng.IHttpPromise<any> => {
+            this.authenticated = true;
+            return this.Request('POST', '/user/login', requestData, callback);
+        }
+       public getLogOut = (requestData: GetLogCredentialsRequest, callback: Function): ng.IHttpPromise<any> => {
+            this.authenticated = false;
+            return this.Request('POST', '/user/logout', requestData, callback);
+        }
+       public addUser = (requestData: AddUserRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('POST', '/user/signup', requestData, callback);
+        }
+       public checkUser = (requestData: AddUserRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/user/query', requestData, callback);
+        }
+           
+        // speciality query
+       public getSpecialities = (requestData: GetSpecialityRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/speciality/all', requestData, callback);
+        }
         public addSpeciality = (requestData: AddSpecialityRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('POST', '/speciality', requestData, callback);
         }
-
-        public deleteSpeciality = (requestData: DeleteSpecialityRequest, callback: Function): ng.IHttpPromise<any> => {
-            var urlParam = '/speciality/' + requestData.idSpeciality;
-            return this.Request('DELETE', urlParam, null, callback);
+        public deleteSpeciality = (requestData: DeleteSpecialityRequest, callback: Function): ng.IHttpPromise<any> => {;
+            return this.Request('DELETE', '/speciality', requestData, callback);
         }
 
 
-        public getMester = (requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any> => {
-            //  var urlParam = '/mesteri/' + requestData.idMester;
-            return this.Request('GET', '/mesteri/query', requestData, callback);
+        // mester query
+        public getMester = (requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any> => { 
+            return this.Request('GET', '/mester/query', requestData, callback);
         }
-
         public addMester = (requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any> => {
-            return this.Request('POST', '/mesteri', requestData, callback);
+            return this.Request('POST', '/mester', requestData, callback);
         }
-
         public editMester = (requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any> => {
-            return this.Request('PUT', '/mesteri/edit', requestData, callback);
+            return this.Request('PUT', '/mester', requestData, callback);
+        }
+        public deleteMester = (requestData: DeleteMesterRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('DELETE', '/mester', requestData, callback);
         }
 
         public searchMester = (requestData: SearchMesterRequest, callback: Function): ng.IHttpPromise<any> => {
-            return this.Request('POST', '/mesteri/search', requestData, callback);
+            return this.Request('POST', '/mester/search', requestData, callback);
         }
 
-        public searchReviewMester = (requestData: SearchReviewMesterRequest, callback: Function): ng.IHttpPromise<any> => {
-            // var urlParam = '/reviews/mester/query' + requestData.idMester + 'size=' + requestData.pageSize + 'number=' + requestData.pageNumber ;
-            return this.Request('GET', '/reviews/mester/query', requestData, callback);
-        }
-
-        public getMesterRating = (requestData: GetMesterAvgRatingRequest, callback: Function): ng.IHttpPromise<any> => {
-            return this.Request('GET', '/reviews/rating/query', requestData, callback);
-        }
-
-
-        public addMesterReview = (requestData: AddMesterReviewRequest, callback: Function): ng.IHttpPromise<any> => {
-            return this.Request('POST', '/reviews', requestData, callback);
-        }
         
-        public deleteMester = (requestData: DeleteMesterRequest, callback: Function): ng.IHttpPromise<any> => {
-            return this.Request('DELETE', '/mesteri/query', requestData, callback);
+        // review query
+        public searchReviewMester = (requestData: SearchReviewMesterRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/review/mester/query', requestData, callback);
         }
+        public addMesterReview = (requestData: AddMesterReviewRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('POST', '/review', requestData, callback);
+        }
+
 
         private Request = (method: string, url: string, requestData: any, callback: Function): ng.IHttpPromise<any> => {
-
             requestData = requestData || {};
-
             var _callUrl = this.serviceRoot;
             _callUrl += url;
 
@@ -104,30 +132,37 @@ module App.Services {
             else {
                 hxr.params = requestData;
             }
-
+                    if (this.authenticated) {
+                        hxr.headers['Authorization'] = this.userToken;
+                    } else {
+                        hxr.headers['Authorization'] = null;
+                    }
+                     
             var request = this.Httpi.Request(hxr).
-                success(function(data: any, status, headers, config) {
-                    if (callback != null) {
-                        callback(data, true);
+                success((data: any, status, headers, config) => {
+                    console.log("on success  " + status);
+                    if (callback != null) {                        
+                         callback(data, true);
                     }
                 }).
-                error(function(data, status, headers, config) {
-
+                error((data, status, headers, config) => {
+                    if (status == -1) {
+                        this.logError(" Error! Request Method:" + method + ".   The response had HTTP status code 401!  Full authentication is required to access this resource !");
+                    } else {
+                    this.logError(" Error! Request Method:" + method + ".  The response had HTTP status code " + status + " !"); }
                     if (callback != null) {
                         if (!data) {
                             data = {};
-                        }
-
-                        var value = data.message;
-
+                        }                        
+                        var value = data.message;                       
                         callback(value, false);
                     }
                 });
 
             return request;
         }
-
     }
+
     // Register with angular
-    app.factory(DataService.serviceId, ['$http', 'Httpi', ($http, Httpi) => new DataService($http, Httpi)]);
+    app.factory(DataService.serviceId, ['common', 'Httpi', (common, Httpi) => new DataService(common, Httpi)]);
 }

@@ -1,176 +1,140 @@
-﻿<section id="dashboard-view" class="mainbar" data-ng-controller="dashboardCtrl as vm">
+﻿<style>
+    .col-centered {
+        text-align: center;
+    }
+</style>
+<section id="dashboard-view" class="mainbar" data-ng-controller="dashboardCtrl as vm">
     <section class="matter">
         <div class="container">
             <div class="row">
-                <h1><strong>Search</strong></h1>
-            </div>
-            <div class="row">
-                <div class="col-md-7">
-                        <!--   <div  flex layout="column" style="overflow: auto; height: 50px">
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Speciality
-                                <span class="caret"></span></button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" ng-repeat="item in vm.specialityList" href="#">{{item.specialityName}}</a></li>
-                            </ul> Speciality  
-                             <select md-min-length="4"  onmousedown="if(this.options.length>8){this.size=8;}" scrolling="auto"> -->
-
-                    <div class="col-md-3">
-                        Speciality:
-                        <select name="select1" ng-change="vm.searchMester()" ng-model="vm.searchMesterRequest.specialityName" onmousedown="if(this.options.length>5){this.size=5;}"
-                        onchange='this.size=0;' onblur="this.size=0;">
-                            <option ng-repeat="item in vm.specialityList" value="{{item.specialityName}}">{{item.specialityName}}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        Location :
-                        <input id="focusedInput" ng-keydown="$event.which === 13 && vm.searchMester()" name="location" ng-model="vm.searchMesterRequest.location"
-                        type="text" />
-                    </div>
-                    <div class="col-md-2">
-                        Rating :
-                        <select ng-model="vm.searchMesterRequest.rating" ng-change="vm.searchMester()">
-                            <option value="1">*</option>
-                            <option value="2">**</option>
-                            <option value="3">***</option>
-                            <option value="4">****</option>
-                            <option value="5">*****</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        Price :
-                        <select ng-model="vm.searchMesterRequest.price">
-                            <option value="LOW">$</option>
-                            <option value="MEDIUM">$$</option>
-                            <option value="HIGH">$$$</option>
-                        </select>
-                    </div>
+                <div class="col-md-10">
+                    <h1 style="padding: 19px;"><strong>Search</strong></h1>
                 </div>
 
             </div>
-            
             <div class="row">
-                <div class="col-md-6"> </div>
-                <div class="col-md-2">
+                <div class="col-md-2 col-centered">
+                    Speciality:
+                    <select name="select1" ng-change="vm.searchMester()" ng-model="vm.searchMesterRequest.specialityName" onmousedown="if(this.options.length>5){this.size=5;}"
+                    onchange='this.size=0;' onblur="this.size=0;">
+                        <option ng-repeat="item in vm.specialityList" value="{{item.specialityName}}">{{item.specialityName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-centered">
+                    Location :
+                    <input id="focusedInput" ng-keydown="$event.which === 13 && vm.searchMester()" name="location" ng-model="vm.searchMesterRequest.location"
+                    type="text" />
+                </div>
+                <div class="col-md-1 col-centered">
+                    Rating :</br>
+                    <select ng-model="vm.searchMesterRequest.rating" ng-change="vm.searchMester()">
+                        <option value="1">*</option>
+                        <option value="2">**</option>
+                        <option value="3">***</option>
+                        <option value="4">****</option>
+                        <option value="5">*****</option>
+                    </select>
+                </div>
+                <div class="col-md-1 col-centered">
+                    Price : </br>
+                    <select ng-model="vm.searchMesterRequest.price" ng-change="vm.searchMester()">
+                        <option value="1">LOW</option>
+                        <option value="2">MEDIUM</option>
+                        <option value="3">HIGH</option>
+                    </select>
+                </div>
 
-                         <div >
-                            <button ng-click="vm.advanceSearch()">Advance Search</button>
-                            <script type="text/ng-template" id="templateId">
-                                <div id="target" ng-click="vm.searchMester()" >
-
-                                    <h5 align="left">Advance Search:</h5>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            Speciality:
-                                            <select name="select1" ng-change="vm.searchMester()" ng-model="vm.searchMesterRequest.specialityName" onmousedown="if(this.options.length>5){this.size=5;}"
-                                            onchange='this.size=0;' onblur="this.size=0;">
-                                                <option ng-repeat="item in vm.specialityList" value="{{item.specialityName}}">{{item.specialityName}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            Location :
-                                            <input id="focusedInput" ng-keydown="$event.which === 13 && vm.searchMester()" name="location" ng-model="vm.searchMesterRequest.location"
-                                            type="text" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            Rating :
-                                            <select ng-model="vm.searchMesterRequest.rating" ng-change="vm.searchMester()">
-                                                <option value="1">*</option>
-                                                <option value="2">**</option>
-                                                <option value="3">***</option>
-                                                <option value="4">****</option>
-                                                <option value="5">*****</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2">
-                                            Price :
-                                            <select ng-model="vm.searchMesterRequest.price">
-                                                <option value="LOW">$</option>
-                                                <option value="MEDIUM">$$</option>
-                                                <option value="HIGH">$$$</option>
-                                            </select>
-                                        </div>
+                <div class="col-md-2 col-centered">
+                    <div>
+                        </br>
+                        <button class="btn btn-default" ng-click="vm.advanceSearch()">Advance Search</button>
+                        <script type="text/ng-template" id="templateId">
+                            <div id="target" ng-click="vm.searchMester()">
+                                <h5 align="left">Advance Search:</h5>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <strong>    Speciality: </strong>
+                                        <select name="select1" ng-change="vm.searchMester()" ng-model="vm.searchMesterRequest.specialityName" onmousedown="if(this.options.length>5){this.size=5;}"
+                                        onchange='this.size=0;' onblur="this.size=0;">
+                                            <option ng-repeat="item in vm.specialityList" value="{{item.specialityName}}">{{item.specialityName}}</option>
+                                        </select>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <strong>First Name: </strong> </br>
-                                            <div class="col-md-11">
-                                                <input class="form-control" id="focusedInput" name="firstName" ng-model="vm.searchMesterRequest.firstName" type="text" /> </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <strong>Last Name: </strong> </br>
-                                            <div class="col-md-11">
-                                                <input class="form-control" id="focusedInput" name="lastName" ng-model="vm.searchMesterRequest.lastName" type="text" /> </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <strong>Email: </strong> </br>
-                                            <div class="col-md-11">
-                                                <input class="form-control" id="focusedInput" name="email" ng-model="vm.searchMesterRequest.email" type="text" /> </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <strong>Phone Nr: </strong> </br>
-                                            <div class="col-md-11">
-                                                <input class="form-control" id="focusedInput" name="phoneNumber" ng-model="vm.searchMesterRequest.phoneNumber" type="text"
-                                                /> </div>
-                                        </div>
+                                    <div class="col-md-3">
+                                        <strong>  Rating : </strong>
+                                        <select ng-model="vm.searchMesterRequest.rating" ng-change="vm.searchMester()">
+                                            <option value="1">*</option>
+                                            <option value="2">**</option>
+                                            <option value="3">***</option>
+                                            <option value="4">****</option>
+                                            <option value="5">*****</option>
+                                        </select>
                                     </div>
-                                    <div class="row">
-                                        
-                                        </div>
+                                    <div class="col-md-4">
+                                        <strong>  Price : </strong>
+                                        <select ng-model="vm.searchMesterRequest.price" ng-change="vm.searchMester()">
+                                            <option value="1">LOW</option>
+                                            <option value="2">MEDIUM</option>
+                                            <option value="3">HIGH</option>
+                                        </select>
+                                    </div>
                                 </div>
+                                </br>
+                                <form class="form-horizontal" role="form" name="searchForm" novalidate>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"> Location : </label>
+                                        <div class="col-md-8">
+                                            <input id="focusedInput" class="form-control" ng-keydown="$event.which === 13 && vm.searchMester()" name="location" ng-model="vm.searchMesterRequest.location"
+                                            type="text" /> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"> First Name: </label>
+                                        <div class="col-md-8">
+                                            <input id="focusedInput" class="form-control" name="firstName" ng-keydown="$event.which === 13 && vm.searchMester()" ng-model="vm.searchMesterRequest.firstName"
+                                            type="text" /> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"> Last Name: </label>
+                                        <div class="col-md-8">
+                                            <input id="focusedInput" class="form-control" name="lastName" ng-keydown="$event.which === 13 && vm.searchMester()" ng-model="vm.searchMesterRequest.lastName"
+                                            type="text" /> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Email: </label>
+                                        <div class="col-md-8">
+                                            <input id="focusedInput" class="form-control" name="email" ng-keydown="$event.which === 13 && vm.searchMester()" ng-model="vm.searchMesterRequest.email"
+                                            type="text" /> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Phone Nr: </label>
+                                        <div class="col-md-8">
+                                            <input " id="focusedInput " class="form-control " name="phoneNumber " ng-keydown="$event.which===13 && vm.searchMester()
+                                            " ng-model="vm.searchMesterRequest.phoneNumber " type="text "/> </div>
+                                    </div>
+                                </form>
+                                 </br>                                                                      
+                             </div>
                             </script>
-                        </div>
-                    
+                        </div>                   
                 </div>
-                <div class="col-md-1">
-                    <a href="/#/dashboard.html"> Reset</a>
+                <div class="col-md-1 "> </br>
+                      <!--<a class="btn btn-default " href="/#/dashboard.html "> </a> -->
+                         <input type="submit" value="Reset" ng-click="vm.goBack()">
+                    
                 </div>
           
-            </div>
-
-            <div class="row">
-                </br>
-            </div>
-            <div class="row">          
-                <div class="col-md-9"  style="padding: 0 0 0 30px;">
-                    <div ui-grid="vm.gridOptions" ui-grid-pagination ui-grid-selection class="myGrid"></div>
-
-                    <!--<table xui-table="test" scrolling="auto" class="table table-condensed  table-striped" table-data="List" items-per-page='10'
-                    style="background-color:rgba(0, 0, 255, 0.05);">
-                        <thead>
-                            <tr>
-                                <th class="First Name">First&nbsp;Name<a ng-click="sort_by('vm.mesterResultPage.contentPage.firstName')"><i class="icon-sort"></i></a></th>
-                                <th class="text-left"><strong>Last Name</strong></th>
-                                <th class="text-left"><strong>Location</strong></th>
-                                <th class="description">Description<a ng-click="sort_by('vm.mesterResultPage.contentPage.description')"><i class="icon-sort"></i></a></th>
-                                <th class="text-center"><strong>Details</strong></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in vm.mesterResultPage.contentPage" ng-show="this.item.pageSize" ng-hide="if(this.item.totalResults>(this.item.pageSize)) ">
-                                <td>{{item.firstName}}</td>
-                                <td>{{item.lastName}}</td>
-                                <td>{{item.location}}</td>
-                                <td>{{item.description}}</td>
-                                 <td>
-                                    <input type="button" class="btn btn-primary" ng-click="vc.getMester(item.id)" value="Mester Details" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <uib-pagination total-items="vm.mesterResultPage.totalResults" ng-model="vm.mesterResultPage.contentPage" max-size="vm.mesterResultPage.pageSize"
-                    class="pagination-sm" boundary-links="true" num-pages="vm.mesterResultPage.pageNumber">
-                    </uib-pagination>-->
-                    
-                    <div class="row">
-                        <div class="col-md-3"> <strong>Total results:</strong> </div>
-                        <div class="col-md-3" align="left">{{ vm.mesterResultPage.totalResults }} </div>
+            </div>     </br>    
+  
+            <div class="row ">
+                <div class="col-md-9 " style="padding: 0 0 0 30px; ">
+                    <div ui-grid="vm.gridOptions " ui-grid-pagination ui-grid-selection class="myGrid "></div>
+                    <div class="row ">
+                        <div class="col-md-2 "> <strong>Total results:</strong> </div>
+                        <div class="col-md-1 " align="left ">{{ vm.allElem }} </div>
                     </div>
+                     
                 </div>
             </div>
 
-
-
-        </div>
+         </div>
     </section>
 </section>
