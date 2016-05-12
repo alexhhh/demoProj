@@ -18,7 +18,9 @@ var App;
                         if (success) {
                             _this.logSuccess('You have successfully logged in!');
                             _this.userToken = response.token;
+                            _this.core.sesionService.userToken = response.token;
                             _this.core.sesionService.userRole = response.role;
+                            _this.core.sesionService.userDetails = response.user;
                             _this.userName = _this.getLogCredentialsRequest.userName;
                             _this.allThis = true;
                         }
@@ -58,7 +60,7 @@ var App;
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
                 this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
-                this.allThis = this.core.dataService.isLogged;
+                this.allThis = this.core.sesionService.isLogged;
                 this.activate([]);
             }
             // TODO: is there a more elegant way of activating the controller - base class?

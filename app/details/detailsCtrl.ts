@@ -10,7 +10,7 @@ module App.Controllers {
         controllerId = DetailsCtrl.controllerId;
         common: App.Shared.ICommon;
         core: App.Services.ICore;
-        $route : any;
+        $route: any;
         $routeParams: any;
         theParam: string;
         dbMester: any;
@@ -24,14 +24,17 @@ module App.Controllers {
         thePrice: string;
         totalResults: number;
         mesterAvgRating: number;
+        currentRole: string;
+        currentClientId: string;
         reviewMesterResultPage: any;
         itemResults: Array<any>;
         addMesterReviewRequest: App.Services.AddMesterReviewRequest;
+        deleteReviewRequest: App.Services.DeleteReviewRequest;
         searchReviewMesterRequest: App.Services.SearchReviewMesterRequest;
 
         constructor($scope: any, $route, $routeParams, $location: ng.ILocationService, common, core: App.Services.ICore, ngDialog: any) {
             this.$scope = $scope;
-            this.$route = $route ;
+            this.$route = $route;
             this.$routeParams = $routeParams;
             this.$location = $location;
             this.common = common;
@@ -41,9 +44,13 @@ module App.Controllers {
             this.logError = common.logger.getLogFn('', 'error');
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');
+            this.currentRole = core.sesionService.userRole;           
             this.itemResults = new Array<any>();
             this.addMesterReviewRequest = new App.Services.AddMesterReviewRequest();
-            this.searchReviewMesterRequest = new App.Services.SearchReviewMesterRequest();
+            this.deleteReviewRequest = new App.Services.DeleteReviewRequest();
+            this.searchReviewMesterRequest = new App.Services.SearchReviewMesterRequest();     
+            if(core.sesionService.userDetails =! null) {this.currentClientId = core.sesionService.userDetails.id;}
+            else {this.currentClientId =null} 
             this.activate([this.getMester(this.$routeParams.mesterId)]);
         }
 
@@ -95,23 +102,26 @@ module App.Controllers {
             return promise;
         }
 
+        addReview = () => {
+            this.ngDialog.open({ template: 'templateId', scope: this.$scope });
+        }
+
         addMesterReview = () => {
             this.addMesterReviewRequest.idMester = this.$routeParams.mesterId; //'1ad544dc-eae0-4c6c-b5d6-6a68695afc40';
             this.addMesterReviewRequest.idClient = this.$routeParams.clientId; //'3448cfec-d77d-4023-9d2e-903889881510';
             var promise = this.core.dataService.addMesterReview(this.addMesterReviewRequest, (response, success) => {
                 this.newReviewMester = response;
                 if (success) {
+
+                    this.itemResults.push(this.newReviewMester);
+                    this.totalResults += 1;
                     this.logSuccess('The review was created !');
                 } else {
                     this.logError('Cannot create the review! ');
                 }
             });
+            this.reloadPage();
             return promise;
-        }
-
-        addReview = () => {
-            this.ngDialog.open({ template: 'templateId', scope: this.$scope });
-           // this.reloadPage();
         }
 
         myPagingFunction = () => {
@@ -119,12 +129,38 @@ module App.Controllers {
             this.searchReviewMester(this.$routeParams.mesterId);
         }
 
+
+        deleteReview = (item: any) => {
+            if (!confirm('Are you sure about this ?')) {
+                return;
+            }
+            this.deleteReviewRequest.idReview = item.id;
+            var promise = this.core.dataService.deleteReview(this.deleteReviewRequest, (response, success) => {
+                if (success) {
+                    var indexItem = this.itemResults.indexOf(item);
+                    if (indexItem >= 0) {
+                        this.itemResults.splice(indexItem, 1);
+                    }
+                    this.logSuccess('The review was deleted');
+                } else {
+                    this.logError('This review cannot be deleted !');
+                }
+            });
+
+        }
+
+
+
         goBack = () => {
-            this.$location.path('#/dashboard');
+            if (this.core.sesionService.userRole == 'ROLE_ADMIN') {
+                this.$location.path('admin-users');
+            } else {
+                this.$location.path('');
+            }
         }
 
         reloadPage = () => {
-             this.$route.reload();
+            this.$route.reload();
         }
 
     }

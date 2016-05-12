@@ -2,7 +2,10 @@
 module App.Services {
 
     export interface ISesionService {
+        isLogged: boolean;
         userRole: string;
+        userDetails: any;
+        userToken: string;
         hasRole(role: Array<string>): boolean;
         clear(): void;
         resetDashboardPage() : void;
@@ -17,7 +20,9 @@ module App.Services {
         //private $http: ng.IHttpService;
         //private Httpi: IHttpi;
         //private userToken;
-        public userRole: string;
+        public userRole: string ;        
+        public userDetails: any;
+        public userToken: string;
         public log: Function;
         public logError: Function;
         public logWarning: Function;
@@ -28,10 +33,17 @@ module App.Services {
 
         constructor($http: ng.IHttpService, common) {
             this.common = common; 
+            this.userRole='x';
             this.log = common.logger.getLogFn();
             this.logError = common.logger.getLogFn('', 'error');
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');
+           
+        }
+        
+        public get isLogged(): boolean {
+            var result = this.userToken != null;
+            return result;
         }
 
         public hasRole = (roles: Array<string>): boolean => {
@@ -43,7 +55,9 @@ module App.Services {
         }
         
         public clear = () => {
-            this.userRole = null;
+            this.userRole = 'x';
+            this.userDetails=null;
+            this.userToken='x';
         }
         
         public resetDashboardPage = () => {

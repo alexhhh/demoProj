@@ -4,28 +4,39 @@ var App;
     var Services;
     (function (Services) {
         var DataService = (function () {
-            function DataService(common, httpi) {
+            function DataService(common, httpi, injector) {
                 var _this = this;
-                this.authenticated = false;
+                // public authenticated: boolean = false;
                 this.secondCheck = false;
                 this.serviceRoot = 'http://localhost:8080/mesteriApplication/rest';
+                // public get isLogged(): boolean {
+                //     var result = this.userToken != null;
+                //     return result;
+                // }
                 //  user query
                 this.activateUser = function (requestData, callback) {
                     return _this.Request('GET', '/user/activate/query', requestData, callback);
                 };
                 this.getLoggedUser = function (requestData, callback) {
-                    _this.authenticated = true;
                     return _this.Request('POST', '/user/login', requestData, callback);
                 };
                 this.getLogOut = function (requestData, callback) {
-                    _this.authenticated = false;
                     return _this.Request('POST', '/user/logout', requestData, callback);
                 };
                 this.addUser = function (requestData, callback) {
                     return _this.Request('POST', '/user/signup', requestData, callback);
                 };
+                this.editUser = function (requestData, callback) {
+                    return _this.Request('PUT', '/user/edit', requestData, callback);
+                };
                 this.checkUser = function (requestData, callback) {
                     return _this.Request('GET', '/user/query', requestData, callback);
+                };
+                this.deleteUser = function (requestData, callback) {
+                    return _this.Request('DELETE', '/user/query', requestData, callback);
+                };
+                this.getUsers = function (requestData, callback) {
+                    return _this.Request('GET', '/user/all', requestData, callback);
                 };
                 // speciality query
                 this.getSpecialities = function (requestData, callback) {
@@ -35,8 +46,7 @@ var App;
                     return _this.Request('POST', '/speciality', requestData, callback);
                 };
                 this.deleteSpeciality = function (requestData, callback) {
-                    ;
-                    return _this.Request('DELETE', '/speciality', requestData, callback);
+                    return _this.Request('DELETE', '/speciality/query', requestData, callback);
                 };
                 // mester query
                 this.getMester = function (requestData, callback) {
@@ -58,8 +68,27 @@ var App;
                 this.searchReviewMester = function (requestData, callback) {
                     return _this.Request('GET', '/review/mester/query', requestData, callback);
                 };
+                this.searchReviewFromClient = function (requestData, callback) {
+                    return _this.Request('GET', '/review/client/query', requestData, callback);
+                };
+                this.getAllReviews = function (requestData, callback) {
+                    return _this.Request('GET', '/review/getAll/query', requestData, callback);
+                };
                 this.addMesterReview = function (requestData, callback) {
                     return _this.Request('POST', '/review', requestData, callback);
+                };
+                this.deleteReview = function (requestData, callback) {
+                    return _this.Request('DELETE', '/review/query', requestData, callback);
+                };
+                // client query
+                this.getClient = function (requestData, callback) {
+                    return _this.Request('GET', '/client/query', requestData, callback);
+                };
+                this.addClient = function (requestData, callback) {
+                    return _this.Request('POST', '/client', requestData, callback);
+                };
+                this.editClient = function (requestData, callback) {
+                    return _this.Request('PUT', '/client', requestData, callback);
                 };
                 this.Request = function (method, url, requestData, callback) {
                     requestData = requestData || {};
@@ -82,8 +111,8 @@ var App;
                     else {
                         hxr.params = requestData;
                     }
-                    if (_this.authenticated) {
-                        hxr.headers['Authorization'] = _this.userToken;
+                    if (_this.core.sesionService.isLogged) {
+                        hxr.headers['Authorization'] = _this.core.sesionService.userToken;
                     }
                     else {
                         hxr.headers['Authorization'] = null;
@@ -112,6 +141,7 @@ var App;
                     });
                     return request;
                 };
+                this.injector = injector;
                 this.Httpi = httpi;
                 this.common = common;
                 this.log = common.logger.getLogFn();
@@ -119,10 +149,13 @@ var App;
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
             }
-            Object.defineProperty(DataService.prototype, "isLogged", {
+            Object.defineProperty(DataService.prototype, "core", {
                 get: function () {
-                    var result = this.userToken != null;
-                    return result;
+                    if (this._core) {
+                        return this._core;
+                    }
+                    this._core = this.injector.get('core');
+                    return this._core;
                 },
                 enumerable: true,
                 configurable: true
@@ -132,7 +165,7 @@ var App;
         }());
         Services.DataService = DataService;
         // Register with angular
-        App.app.factory(DataService.serviceId, ['common', 'Httpi', function (common, Httpi) { return new DataService(common, Httpi); }]);
+        App.app.factory(DataService.serviceId, ['common', 'Httpi', '$injector', function (common, Httpi, injector) { return new DataService(common, Httpi, injector); }]);
     })(Services = App.Services || (App.Services = {}));
 })(App || (App = {}));
 //# sourceMappingURL=dataService.js.map

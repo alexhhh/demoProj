@@ -6,8 +6,9 @@
                     <h1 align="left"> <strong>Mester:</strong> </h1>
                 </div>
                 <div class="col-md-6"> </div>
-                <div class="col-md-3">   </br>   
-                   <input type="submit" value="Go Back" ng-click="vm.goBack()">                
+                <div class="col-md-3">
+                    </br>
+                    <input type="submit" value="Go Back" ng-click="vm.goBack()">
                 </div>
             </div>
             <div class="row">
@@ -26,8 +27,7 @@
                     <div class="mystyle">
                         <strong>Tel nr: </strong> {{ vm.dbMester.contact.telNr }} </br>
                         <strong>Email: </strong> {{ vm.dbMester.contact.email }} </br>
-                        <strong>Site: </strong> {{ vm.dbMester.contact.site }} </br>
-                        <strong>Social: </strong>{{ vm.dbMester.contact.socialPlatform }} </brdiv>
+                        <strong>Site: </strong> {{ vm.dbMester.contact.site }} </br> 
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -43,18 +43,19 @@
                     <h4><strong>Avg Rating: </strong></br> </br>
                     <uib-rating ng-model="vm.dbMester.avgRating" max="5" read-only="true" ></uib-rating>
                  </br></h4>
-   
+
                 </div>
                 <div class="col-md-4"> &nbsp;</br>
                 </div>
                 <div class="col-md-4">
                     <h4><strong>Price: </strong></br>{{vm.thePrice | priceFilter}}</br></h4>
                 </div>
-                <div class="row-md-4"> &nbsp;</br></br>
+                <div class="row-md-4"> &nbsp;</br>
+                    </br>
                 </div>
-                 
-                <div class="col-md-4">
-                    <button ng-click="vm.addReview()">Add Review</button>
+
+                <div   class="col-md-4">
+                    <button ng-show="vm.currentRole==='ROLE_CLIENT'" ng-click="vm.addReview()">Add Review</button>
 
                     <script type="text/ng-template" id="templateId">
                         <div id="target">
@@ -96,15 +97,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="button" align="left" value="Add Review" ng-click="vm.addMesterReview() && closeThisDialog() " />
+                                    <input type="button" align="left" value="Add Review" ng-click="vm.addMesterReview(); closeThisDialog() " />
                                 </div>
                             </form>
                         </div>
                     </script>
                 </div>
             </div>
-                <div class="row "> &nbsp;</br>
-                </div>
+            <div class="row "> &nbsp;</br>
+            </div>
             <div class="row">
                 <div class="col-md-8">
                     <h1 align="left"> <strong>Reviews:</strong> </h1> </div>
@@ -118,34 +119,38 @@
                     <div class="reviewStyle">
                         <div infinite-scroll="vm.myPagingFunction()" infinite-scroll-distance='1'>
                             <div ng-repeat="item in vm.itemResults">
-                                <div class="review1Style {{test && 'show-more' || null}}"  ng-init="showFeedback=true ">
-                                <div class="row ">
-                                    <div class="col-md-6 ">
-                                        <strong>Title:&nbsp;&nbsp;&nbsp;</strong>{{item.title}}
+                                <div class="review1Style {{test && 'show-more' || null}}" ng-init="showFeedback=true ">
+                                    <div class="row ">
+                                        <div class="col-md-6 ">
+                                            <strong>Title:&nbsp;&nbsp;&nbsp;</strong>{{item.title}}
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <strong>Rating: </strong></br>
+                                            <uib-rating ng-model="item.rating" max="5" read-only="true"></uib-rating>
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <strong>Price:</strong></br>
+                                            {{item.price | priceFilter}}</span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3 ">
-                                        <strong>Rating: </strong></br> 
-                                         <uib-rating ng-model="item.rating" max="5" read-only="true" ></uib-rating>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <strong>Price:</strong></br>  
-                                       {{item.price | priceFilter}}</span>
+                                    <div class="row ">
+                                        <div class="col-md-10">
+                                            <strong>Feedback: </strong> </br>
+                                            <p> <span> &nbsp; &nbsp;{{item.feedback}}</span></p>
+                                            <br/>
+                                            <input type="button" value="Show More/Less" ng-init="test=false" ng-click="test=!test " />
+                                        </div>
+                                        <div class="col-md-2">  
+                                              <input type="button" ng-show="vm.currentClientId==item.idClient" value="Delete Review"  ng-click="vm.deleteReview(item)" />
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row ">
-                                    <div class="col-md-10 ">                                                                             
-                                        <strong>Feedback: </strong> </br> <p > <span> &nbsp; &nbsp;{{item.feedback}}</span></p>    <br/>
-                                           <input type="button" value="Show More/Less" ng-init="test=false" ng-click="test=!test "/>
-                                    </div>
-                                </div>
-
-                             </div>
+                            </div>
                         </div>
                     </div>
-                  </div>
 
                 </div>
-          </div>
+            </div>
 
         </div>
 

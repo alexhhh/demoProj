@@ -14,13 +14,13 @@
         <div class="navbar-collapse collapse">
             <div class="pull-right navbar-logo">
                 <ul class="nav navbar-nav pull-right">
-                    <li> 
+                    <li>
                         <div ng-hide="vm.allThis">
                             <a ng-click="vm.logIn()">Log In</a>
                         </div>
                         <div id="target">
-                            <form class="form-horizontal" role="form" name="reviewForm" novalidate>
-                                <script type="text/ng-template" id="logInTemplate">
+                            <script type="text/ng-template" id="logInTemplate">
+                                <form class="form-horizontal" role="form" name="reviewForm" novalidate>
                                     <h5 align="left">Authentication:</h5>
                                     <div class="row">
                                         </br>
@@ -41,25 +41,26 @@
 
                                         <div class="form-group">
                                             <div class="col-md-3">
-                                                <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
-                                                <input type="button" align="right" value="Log In" ng-click="vm.getLoggedUser(); closeThisDialog()" />
+                                                <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>   ng-keydown="$event.which === 13 && vm.getLoggedUser(); closeThisDialog()" -->
+                                                <input type="button" align="right" value="Log In"  ng-enter="vm.getLoggedUser(); closeThisDialog()" ng-click="vm.getLoggedUser(); closeThisDialog()"
+                                                />
                                             </div>
                                         </div>
                                     </div>
-                                </script>
-                            </form>
-                        </div> 
+                                </form>
+                            </script>
+                        </div>
                         <div ng-show="vm.allThis">
-                           <a style="margin-top: -10px;"> Welcome {{vm.userName}} </a>
-                        </div> 
-                        
+                            <a  > Welcome {{vm.userName}} </a>
+                        </div>
+
                     </li>
                     <li>
-                         <div ng-hide="vm.allThis">
-                                <a href="#/signUp">
+                        <div ng-hide="vm.allThis">
+                            <a href="#/signUp">
                                 Sign Up
                                 </a>
-                         </div>
+                        </div>
                         <div ng-show="vm.allThis">
                             <a ng-click="vm.logOut()">Log Out </a>
                         </div>

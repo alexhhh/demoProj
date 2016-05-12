@@ -19,7 +19,7 @@ var App;
         'ui.grid.selection',
         'ui.grid.pagination',
         'ngDialog',
-        'infinite-scroll'
+        'infinite-scroll' //,  'uiGmapgoogle-maps'
     ]);
     // Handle routing errors and success events
     App.app.run(['$route', function ($route) {

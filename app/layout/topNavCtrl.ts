@@ -33,7 +33,7 @@ module App.Controllers {
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');
             this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
-            this.allThis = this.core.dataService.isLogged;
+            this.allThis = this.core.sesionService.isLogged;
             this.activate([]);
         }
 
@@ -52,7 +52,9 @@ module App.Controllers {
                 if (success) {
                     this.logSuccess('You have successfully logged in!');
                     this.userToken = response.token;
+                    this.core.sesionService.userToken=response.token;
                     this.core.sesionService.userRole = response.role;
+                    this.core.sesionService.userDetails = response.user;
                     this.userName = this.getLogCredentialsRequest.userName;
                     this.allThis = true;
                 } else {
@@ -70,7 +72,7 @@ module App.Controllers {
             var getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
             var promise = this.core.dataService.getLogOut(getLogCredentialsRequest, (response, success) => {
                 if (success) {
-                    this.logSuccess('You have successfully logged out!');
+                     this.logSuccess('You have successfully logged out!');
                      this.$location.path('#/dashboard');
                 } else {
                     this.logError('An error occurred !');

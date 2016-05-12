@@ -81,8 +81,11 @@ var App;
                     }
                 };
                 //#endregion
-                this.redirectToDetails = function (id) {
-                    var _url = 'details/' + '2' + '/' + id;
+                this.redirectToDetails = function (iduAsta) {
+                    var _url = 'details/' + iduAsta;
+                    if (_this.core.sesionService.userRole == 'ROLE_CLIENT') {
+                        _url = _url + '/' + _this.core.sesionService.userDetails.id;
+                    }
                     _this.$location.path(_url);
                 };
                 this.goBack = function () {
@@ -101,7 +104,7 @@ var App;
                 this.allElem = 50;
                 this.searchMesterRequest = new App.Services.SearchMesterRequest();
                 this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
-                this.allThis = this.core.dataService.isLogged;
+                this.allThis = this.core.sesionService.isLogged;
                 // Queue all promises and wait for them to finish before loading the view
                 this.activate([this.getSpecialities()]);
             }

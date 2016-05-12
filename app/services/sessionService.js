@@ -14,7 +14,9 @@ var App;
                     return exists;
                 };
                 this.clear = function () {
-                    _this.userRole = null;
+                    _this.userRole = 'x';
+                    _this.userDetails = null;
+                    _this.userToken = 'x';
                 };
                 this.resetDashboardPage = function () {
                     _this.searchMesterRequestMaintener = null;
@@ -23,11 +25,20 @@ var App;
                     //  this.searchMesterRequestMaintener= this.dashboard.searchMesterRequest; // save the request obj   
                 };
                 this.common = common;
+                this.userRole = 'x';
                 this.log = common.logger.getLogFn();
                 this.logError = common.logger.getLogFn('', 'error');
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
             }
+            Object.defineProperty(SesionService.prototype, "isLogged", {
+                get: function () {
+                    var result = this.userToken != null;
+                    return result;
+                },
+                enumerable: true,
+                configurable: true
+            });
             SesionService.serviceId = 'sesionService';
             return SesionService;
         }());

@@ -8,6 +8,12 @@ var App;
             return GetSpecialityRequest;
         }());
         Services.GetSpecialityRequest = GetSpecialityRequest;
+        var GetUserRequest = (function () {
+            function GetUserRequest() {
+            }
+            return GetUserRequest;
+        }());
+        Services.GetUserRequest = GetUserRequest;
         var AddSpecialityRequest = (function () {
             function AddSpecialityRequest() {
             }
@@ -20,6 +26,18 @@ var App;
             return DeleteSpecialityRequest;
         }());
         Services.DeleteSpecialityRequest = DeleteSpecialityRequest;
+        var DeleteReviewRequest = (function () {
+            function DeleteReviewRequest() {
+            }
+            return DeleteReviewRequest;
+        }());
+        Services.DeleteReviewRequest = DeleteReviewRequest;
+        var DeleteUserRequest = (function () {
+            function DeleteUserRequest() {
+            }
+            return DeleteUserRequest;
+        }());
+        Services.DeleteUserRequest = DeleteUserRequest;
         var GetMesterRequest = (function () {
             function GetMesterRequest() {
             }
@@ -29,7 +47,6 @@ var App;
         var AddEditMesterRequest = (function () {
             function AddEditMesterRequest() {
                 this.speciality = new Array();
-                this.isEdit = false;
             }
             return AddEditMesterRequest;
         }());
@@ -46,6 +63,18 @@ var App;
             return SearchReviewMesterRequest;
         }());
         Services.SearchReviewMesterRequest = SearchReviewMesterRequest;
+        var SearchReviewFromClientRequest = (function () {
+            function SearchReviewFromClientRequest() {
+            }
+            return SearchReviewFromClientRequest;
+        }());
+        Services.SearchReviewFromClientRequest = SearchReviewFromClientRequest;
+        var GetAllReviewsRequest = (function () {
+            function GetAllReviewsRequest() {
+            }
+            return GetAllReviewsRequest;
+        }());
+        Services.GetAllReviewsRequest = GetAllReviewsRequest;
         var DeleteMesterRequest = (function () {
             function DeleteMesterRequest() {
             }
@@ -70,12 +99,54 @@ var App;
             return AddUserRequest;
         }());
         Services.AddUserRequest = AddUserRequest;
+        var EditUserRequest = (function () {
+            function EditUserRequest() {
+            }
+            return EditUserRequest;
+        }());
+        Services.EditUserRequest = EditUserRequest;
         var ActivateUserRequest = (function () {
             function ActivateUserRequest() {
             }
             return ActivateUserRequest;
         }());
         Services.ActivateUserRequest = ActivateUserRequest;
+        var GetClientRequest = (function () {
+            function GetClientRequest() {
+            }
+            return GetClientRequest;
+        }());
+        Services.GetClientRequest = GetClientRequest;
+        var AddClientRequest = (function () {
+            function AddClientRequest() {
+            }
+            return AddClientRequest;
+        }());
+        Services.AddClientRequest = AddClientRequest;
+        var ClientProfileViewModel = (function () {
+            function ClientProfileViewModel() {
+            }
+            return ClientProfileViewModel;
+        }());
+        Services.ClientProfileViewModel = ClientProfileViewModel;
+        var MesterProfileViewModel = (function () {
+            function MesterProfileViewModel() {
+            }
+            return MesterProfileViewModel;
+        }());
+        Services.MesterProfileViewModel = MesterProfileViewModel;
+        var UserViewModel = (function () {
+            function UserViewModel() {
+            }
+            return UserViewModel;
+        }());
+        Services.UserViewModel = UserViewModel;
+        var UserProfileViewModel = (function () {
+            function UserProfileViewModel() {
+            }
+            return UserProfileViewModel;
+        }());
+        Services.UserProfileViewModel = UserProfileViewModel;
     })(Services = App.Services || (App.Services = {}));
 })(App || (App = {}));
 //# sourceMappingURL=Requests.js.map

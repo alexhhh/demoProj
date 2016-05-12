@@ -1,37 +1,38 @@
 ﻿'use strict';
 module App.Controllers {
-     
-    export class DashboardCtrl {   
+
+    export class DashboardCtrl {
         public static controllerId: string = 'dashboardCtrl';
         //#region Variables
         controllerId = DashboardCtrl.controllerId;
-        
+
         $scope: any;
         $location: ng.ILocationService
         core: App.Services.ICore
         common: App.Shared.ICommon;
-        
+
         specialityList: Array<any>;
         log: any;
         logSuccess: Function;
         logError: Function;
         logWarning: Function;
-        
+
         mesterResultPage: any;
         ngDialog: any;
         paginationOptions: any;
         itemId: string;
-        allElem: number =10;
+        currentRole : string ;
+        allElem: number = 10;
         userToken: any;
         allThis: boolean;
         searchMesterRequest: App.Services.SearchMesterRequest;
-        getLogCredentialsRequest: App.Services.GetLogCredentialsRequest ;
+        getLogCredentialsRequest: App.Services.GetLogCredentialsRequest;
 
         //#endregion
         constructor($scope, $location: ng.ILocationService, common, core: App.Services.ICore, ngDialog: any) {
             this.$scope = $scope;
             this.$location = $location;
-            this.core=core;
+            this.core = core;
             this.common = common;
             this.ngDialog = ngDialog;
             this.log = common.logger.getLogFn();
@@ -39,9 +40,10 @@ module App.Controllers {
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');
             this.allElem = 50;
+            
             this.searchMesterRequest = new App.Services.SearchMesterRequest();
             this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
-            this.allThis = this.core.dataService.isLogged;
+            this.allThis = this.core.sesionService.isLogged;
             // Queue all promises and wait for them to finish before loading the view
             this.activate([this.getSpecialities()]);
         }
@@ -50,11 +52,11 @@ module App.Controllers {
         private activate(promises: Array<ng.IPromise<any>>) {
             this.common.activateController(promises, this.controllerId)
                 .then(() => {
-                     if(this.core.sesionService.searchMesterRequestMaintener){
-                        this.searchMesterRequest = this.core.sesionService.searchMesterRequestMaintener; 
+                    if (this.core.sesionService.searchMesterRequestMaintener) {
+                        this.searchMesterRequest = this.core.sesionService.searchMesterRequestMaintener;
                         this.searchMester();
-                     } 
-                    this.log('Activated Dashboard View'); 
+                    }
+                    this.log('Activated Dashboard View');
                 });
         }
 
@@ -70,10 +72,10 @@ module App.Controllers {
 
         searchMester = () => {
             // save the request obj 
-            this.core.sesionService.searchMesterRequestMaintener= this.searchMesterRequest;      
+            this.core.sesionService.searchMesterRequestMaintener = this.searchMesterRequest;
             var promise = this.core.dataService.searchMester(this.searchMesterRequest, (response, success) => {
                 this.mesterResultPage = response;
-               this.allElem = this.mesterResultPage.totalResults;
+                this.allElem = this.mesterResultPage.totalResults;
                 this.gridOptions.data = response.contentPage;
                 if (success) {
                     this.logSuccess('The search was succesful !');
@@ -84,14 +86,12 @@ module App.Controllers {
             return promise;
         }
 
-        advanceSearch = () => {   
-                               
-            this.ngDialog.open({ template: 'templateId', scope: this.$scope }); 
-                                   
-            this.searchMester();    
+        advanceSearch = () => {
+            this.ngDialog.open({ template: 'templateId', scope: this.$scope });
+            this.searchMester();
         }
-         
-        gridOptions = {            
+
+        gridOptions = {
             enableFullRowSelection: true,
             enableRowSelection: true,
             enableSorting: true,
@@ -110,13 +110,13 @@ module App.Controllers {
 
             data: [],
             columnDefs: [
-                { name: 'id', visible: false},
-                { name: 'firstName'},
-                { name: 'lastName'},
-                { name: 'location'},
+                { name: 'id', visible: false },
+                { name: 'firstName' },
+                { name: 'lastName' },
+                { name: 'location' },
                 { name: 'description' },
-                { name: 'avgPrice', cellFilter:'mapPrice'},
-                { name: 'avgRating', cellFilter:'mapRating'}
+                { name: 'avgPrice', cellFilter: 'mapPrice' },
+                { name: 'avgRating', cellFilter: 'mapRating' }
             ],
             toggleFullRowSelection: () => { },
             isRowSelectable: () => { },
@@ -127,7 +127,7 @@ module App.Controllers {
                     this.searchMesterRequest.pageSize = pageSize;
                     this.searchMester();
                 });
-                gridApi.selection.on.rowSelectionChanged(this.$scope, (item) => {                    
+                gridApi.selection.on.rowSelectionChanged(this.$scope, (item) => {
                     this.redirectToDetails(item.entity.id);
                 });
                 gridApi.selection.on.rowSelectionChangedBatch(this.$scope, (item) => {
@@ -136,15 +136,19 @@ module App.Controllers {
         }
         //#endregion
 
-        redirectToDetails = (id: string) => {
-            var _url = 'details/' + '2' + '/' + id;
+        redirectToDetails = (iduAsta: string) => {
+             var _url = 'details/'+ iduAsta ;
+            if (this.core.sesionService.userRole=='ROLE_CLIENT'){
+                _url=_url+'/'+ this.core.sesionService.userDetails.id
+            } 
             this.$location.path(_url);
         }
 
 
-         goBack = () => {
+        goBack = () => {
             this.core.sesionService.resetDashboardPage();
             this.$location.path('#/dashboard');
+             
         }
 
 
@@ -154,48 +158,47 @@ module App.Controllers {
     app.controller(DashboardCtrl.controllerId, ['$scope', '$location', 'common', 'core', 'ngDialog',
         ($scope, $location, common, core, ngDialog) => new App.Controllers.DashboardCtrl($scope, $location, common, core, ngDialog)
     ]);
- 
+
     var mapPrice = (($sce: any): any => {
-        
+
         var genderHash = {
             1: 'LOW',
             2: 'MEDIUM',
-            3: 'HIGH'            
+            3: 'HIGH'
         };
-        
+
         var xprice: any = (input: number) => {
-            if (!input){
+            if (!input) {
                 return '';
             } else {
-            return genderHash[input];
+                return genderHash[input];
             }
         }
         return xprice;
     });
 
     app.filter("mapPrice", ['$sce', ($sce) => mapPrice($sce)]);
-    
-   var mapRating = (($sce: any): any => {
-        
+
+    var mapRating = (($sce: any): any => {
+
         var genderHash = {
             1: '*',
             2: '**',
             3: '***',
-            4: '****', 
-            5: '*****'           
+            4: '****',
+            5: '*****'
         };
-        
+
         var xrating: any = (input: number) => {
-            if (!input){
+            if (!input) {
                 return '';
             } else {
-            return genderHash[input];
+                return genderHash[input];
             }
         }
         return xrating;
     });
 
+    app.filter("mapRating", ['$sce', ($sce) => mapRating($sce)]);
 
-         app.filter("mapRating", ['$sce', ($sce) => mapRating($sce)]);
-    
 }

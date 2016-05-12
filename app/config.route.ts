@@ -28,18 +28,43 @@ module App {
                     title: 'dashboard',
                     settings: {
                         nav: 1,
-                        content: '<i class="fa fa-dashboard"></i> Dashboard'                        
+                        content: '<i class="fa fa-dashboard"></i> Dashboard',
                     }
                 }
             }, {
-                url: '/admin',
+                url: '/admin-spec',
                 config: {
                     title: 'admin',
                     templateUrl: 'app/admin/admin.html',
                     settings: {
                         nav: 2,
-                        content: '<i class="fa fa-lock"></i> Admin',
-                        roles: ['ROLE_ADMIN']
+                        content: '<i class="fa fa-lock"></i> Speciality',
+                        roles: ['ROLE_ADMIN'],
+                        isChild: true
+                    }
+                }
+            },{
+                url: '/admin-users',
+                config: {
+                    title: 'admin',
+                    templateUrl: 'app/admin/adminusers.html',
+                    settings: {
+                        nav: 3,
+                        content: '<i class="fa fa-lock"></i> Users',
+                        roles: ['ROLE_ADMIN'],
+                        isChild: true
+                    }
+                }
+            },{
+                url: '/admin-reviews',
+                config: {
+                    title: 'admin',
+                    templateUrl: 'app/admin/adminrev.html',
+                    settings: {
+                        nav: 4,
+                        content: '<i class="fa fa-lock"></i> Reviews',
+                        roles: ['ROLE_ADMIN'],
+                        isChild: true
                     }
                 }
             },{
@@ -48,13 +73,32 @@ module App {
                     title: 'mester',
                     templateUrl: 'app/mester/mester.html',
                     settings: {
-                        nav: 3,
-                        content: '<i class="fa fa-arrows"></i> Mester',
-                        roles: ['ROLE_ADMIN', 'ROLE_MESTER']
+                        nav: 5,
+                        content: '<i class="fa fa-arrows"></i> Profile',
+                        roles: ['ROLE_MESTER'],
+                         isChild: true
                     }
                 }
             },{
-                url: '/details/:clientId/:mesterId',
+                url: '/mester-reviews',
+                config: {
+                    title: 'mester',
+                    templateUrl: 'app/mester/mesterrev.html',
+                    settings: {
+                        nav: 6,
+                        content: '<i class="fa fa-arrows"></i> Reviews',
+                        roles: ['ROLE_MESTER'],
+                        isChild: true
+                    }
+                }
+            },{
+                url: '/details/:mesterId/:clientId',
+                config: {
+                    title: 'details',
+                    templateUrl: 'app/details/details.html' 
+                }
+            },{
+                url: '/details/:mesterId',
                 config: {
                     title: 'details',
                     templateUrl: 'app/details/details.html' 
@@ -66,9 +110,23 @@ module App {
                     title: 'client',
                     templateUrl: 'app/client/client.html',
                     settings: {
-                        nav: 4,
-                        content: '<i class="fa fa-arrows"></i> Client',
-                        roles: ['ROLE_ADMIN', 'ROLE_CLIENT']
+                        nav: 7,
+                        content: '<i class="fa fa-arrows"></i> Profile',
+                        roles: ['ROLE_CLIENT'],
+                        isChild: true
+                    }
+                }
+            },
+             {
+                url: '/client-reviews',
+                config: {
+                    title: 'client',
+                    templateUrl: 'app/client/clientrev.html',
+                    settings: {
+                        nav: 8,
+                        content: '<i class="fa fa-arrows"></i> Reviews',
+                        roles: ['ROLE_CLIENT'],
+                        isChild: true
                     }
                 }
             }, {

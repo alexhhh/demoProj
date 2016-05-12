@@ -8,7 +8,7 @@
             <li class="nlightblue fade-selection-animation" data-ng-class="vm.isCurrent(r)"
                 data-ng-repeat="r in vm.navRoutes"
                  ng-if="vm.hasAccess(r)">
-                <a href="#{{r.url}}" data-ng-bind-html="r.config.settings.content" data-cc-menu-item-rendered></a>
+                <a class="{{r.config.settings.isChild && 'is-child' || null }}"  href="#{{r.url}}" data-ng-bind-html="r.config.settings.content" data-cc-menu-item-rendered></a>
             </li>
         </ul>
     </div>

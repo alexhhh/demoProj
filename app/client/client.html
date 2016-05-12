@@ -1,7 +1,133 @@
-<section id="client-view" class="mainbar" data-ng-controller="clientCtrl as vc">
+<section id="client-view" class="mainbar" data-ng-controller="clientCtrl as vm">
     <section class="matter">
         <div class="container">
-            <div class="row">
+
+
+            <div class="widget wblue">
+                <div data-cc-widget-header title="Create/Edit client" allow-collapse="true"></div>
+                <div class="widget-content text-center text-info">
+                    <h1 align="left"> <strong>Client Profile </strong> </h1>
+                    <div class="row">
+                        <form class="form-horizontal" role="form" name="clientForm" novalidate>
+                            <h3 align="left"> <strong>Basic Info</strong> </h3>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Username:</label>
+                                    <div class="col-md-8">
+                                        <div align="left"> {{vm.clientViewModel.userName}} </div>
+                                        <div class="msg-block" ng-show="clientForm.$error">
+                                            <span class="msg-error" ng-show="clientForm.userName.$error.required && clientForm.userName.$dirty">
+                                                     <font color="red">This username format is invalid! </font>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Password:</label>
+                                    <div class="col-md-8">
+                                        <div align="left">
+                                            <a align="left" ng-click="vm.changePassword()">Change password</a>
+                                            
+                                                <script type="text/ng-template" id="passwordTemplate">
+                                                <form class="form-horizontal" role="form" name="passwordForm" novalidate>
+                                                    <h5 align="left">Change password:</h5>
+                                                    <div class="row">
+                                                        </br>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">NewPassword: </label>
+                                                            <div class="col-md-7">
+                                                                <input type="password" class="form-control" id="newPassword" name="newPassword" ng-model="vm.clientViewModel.password" ng-required="true" />
+                                                                <div class="msg-block" ng-show="passwordForm.$error">
+                                                                    <span class="msg-error" ng-show="passwordForm.newPassword.$error.required && passwordForm.newPassword.$dirty">
+                                                                        <font color="red">   This fild is required! </font>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        </br>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Confirm Password: </label>
+                                                            <div class="col-md-7">
+                                                                <input type="password" class="form-control" id="checkPassword" name="checkPassword" ng-model="vm.checkPassword" ng-required
+                                                                overwrite-password="newPassword" />
+                                                                <div class="msg-block" ng-show="passwordForm.$error">
+                                                                    <span class="msg-error" ng-show="passwordForm.checkPassword.$error.passmatch && passwordForm.checkPassword.$dirty">
+																<font color="red">   Passwords don't match ! </font>
+															 </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </br>
+
+                                                        <div class="form-group">
+                                                            <div class="col-md-6">
+                                                                <input type="button" align="right" value="submit" ng-click="vm.submit(); closeThisDialog()" ng-submit="vm.submit(); closeThisDialog()"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </form>
+                                                </script>
+                                            
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">First Name:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" id="focusedInput" name="firstName" ng-model="vm.clientViewModel.firstName" type="text" ng-required="true"
+                                        />
+                                        <div class="msg-block" ng-show="clientForm.$error">
+                                            <span class="msg-error" ng-show="clientForm.firstName.$error.required && clientForm.firstName.$dirty">
+                                                     <font color="red">   This fild is required! </font>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Last Name:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" id="focusedInput" name="lastName" ng-model="vm.clientViewModel.lastName" type="text" ng-required="true"
+                                        />
+                                        <div class="msg-block" ng-show="clientForm.$error">
+                                            <span class="msg-error" ng-show="clientForm.lastName.$error.required && clientForm.lastName.$dirty">
+                                                     <font color="red">   This fild is required! </font>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Email:</label>
+                                    <div class="col-md-8">
+                                        <div align="left">{{vm.clientViewModel.email}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div align="left">
+                                <input type="button" value="Save" class="btn btn-primary" ng-click="vm.editClient()" />
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+                <!--<div class="row"> ng-show="vm.addMesterRequest.isEdit == false"
                 <div class="col-md-6">
                     <div class="widget wblue">
                         <div data-cc-widget-header title="Search for mester" allow-collapse="true"></div>
@@ -20,7 +146,7 @@
                                     </div>
                                 </div>
 
-                                <!--partea asta sa apara dupa ce ai apasat butonu-->
+                                <!--partea asta sa apara dupa ce ai apasat butonu- ->
                                 <h5 align="left">Search criteria :</h5>
                                 <div ng-hide="false">
                                     <div class="form-group" ng-show="vc.searchMesterRequest.searchCriteria.indexOf('First Name') >= 0">
@@ -263,7 +389,7 @@
                         </div>
                     </div>
                 </div>
+            </div>-->
             </div>
-        </div>
     </section>
 </section>

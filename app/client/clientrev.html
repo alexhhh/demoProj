@@ -1,0 +1,47 @@
+<section id="detalis-view" class="mainbar" data-ng-controller="clientReviewCtrl as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <h1 align="left"> <strong>Client reviews:</strong> </h1>
+            </div>
+            <div class="row">
+                <div style="padding: 0 0 0 13px; "> <strong>Total results: </strong> {{ vm.reviewMesterResultPage.totalResults }} </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="reviewStyle">
+                        <div infinite-scroll="vm.myPagingFunction()" infinite-scroll-distance='10'>
+                            <div ng-repeat="item in vm.itemResults">
+                                <div class="review1Style {{test && 'show-more' || null}}" ng-init="showFeedback=true ">
+                                    <div class="row ">
+                                        <div class="col-md-6 ">
+                                            <strong>Title:&nbsp;&nbsp;&nbsp;</strong>{{item.title}}
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <strong>Rating: </strong></br>
+                                            <uib-rating ng-model="item.rating" max="5" read-only="true"></uib-rating>
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <strong>Price:</strong></br>
+                                            {{item.price | priceFilter}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-md-10 ">
+                                            <strong>Feedback: </strong> </br>
+                                            <p> <span> &nbsp; &nbsp;{{item.feedback}}</span></p>
+                                            <br/>
+                                            <input type="button" value="Show More/Less" ng-init="test=false" ng-click="test=!test " />
+                                        </div>
+                                         <div class="col-md-2">
+                                               <input type="button" value="Delete Review"  ng-click="vm.deleteReview(item)" />
+                                         </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
