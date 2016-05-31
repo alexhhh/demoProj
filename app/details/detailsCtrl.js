@@ -33,15 +33,14 @@ var App;
                     _this.searchReviewMesterRequest.pageNumber = (_this.itemResults.length);
                     _this.searchReviewMesterRequest.pageSize = 10;
                     var promise = _this.core.dataService.searchReviewMester(_this.searchReviewMesterRequest, function (response, success) {
-                        _this.reviewMesterResultPage = response;
-                        _this.itemResults = _this.itemResults.concat(response.contentPage);
-                        _this.totalResults = response.totalResults;
-                        //this.itemResults = this.itemResults.push.apply(response.contentPage);
-                        // if (success) {
-                        //     this.logSuccess('The search for reviews was succesful !');
-                        // } else {
-                        //     this.logError('The search for reviews failed !');
-                        // }
+                        if (success) {
+                            _this.reviewMesterResultPage = response;
+                            _this.itemResults = _this.itemResults.concat(response.contentPage);
+                            _this.totalResults = response.totalResults;
+                        }
+                        else {
+                            _this.logError('The search for reviews failed !');
+                        }
                     });
                     return promise;
                 };
@@ -49,20 +48,21 @@ var App;
                     _this.ngDialog.open({ template: 'templateId', scope: _this.$scope });
                 };
                 this.addMesterReview = function () {
-                    _this.addMesterReviewRequest.idMester = _this.$routeParams.mesterId; //'1ad544dc-eae0-4c6c-b5d6-6a68695afc40';
-                    _this.addMesterReviewRequest.idClient = _this.$routeParams.clientId; //'3448cfec-d77d-4023-9d2e-903889881510';
+                    _this.addMesterReviewRequest.idMester = _this.$routeParams.mesterId;
+                    _this.addMesterReviewRequest.idClient = _this.$routeParams.clientId;
                     var promise = _this.core.dataService.addMesterReview(_this.addMesterReviewRequest, function (response, success) {
                         _this.newReviewMester = response;
                         if (success) {
                             _this.itemResults.push(_this.newReviewMester);
-                            _this.totalResults += 1;
+                            _this.totalResults = _this.itemResults.length;
                             _this.logSuccess('The review was created !');
                         }
                         else {
                             _this.logError('Cannot create the review! ');
                         }
                     });
-                    _this.reloadPage();
+                    _this.itemResults.length = 0;
+                    _this.searchReviewMester(_this.$routeParams.mesterId);
                     return promise;
                 };
                 this.myPagingFunction = function () {
@@ -81,6 +81,7 @@ var App;
                             var indexItem = _this.itemResults.indexOf(item);
                             if (indexItem >= 0) {
                                 _this.itemResults.splice(indexItem, 1);
+                                _this.totalResults = _this.itemResults.length;
                             }
                             _this.logSuccess('The review was deleted');
                         }
@@ -116,25 +117,26 @@ var App;
                 this.addMesterReviewRequest = new App.Services.AddMesterReviewRequest();
                 this.deleteReviewRequest = new App.Services.DeleteReviewRequest();
                 this.searchReviewMesterRequest = new App.Services.SearchReviewMesterRequest();
-                if (core.sesionService.userDetails = !null) {
+                if (core.sesionService.userDetails != null) {
                     this.currentClientId = core.sesionService.userDetails.id;
                 }
                 else {
                     this.currentClientId = null;
                 }
-                this.activate([this.getMester(this.$routeParams.mesterId)]);
+                ;
+                this.activate([
+                    this.getMester(this.$routeParams.mesterId)
+                ]);
             }
             // TODO: is there a more elegant way of activating the controller - base class?
             DetailsCtrl.prototype.activate = function (promises) {
-                var _this = this;
                 this.common.activateController(promises, this.controllerId)
-                    .then(function () { _this.log('Activated Dashboard View'); });
+                    .then(function () { });
             };
             DetailsCtrl.controllerId = 'detailsCtrl';
             return DetailsCtrl;
         }());
         Controllers.DetailsCtrl = DetailsCtrl;
-        // register controller with angular
         App.app.controller(DetailsCtrl.controllerId, ['$scope', '$route', '$routeParams', '$location', 'common', 'core', 'ngDialog',
             function ($scope, $route, $routeParams, $location, common, core, ngDialog) { return new App.Controllers.DetailsCtrl($scope, $route, $routeParams, $location, common, core, ngDialog); }
         ]);

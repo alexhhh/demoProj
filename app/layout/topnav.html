@@ -1,7 +1,7 @@
 ﻿<div id="topNav-view" data-ng-controller="topNavCtrl as vm">
     <nav class="navbar navbar-fixed-top navbar-inverse">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand"><span class="brand-title">Top Mesteri</span></a>
+            <a href="#/" class="navbar-brand"><span class="brand-title">Top Mesteri</span></a>
             <a class="btn navbar-btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -22,15 +22,13 @@
                             <script type="text/ng-template" id="logInTemplate">
                                 <form class="form-horizontal" role="form" name="reviewForm" novalidate>
                                     <h5 align="left">Authentication:</h5>
-                                    <div class="row">
-                                        </br>
+                                    <div class="row">   </br>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Username: </label>
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" id="focusedInput" name="username" ng-model="vm.getLogCredentialsRequest.userName"
                                                 /> </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Password: </label>
                                             <div class="col-md-8">
@@ -38,11 +36,15 @@
                                                 /> </br>
                                             </div>
                                         </div>
-
+                                         <div class="form-group">
+                                             <div class="col-md-8">
+                                              <a href="#/resetPassword" ng-click="closeThisDialog()">Forgot your password?</a>  
+                                             </div>                                        
+                                        </div>
                                         <div class="form-group">
                                             <div class="col-md-3">
                                                 <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>   ng-keydown="$event.which === 13 && vm.getLoggedUser(); closeThisDialog()" -->
-                                                <input type="button" align="right" value="Log In"  ng-enter="vm.getLoggedUser(); closeThisDialog()" ng-click="vm.getLoggedUser(); closeThisDialog()"
+                                                <input type="button" align="right" value="Log In" ng-enter="vm.getLoggedUser(); closeThisDialog()" ng-click="vm.getLoggedUser(); closeThisDialog()"
                                                 />
                                             </div>
                                         </div>
@@ -51,15 +53,12 @@
                             </script>
                         </div>
                         <div ng-show="vm.allThis">
-                            <a  > Welcome {{vm.userName}} </a>
+                            <a> Welcome {{vm.userName}} </a>
                         </div>
-
                     </li>
                     <li>
                         <div ng-hide="vm.allThis">
-                            <a href="#/signUp">
-                                Sign Up
-                                </a>
+                            <a href="#/signUp">Sign Up </a>
                         </div>
                         <div ng-show="vm.allThis">
                             <a ng-click="vm.logOut()">Log Out </a>

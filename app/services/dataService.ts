@@ -11,7 +11,7 @@ module App.Services {
         addUser(requestData: AddUserRequest, callback: Function): ng.IHttpPromise<any>;
         deleteUser(requestData: DeleteUserRequest, callback: Function): ng.IHttpPromise<any>;
         editUser(requestData: EditUserRequest, callback: Function): ng.IHttpPromise<any>;
-        checkUser(requestData: AddUserRequest, callback: Function): ng.IHttpPromise<any>;
+        checkUser(requestData: CheckUserRequest, callback: Function): ng.IHttpPromise<any>;
         getSpecialities(requestData: GetSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         addSpeciality(requestData: AddSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         deleteSpeciality(requestData: DeleteSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
@@ -19,15 +19,24 @@ module App.Services {
         addMester(requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any>;
         editMester(requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any>;
         searchMester(requestData: SearchMesterRequest, callback: Function): ng.IHttpPromise<any>;
+        searchMesterByArea(requestData: SearchMesterByAreaRequest, callback: Function): ng.IHttpPromise<any>;
         searchReviewMester(requestData: SearchReviewMesterRequest, callback: Function): ng.IHttpPromise<any>;
-        searchReviewFromClient(requestData: SearchReviewFromClientRequest, callback: Function): ng.IHttpPromise<any>
-        getAllReviews (requestData: GetAllReviewsRequest, callback: Function): ng.IHttpPromise<any>
+        searchReviewFromClient(requestData: SearchReviewFromClientRequest, callback: Function): ng.IHttpPromise<any>;
+        getAllReviews (requestData: GetAllReviewsRequest, callback: Function): ng.IHttpPromise<any>;
+        searchFullReviewFromClient(requestData: SearchReviewFromClientRequest, callback: Function): ng.IHttpPromise<any>
+        getAllFullReviews (requestData: GetAllReviewsRequest, callback: Function): ng.IHttpPromise<any>
         addMesterReview(requestData: AddMesterReviewRequest, callback: Function): ng.IHttpPromise<any>;
         deleteMester(requestData: DeleteMesterRequest, callback: Function): ng.IHttpPromise<any>;
         deleteReview(requestData: DeleteReviewRequest, callback: Function): ng.IHttpPromise<any>;
         getClient (requestData: GetClientRequest, callback: Function): ng.IHttpPromise<any>;
         addClient (requestData: AddClientRequest, callback: Function): ng.IHttpPromise<any>;
         editClient (requestData: AddClientRequest, callback: Function): ng.IHttpPromise<any>;
+        getMesterLocation (requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any>;
+        editMesterLocation (requestData: EditLocationRequest, callback: Function): ng.IHttpPromise<any>;
+        getLocationByIds  (requestData:  Array<String>, callback: Function): ng.IHttpPromise<any>;
+        resetPassword (requestData: ResetPasswordRequest, callback: Function): ng.IHttpPromise<any> ;
+        resetUserPassword  (requestData: ResetPasswordForm, callback: Function): ng.IHttpPromise<any>;
+        getUserToken  (requestData: TokenRequest, callback: Function): ng.IHttpPromise<any>;
     }
 
     export class DataService implements IDataService {
@@ -87,7 +96,7 @@ module App.Services {
        public editUser = (requestData: EditUserRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('PUT', '/user/edit', requestData, callback);
         }
-       public checkUser = (requestData: AddUserRequest, callback: Function): ng.IHttpPromise<any> => {
+       public checkUser = (requestData: CheckUserRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('GET', '/user/query', requestData, callback);
         }
         public deleteUser = (requestData: DeleteUserRequest, callback: Function): ng.IHttpPromise<any> => {
@@ -95,8 +104,16 @@ module App.Services {
         }
        public getUsers = (requestData: GetUserRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('GET', '/user/all', requestData, callback);
+        }        
+        public resetPassword = (requestData: ResetPasswordRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/user/reset/query', requestData, callback);
         }
-           
+         public resetUserPassword = (requestData: ResetPasswordForm, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('PUT', '/user/reset', requestData, callback);
+        }
+        public getUserToken = (requestData: TokenRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/user/token/query', requestData, callback);
+        }    
         // speciality query
        public getSpecialities = (requestData: GetSpecialityRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('GET', '/speciality/all', requestData, callback);
@@ -122,11 +139,23 @@ module App.Services {
         public deleteMester = (requestData: DeleteMesterRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('DELETE', '/mester', requestData, callback);
         }
-
         public searchMester = (requestData: SearchMesterRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('POST', '/mester/search', requestData, callback);
         }
-
+        public searchMesterByArea = (requestData: SearchMesterByAreaRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('POST', '/mester/area', requestData, callback);
+        }
+        
+        // location
+        public getMesterLocation = (requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any> => { 
+            return this.Request('GET', '/location/mester/query', requestData, callback);
+        }
+        public editMesterLocation = (requestData: EditLocationRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('PUT', '/location/mester', requestData, callback);
+        }
+        public getLocationByIds = (requestData: Array<String>, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('POST', '/location/all_by_ids', requestData, callback);
+        }
         
         // review query
         public searchReviewMester = (requestData: SearchReviewMesterRequest, callback: Function): ng.IHttpPromise<any> => {
@@ -137,6 +166,12 @@ module App.Services {
         }
         public getAllReviews = (requestData: GetAllReviewsRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('GET', '/review/getAll/query', requestData, callback);
+        }
+        public searchFullReviewFromClient = (requestData: SearchReviewFromClientRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/review/full/client/query', requestData, callback);
+        }
+        public getAllFullReviews = (requestData: GetAllReviewsRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('GET', '/review/full/getAll/query', requestData, callback);
         }
         
         public addMesterReview = (requestData: AddMesterReviewRequest, callback: Function): ng.IHttpPromise<any> => {
@@ -196,9 +231,10 @@ module App.Services {
                 }).
                 error((data, status, headers, config) => {
                     if (status == -1) {
-                        this.logError(" Error! Request Method:" + method + ".   The response had HTTP status code 401!  Full authentication is required to access this resource !");
+                     //   this.logError(" Error! Request Method:" + method + ".   The response had HTTP status code 401!  Full authentication is required to access this resource !");
                     } else {
-                    this.logError(" Error! Request Method:" + method + ".  The response had HTTP status code " + status + " !"); }
+                    //  this.logError(" Error! Request Method:" + method + ".  The response had HTTP status code " + status + " !"); 
+                }
                     if (callback != null) {
                         if (!data) {
                             data = {};

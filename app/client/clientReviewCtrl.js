@@ -17,10 +17,15 @@ var App;
                     _this.searchReviewformClientRequest.idClient = _this.core.sesionService.userDetails.id;
                     _this.searchReviewformClientRequest.pageNumber = (_this.itemResults.length);
                     _this.searchReviewformClientRequest.pageSize = 5;
-                    var promise = _this.core.dataService.searchReviewFromClient(_this.searchReviewformClientRequest, function (response, success) {
-                        _this.reviewMesterResultPage = response;
-                        _this.itemResults = _this.itemResults.concat(response.contentPage);
-                        _this.totalResults = response.totalResults;
+                    var promise = _this.core.dataService.searchFullReviewFromClient(_this.searchReviewformClientRequest, function (response, success) {
+                        if (success) {
+                            _this.reviewMesterResultPage = response;
+                            _this.itemResults = _this.itemResults.concat(response.contentPage);
+                            _this.totalResults = response.totalResults;
+                        }
+                        else {
+                            _this.logError('The search for reviews failed !');
+                        }
                     });
                     return promise;
                 };
@@ -61,9 +66,8 @@ var App;
             }
             // TODO: is there a more elegant way of activating the controller - base class?
             ClientReviewCtrl.prototype.activate = function (promises) {
-                var _this = this;
                 this.common.activateController(promises, this.controllerId)
-                    .then(function () { _this.log('Activated Dashboard View'); });
+                    .then(function () { });
             };
             ClientReviewCtrl.controllerId = 'clientReviewCtrl';
             return ClientReviewCtrl;

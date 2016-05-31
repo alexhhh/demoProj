@@ -8,6 +8,30 @@ var App;
             return GetSpecialityRequest;
         }());
         Services.GetSpecialityRequest = GetSpecialityRequest;
+        var ResetPasswordRequest = (function () {
+            function ResetPasswordRequest() {
+            }
+            return ResetPasswordRequest;
+        }());
+        Services.ResetPasswordRequest = ResetPasswordRequest;
+        var ResetPasswordForm = (function () {
+            function ResetPasswordForm() {
+            }
+            return ResetPasswordForm;
+        }());
+        Services.ResetPasswordForm = ResetPasswordForm;
+        var GetUserTokenRequest = (function () {
+            function GetUserTokenRequest() {
+            }
+            return GetUserTokenRequest;
+        }());
+        Services.GetUserTokenRequest = GetUserTokenRequest;
+        var TokenRequest = (function () {
+            function TokenRequest() {
+            }
+            return TokenRequest;
+        }());
+        Services.TokenRequest = TokenRequest;
         var GetUserRequest = (function () {
             function GetUserRequest() {
             }
@@ -44,6 +68,12 @@ var App;
             return GetMesterRequest;
         }());
         Services.GetMesterRequest = GetMesterRequest;
+        var EditLocationRequest = (function () {
+            function EditLocationRequest() {
+            }
+            return EditLocationRequest;
+        }());
+        Services.EditLocationRequest = EditLocationRequest;
         var AddEditMesterRequest = (function () {
             function AddEditMesterRequest() {
                 this.speciality = new Array();
@@ -51,6 +81,12 @@ var App;
             return AddEditMesterRequest;
         }());
         Services.AddEditMesterRequest = AddEditMesterRequest;
+        var LocationListRequest = (function () {
+            function LocationListRequest() {
+            }
+            return LocationListRequest;
+        }());
+        Services.LocationListRequest = LocationListRequest;
         var SearchMesterRequest = (function () {
             function SearchMesterRequest() {
             }
@@ -63,6 +99,12 @@ var App;
             return SearchReviewMesterRequest;
         }());
         Services.SearchReviewMesterRequest = SearchReviewMesterRequest;
+        var SearchMesterByAreaRequest = (function () {
+            function SearchMesterByAreaRequest() {
+            }
+            return SearchMesterByAreaRequest;
+        }());
+        Services.SearchMesterByAreaRequest = SearchMesterByAreaRequest;
         var SearchReviewFromClientRequest = (function () {
             function SearchReviewFromClientRequest() {
             }
@@ -99,6 +141,12 @@ var App;
             return AddUserRequest;
         }());
         Services.AddUserRequest = AddUserRequest;
+        var CheckUserRequest = (function () {
+            function CheckUserRequest() {
+            }
+            return CheckUserRequest;
+        }());
+        Services.CheckUserRequest = CheckUserRequest;
         var EditUserRequest = (function () {
             function EditUserRequest() {
             }

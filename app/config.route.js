@@ -98,8 +98,20 @@ var App;
                     title: 'details',
                     templateUrl: 'app/details/details.html'
                 }
-            },
-            {
+            }, {
+                url: '/clientdetails/:clientId',
+                config: {
+                    title: 'details',
+                    templateUrl: 'app/details/clientdetails.html'
+                }
+            }, {
+                url: '/admin/:id',
+                config: {
+                    title: 'details',
+                    templateUrl: 'app/admin/adminprofile.html',
+                    roles: ['ROLE_ADMIN'],
+                }
+            }, {
                 url: '/client',
                 config: {
                     title: 'client',
@@ -111,8 +123,7 @@ var App;
                         isChild: true
                     }
                 }
-            },
-            {
+            }, {
                 url: '/client-reviews',
                 config: {
                     title: 'client',
@@ -135,6 +146,18 @@ var App;
                 config: {
                     title: 'activate',
                     templateUrl: 'app/activate/activate.html'
+                }
+            }, {
+                url: '/resetPassword',
+                config: {
+                    title: 'activate',
+                    templateUrl: 'app/activate/resetpassword.html'
+                }
+            }, {
+                url: '/resetPassword/:tokenId',
+                config: {
+                    title: 'activate',
+                    templateUrl: 'app/activate/resetform.html'
                 }
             }
         ];

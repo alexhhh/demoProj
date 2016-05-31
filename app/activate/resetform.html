@@ -1,0 +1,51 @@
+<section id="activate-view" class="mainbar" data-ng-controller="resetFormCtrl as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <h3 align="left">Change password:</h3> </br>
+                </br>
+            </div>
+            <div class="row">   
+            <form class="form-horizontal" role="form" name="passwordForm" novalidate>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">NewPassword: </label>
+                    <div class="col-md-7">
+                        <input type="password" class="form-control" id="newPassword" name="newPassword" ng-model="vm.tokenRequest.password" ng-required="true"
+                        />
+                        <div class="msg-block" ng-show="passwordForm.$error">
+                            <span class="msg-error" ng-show="passwordForm.newPassword.$error.required && passwordForm.newPassword.$dirty">
+                                            <font color="red">   This fild is required! </font>
+                                        </span>
+                        </div>
+                    </div>
+                </div>
+                </br>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Confirm Password: </label>
+                    <div class="col-md-7">
+                        <input type="password" class="form-control" id="checkPassword" name="checkPassword" ng-model="vm.checkPassword" ng-required
+                        overwrite-password="newPassword" />
+                        <div class="msg-block" ng-show="passwordForm.$error">
+                            <span class="msg-error" ng-show="passwordForm.checkPassword.$error.passmatch && passwordForm.checkPassword.$dirty">
+                                               <font color="red">   Passwords don't match ! </font>
+                                         </span>
+                        </div>
+                    </div>
+                </div>
+                </br>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <input type="button" align="right" value="submit" ng-disabled="!passwordForm.$valid " ng-required="true" ng-click="vm.resetUserPassword()"
+                        />
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <h5> <strong>   If you wanna go to the home page click   <a  href="/#/dashboard.html "> here </a>! <strong>  </h5>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

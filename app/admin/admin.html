@@ -1,43 +1,38 @@
 ﻿<section class="mainbar" data-ng-controller="adminCtrl as av">
     <section class="matter">
         <div class="container">
-          
             <div class="row">
-                <div class="col-md-4">
-                    <div class="widget wblue">
-                        <div data-cc-widget-header title="Speciality" allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <table class="table table-condensed  table-striped" style="background-color:rgba(0, 0, 255, 0.05);">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center"><strong>Speciality Name</strong></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="item in av.spec">
-                                        <td>{{item.specialityName}}</td>
-                                        <td>
-                                            <input type="button" ng-click="av.deleteSpeciality(item.id)" value="Delete Speciality" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
+                <div class="col-md-3">
+                    <h1 align="left"> <strong>Speciality:</strong> </br> </h1> </br>
+                </div>
+                </br>
+            </div>
+            <div class="row">
+                <div class="col-md-4"> 
+                     <table class="table table-condensed  table-striped" style="background-color:rgba(0, 0, 255, 0.05);">
+                        <thead>
+                            <tr>
+                                <th class="text-center"><strong>Speciality Name</strong></th>
+                                <th class="text-center"><strong>Delete Speciality</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in av.spec">
+                                <td align="center">{{item.specialityName}}</td>
+                                <td align="center">
+                                    <input type="button" ng-click="av.deleteSpeciality(item.id)" value="Delete it!" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> 
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-8">
                     <input ng-model="av.addSpecialityRequest.specialityName" />
                     <input type="button" ng-click="av.addSpeciality()" value="Add Speciality" />
                 </div>
             </div>
-
-        </div>
         </div>
     </section>
 </section>

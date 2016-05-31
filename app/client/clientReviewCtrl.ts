@@ -20,7 +20,7 @@ module App.Controllers {
         searchReviewformClientRequest : App.Services.SearchReviewFromClientRequest;
         deleteReviewRequest : App.Services.DeleteReviewRequest;
         
-          constructor(  common, core: App.Services.ICore ) {          
+         constructor(  common, core: App.Services.ICore ) {          
             this.common = common;
             this.core = core;
             this.itemResults = new Array<any>();
@@ -34,13 +34,11 @@ module App.Controllers {
         }
 
         // TODO: is there a more elegant way of activating the controller - base class?
-        activate(promises: Array<ng.IPromise<any>>) {
-            this.common.activateController(promises, this.controllerId)
-                .then(() => { this.log('Activated Dashboard View'); });
-
-        }
-        
-
+         activate(promises: Array<ng.IPromise<any>>) {
+             this.common.activateController(promises, this.controllerId)
+                 .then(() => { });
+         }
+ 
          searchReviewMester = () => {
             if (this.lastRequestLength != 0 && this.lastRequestLength == this.itemResults.length) {
                 return;
@@ -50,40 +48,40 @@ module App.Controllers {
             this.searchReviewformClientRequest.pageNumber = (this.itemResults.length);
             this.searchReviewformClientRequest.pageSize = 5;
 
-            var promise = this.core.dataService.searchReviewFromClient(this.searchReviewformClientRequest, (response, success) => {
+            var promise = this.core.dataService.searchFullReviewFromClient(this.searchReviewformClientRequest, (response, success) => {
+                if (success){ 
                 this.reviewMesterResultPage = response;
                 this.itemResults = this.itemResults.concat(response.contentPage)
                 this.totalResults = response.totalResults;
-            });
+                } else {
+                    this.logError('The search for reviews failed !');
+               }});
             return promise;
         }
         
-          myPagingFunction = () => {
-            if (this.totalResults <= this.itemResults.length) { return; }
-            this.searchReviewMester( );
-        }
+         myPagingFunction = () => {
+             if (this.totalResults <= this.itemResults.length) { return; }
+             this.searchReviewMester();
+         }
         
-       deleteReview = (item: any) => {
-            if (!confirm('Are you sure about this ?')) {
-                return;
-            }
-            this.deleteReviewRequest.idReview = item.id;
-            var promise = this.core.dataService.deleteReview(this.deleteReviewRequest, (response, success) => {
-                if (success) {
-                    var indexItem = this.itemResults.indexOf(item);
-                    if(indexItem >=0 ){
-                        this.itemResults.splice(indexItem, 1);
-                    }
-                    
-                    this.logSuccess('The review was deleted');
-                } else {
-                    this.logError('This review cannot be deleted !');
-                }
-            });
-        }
-
-        
-        
+          deleteReview = (item: any) => {
+              if (!confirm('Are you sure about this ?')) {
+                  return;
+              }
+              this.deleteReviewRequest.idReview = item.id;
+              var promise = this.core.dataService.deleteReview(this.deleteReviewRequest, (response, success) => {
+                  if (success) {
+                      var indexItem = this.itemResults.indexOf(item);
+                      if (indexItem >= 0) {
+                          this.itemResults.splice(indexItem, 1);
+                      }
+                      this.logSuccess('The review was deleted');
+                  } else {
+                      this.logError('This review cannot be deleted !');
+                  }
+              });
+          }
+ 
     }
     // register controller with angular
     app.controller(ClientReviewCtrl.controllerId, [ 'common', 'core',  

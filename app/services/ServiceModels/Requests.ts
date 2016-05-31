@@ -3,6 +3,28 @@ module App.Services {
     export class GetSpecialityRequest {
     }
     
+    export class ResetPasswordRequest {
+         public userName: string;
+         public email: string;
+    }
+    
+   export class ResetPasswordForm {
+         public tokenId: string;
+         public password: string;
+    }
+     export class GetUserTokenRequest {
+          public tokenId: string;
+          public userName: string;
+          public email: string;
+          public expDate: any;
+          public password: string;
+          
+    }
+  export class TokenRequest {
+          public tokenId: string;
+        }
+
+
     export class GetUserRequest {
     }
 
@@ -27,6 +49,13 @@ module App.Services {
         public idMester: string;
     }
 
+    export class EditLocationRequest{
+        public mesterId: string;
+        public location: string;
+        public latitude: number;
+        public longitude: number;
+    }
+
     export class AddEditMesterRequest {
         constructor() {
             this.speciality = new Array<any>();
@@ -43,6 +72,12 @@ module App.Services {
         public site: string;         
         public speciality: Array<any>;         
     }
+
+    export class LocationListRequest {
+         public ids: Array<any>; 
+        
+    }
+
 
     export class SearchMesterRequest {
         public firstName: string;
@@ -61,6 +96,14 @@ module App.Services {
         public idMester: string;
         public pageSize: number;
         public pageNumber: number;
+    }
+    
+    export class SearchMesterByAreaRequest {
+        public minLat: number;
+        public maxLat: number;
+        public minLng: number;
+        public maxLng: number;
+        
     }
     
    export class SearchReviewFromClientRequest {
@@ -93,12 +136,18 @@ module App.Services {
         public password: string;
     }
 
-    export class AddUserRequest {
-        
+    export class AddUserRequest { 
+        public id : string;
+        public userName: string;
+        public password: string;
+        public email: string;      
         public roleId: number;
         public confirm: boolean;
     }
     
+    export class CheckUserRequest {        
+        public userName: string;
+    }
     
     export class EditUserRequest {
         public id : string;

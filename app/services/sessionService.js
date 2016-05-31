@@ -4,7 +4,7 @@ var App;
     var Services;
     (function (Services) {
         var SesionService = (function () {
-            function SesionService($http, common) {
+            function SesionService($http) {
                 var _this = this;
                 this.hasRole = function (roles) {
                     if (!roles || !roles.length) {
@@ -21,15 +21,7 @@ var App;
                 this.resetDashboardPage = function () {
                     _this.searchMesterRequestMaintener = null;
                 };
-                this.rememberDashboardRequests = function () {
-                    //  this.searchMesterRequestMaintener= this.dashboard.searchMesterRequest; // save the request obj   
-                };
-                this.common = common;
-                this.userRole = 'x';
-                this.log = common.logger.getLogFn();
-                this.logError = common.logger.getLogFn('', 'error');
-                this.logWarning = common.logger.getLogFn('', 'warn');
-                this.logSuccess = common.logger.getLogFn('', 'success');
+                // this.userRole='x';
             }
             Object.defineProperty(SesionService.prototype, "isLogged", {
                 get: function () {
@@ -43,7 +35,7 @@ var App;
             return SesionService;
         }());
         Services.SesionService = SesionService;
-        App.app.factory(SesionService.serviceId, ['$http', 'common', function ($http, common) { return new SesionService($http, common); }]);
+        App.app.factory(SesionService.serviceId, ['$http', function ($http) { return new SesionService($http); }]);
     })(Services = App.Services || (App.Services = {}));
 })(App || (App = {}));
 //# sourceMappingURL=sessionService.js.map

@@ -12,7 +12,6 @@
                 </div>
             </div>
             <div class="row">
-
                 <div class="col-md-3">
                     <h4 align="left"> <strong>Basic Info:</strong> </h4>
                     <div class="mystyle">
@@ -27,7 +26,7 @@
                     <div class="mystyle">
                         <strong>Tel nr: </strong> {{ vm.dbMester.contact.telNr }} </br>
                         <strong>Email: </strong> {{ vm.dbMester.contact.email }} </br>
-                        <strong>Site: </strong> {{ vm.dbMester.contact.site }} </br> 
+                        <strong>Site: </strong> {{ vm.dbMester.contact.site }} </br>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -38,12 +37,10 @@
                         </p>
                     </div>
                 </div>
-
                 <div class="col-md-4">
                     <h4><strong>Avg Rating: </strong></br> </br>
                     <uib-rating ng-model="vm.dbMester.avgRating" max="5" read-only="true" ></uib-rating>
                  </br></h4>
-
                 </div>
                 <div class="col-md-4"> &nbsp;</br>
                 </div>
@@ -53,10 +50,8 @@
                 <div class="row-md-4"> &nbsp;</br>
                     </br>
                 </div>
-
-                <div   class="col-md-4">
+                <div class="col-md-4">
                     <button ng-show="vm.currentRole==='ROLE_CLIENT'" ng-click="vm.addReview()">Add Review</button>
-
                     <script type="text/ng-template" id="templateId">
                         <div id="target">
                             <form class="form-horizontal" role="form" name="reviewForm" novalidate>
@@ -110,16 +105,15 @@
                 <div class="col-md-8">
                     <h1 align="left"> <strong>Reviews:</strong> </h1> </div>
             </div>
-
             <div class="row">
-                <div style="padding: 0 0 0 13px; "> <strong>Total results: </strong> {{ vm.reviewMesterResultPage.totalResults }} </div>
+                <div style="padding: 0 0 0 13px; "> <strong>Total results: </strong> {{ vm.totalResults }} </div>
             </div>
             <div class="row">
                 <div class="col-md-10">
                     <div class="reviewStyle">
                         <div infinite-scroll="vm.myPagingFunction()" infinite-scroll-distance='1'>
                             <div ng-repeat="item in vm.itemResults">
-                                <div class="review1Style {{test && 'show-more' || null}}" ng-init="showFeedback=true ">
+                                <div class="review1Style {{showFeedback && 'show-more' || null}}" ng-init="showFeedback=true ">
                                     <div class="row ">
                                         <div class="col-md-6 ">
                                             <strong>Title:&nbsp;&nbsp;&nbsp;</strong>{{item.title}}
@@ -134,26 +128,26 @@
                                         </div>
                                     </div>
                                     <div class="row ">
-                                        <div class="col-md-10">
+                                        <div class="col-md-12">
                                             <strong>Feedback: </strong> </br>
                                             <p> <span> &nbsp; &nbsp;{{item.feedback}}</span></p>
                                             <br/>
-                                            <input type="button" value="Show More/Less" ng-init="test=false" ng-click="test=!test " />
                                         </div>
-                                        <div class="col-md-2">  
-                                              <input type="button" ng-show="vm.currentClientId==item.idClient" value="Delete Review"  ng-click="vm.deleteReview(item)" />
+                                        <div class="col-md-9">
+                                            <input type="button" ng-show="item.feedback.length>28" value="Show More/Less" ng-init="showFeedback=false" ng-click="showFeedback=!showFeedback "
+                                            />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="button" ng-show="vm.currentClientId==item.idClient || vm.core.sesionService.userRole=='ROLE_ADMIN'" value="Delete Review"
+                                            ng-click="vm.deleteReview(item)" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
-
-
     </section>
 </section>

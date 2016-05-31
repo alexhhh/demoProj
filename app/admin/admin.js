@@ -4,32 +4,47 @@ var App;
 (function (App) {
     var Controllers;
     (function (Controllers) {
-        // export interface IAdminCtrl {
-        //     common:App.Shared.ICommon;
-        //     controllerId: string;
-        //     title:string;
-        // }
         var AdminCtrl = (function () {
             //#endregion
             function AdminCtrl(common, core) {
                 var _this = this;
+                this.existSpec = false;
                 this.getSpecialities = function () {
                     var promise = _this.core.dataService.getSpecialities(_this.requestData, function (response, success) {
                         _this.spec = response;
                     });
                     return promise;
                 };
-                this.addSpeciality = function () {
-                    var promise = _this.core.dataService.addSpeciality(_this.addSpecialityRequest, function (response, success) {
-                        if (success) {
-                            _this.logSuccess('The speciality was created');
+                this.checkSpeciality = function () {
+                    var i = 0;
+                    while ((i < _this.spec.length) && (_this.existSpec == false)) {
+                        if (_this.addSpecialityRequest.specialityName != _this.spec[i].specialityName) {
+                            _this.existSpec = false;
                         }
                         else {
-                            _this.logError('This speciality cannot be created');
+                            _this.existSpec = true;
                         }
-                        _this.getSpecialities();
-                    });
-                    return promise;
+                        ++i;
+                    }
+                };
+                this.addSpeciality = function () {
+                    _this.existSpec = false;
+                    _this.checkSpeciality();
+                    if (_this.existSpec) {
+                        _this.logError('This speciality already exist!');
+                    }
+                    else {
+                        var promise = _this.core.dataService.addSpeciality(_this.addSpecialityRequest, function (response, success) {
+                            if (success) {
+                                _this.logSuccess('The speciality was created');
+                            }
+                            else {
+                                _this.logError('This speciality cannot be created');
+                            }
+                            _this.getSpecialities();
+                        });
+                        return promise;
+                    }
                 };
                 this.deleteSpeciality = function (id) {
                     if (!confirm('Are you sure about this ?')) {
@@ -50,20 +65,18 @@ var App;
                 this.common = common;
                 this.controllerId = AdminCtrl.controllerId;
                 this.core = core;
-                // this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);
-                this.log = common.logger.getLogFn();
-                this.logError = common.logger.getLogFn('', 'error');
-                this.logWarning = common.logger.getLogFn('', 'warn');
-                this.logSuccess = common.logger.getLogFn('', 'success');
+                this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);
+                this.logError = this.common.logger.getLogFn('', 'error');
+                this.logWarning = this.common.logger.getLogFn('', 'warn');
+                this.logSuccess = this.common.logger.getLogFn('', 'success');
                 this.addSpecialityRequest = new App.Services.AddSpecialityRequest();
                 this.requestData = new App.Services.GetSpecialityRequest();
                 this.deleteSpecialityRequest = new App.Services.DeleteSpecialityRequest();
                 this.activate([this.getSpecialities()]);
             }
             AdminCtrl.prototype.activate = function (promises) {
-                var _this = this;
                 this.common.activateController([], AdminCtrl.controllerId)
-                    .then(function () { _this.log('Activated Admin View'); });
+                    .then(function () { });
             };
             AdminCtrl.controllerId = 'adminCtrl';
             return AdminCtrl;

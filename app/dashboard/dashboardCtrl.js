@@ -1,3 +1,4 @@
+/// <reference path="./../../scripts/typings/google.maps.d.ts" />
 'use strict';
 var App;
 (function (App) {
@@ -5,12 +6,13 @@ var App;
     (function (Controllers) {
         var DashboardCtrl = (function () {
             //#endregion
-            function DashboardCtrl($scope, $location, common, core, ngDialog) {
+            function DashboardCtrl($scope, $location, common, core, ngDialog, NgMap) {
                 var _this = this;
                 //#region Variables
                 this.controllerId = DashboardCtrl.controllerId;
-                this.allElem = 10;
-                //#region Public Methods
+                this.nrMesteri = 10;
+                this.markers = [];
+                this.forms = [];
                 this.getSpecialities = function () {
                     var requestData = new App.Services.GetSpecialityRequest();
                     var promise = _this.core.dataService.getSpecialities(requestData, function (response, success) {
@@ -18,14 +20,17 @@ var App;
                     });
                     return promise;
                 };
+                this.advanceSearch = function () {
+                    _this.ngDialog.open({ template: 'templateId', scope: _this.$scope });
+                };
                 this.searchMester = function () {
-                    // save the request obj 
                     _this.core.sesionService.searchMesterRequestMaintener = _this.searchMesterRequest;
                     var promise = _this.core.dataService.searchMester(_this.searchMesterRequest, function (response, success) {
-                        _this.mesterResultPage = response;
-                        _this.allElem = _this.mesterResultPage.totalResults;
-                        _this.gridOptions.data = response.contentPage;
                         if (success) {
+                            _this.mesteriList = response.contentPage;
+                            _this.nrMesteri = response.totalResults;
+                            _this.gridOptions.data = response.contentPage;
+                            _this.doThat();
                             _this.logSuccess('The search was succesful !');
                         }
                         else {
@@ -34,9 +39,20 @@ var App;
                     });
                     return promise;
                 };
-                this.advanceSearch = function () {
-                    _this.ngDialog.open({ template: 'templateId', scope: _this.$scope });
-                    _this.searchMester();
+                this.searchMesterByArea = function () {
+                    var promise = _this.core.dataService.searchMesterByArea(_this.areaBorders, function (response, success) {
+                        if (success) {
+                            _this.mesteriList = response;
+                            _this.nrMesteri = response.length;
+                            _this.gridOptions.data = response;
+                            _this.doThat();
+                            _this.logSuccess('The search was succesful !');
+                        }
+                        else {
+                            _this.logError('The search failed ! review the input data! ');
+                        }
+                    });
+                    return promise;
                 };
                 this.gridOptions = {
                     enableFullRowSelection: true,
@@ -53,7 +69,7 @@ var App;
                     paginationPageSizes: [10, 25, 50, 75],
                     paginationPageSize: 10,
                     enableSelection: true,
-                    totalItems: this.allElem,
+                    totalItems: this.nrMesteri,
                     data: [],
                     columnDefs: [
                         { name: 'id', visible: false },
@@ -80,7 +96,85 @@ var App;
                         });
                     }
                 };
-                //#endregion
+                this.doThat = function () {
+                    var ids = [];
+                    if (_this.nrMesteri) {
+                        for (var i = 0; i < _this.nrMesteri; i++) {
+                            ids.push(_this.mesteriList[i].id);
+                        }
+                        _this.NgMap.getMap('dashboardMap').then(function (map) {
+                            var promise = _this.core.dataService.getLocationByIds(ids, function (response, success) {
+                                if (success) {
+                                    for (var i = 0; i < _this.markers.length; i++) {
+                                        _this.markers[i].setMap(null);
+                                    }
+                                    _this.locationList = response;
+                                    _this.markers = [];
+                                    var latlngbounds = new google.maps.LatLngBounds();
+                                    for (var i = 0; i < _this.nrMesteri; i++) {
+                                        var myLatLng = new google.maps.LatLng(_this.locationList[i].latitude, _this.locationList[i].longitude);
+                                        //  this.getMester(this.mesteriList[i].id );
+                                        var marker = new google.maps.Marker({
+                                            title: " Mester: " + _this.mesteriList[i].firstName + " " + _this.mesteriList[i].lastName +
+                                                ",\n Rating: " + _this.mesteriList[i].avgRating + "/5,\n Phone nr: " + _this.mesteriList[i].contact.telNr + ".",
+                                            map: map,
+                                            position: myLatLng
+                                        });
+                                        latlngbounds.extend(myLatLng);
+                                        _this.markers.push(marker);
+                                        map.fitBounds(latlngbounds);
+                                    }
+                                }
+                                else {
+                                    _this.logError('The search failed ! review the input data! ');
+                                }
+                            });
+                        });
+                    }
+                };
+                this.initGMaps = function () {
+                    var geocoder = new google.maps.Geocoder;
+                    var infowindow = new google.maps.InfoWindow;
+                    _this.NgMap.getMap('dashboardMap').then(function (map) {
+                        google.maps.event.addListener(map, 'click', function (e) {
+                            for (var i = 0; i < _this.markers.length; i++) {
+                                _this.markers[i].setMap(null);
+                            }
+                            _this.markers = [];
+                            var marker = new google.maps.Marker({
+                                title: "Your searched location",
+                                map: map,
+                                position: e.latLng
+                            });
+                            _this.lastLatLong = e.latLng;
+                            _this.markers.push(marker);
+                            geocoder.geocode({ 'location': e.latLng }, function (results, status) {
+                                if (status === google.maps.GeocoderStatus.OK) {
+                                    if (results[0]) {
+                                        map.setCenter(results[0].geometry.location);
+                                        for (var i = 0; i < results[0].address_components.length; i++) {
+                                            if (results[0].address_components[i].types[0] == "locality") {
+                                                _this.searchMesterRequest.location = results[0].address_components[i].long_name;
+                                            }
+                                        }
+                                        infowindow.setContent("Your search location");
+                                        infowindow.open(map, marker);
+                                    }
+                                    else {
+                                        window.alert('No results found');
+                                    }
+                                }
+                                else {
+                                    window.alert('Geocoder failed due to: ' + status);
+                                }
+                                if (!_this.$scope.$$phase) {
+                                    _this.$scope.$apply();
+                                }
+                                _this.searchMester();
+                            });
+                        });
+                    });
+                };
                 this.redirectToDetails = function (iduAsta) {
                     var _url = 'details/' + iduAsta;
                     if (_this.core.sesionService.userRole == 'ROLE_CLIENT') {
@@ -90,20 +184,90 @@ var App;
                 };
                 this.goBack = function () {
                     _this.core.sesionService.resetDashboardPage();
-                    _this.$location.path('#/dashboard');
+                    _this.searchMesterRequest = new App.Services.SearchMesterRequest();
+                    _this.NgMap.getMap('dashboardMap').then(function (map) {
+                        for (var i = 0; i < _this.markers.length; i++) {
+                            _this.markers[i].setMap(null);
+                        }
+                        for (var i = 0; i < _this.forms.length; i++) {
+                            _this.forms[i].setMap(null);
+                        }
+                        _this.gridOptions.data.length = 0;
+                    });
+                };
+                this.drawSquare = function () {
+                    for (var i = 0; i < _this.forms.length; i++) {
+                        _this.forms[i].setMap(null);
+                    }
+                    _this.NgMap.getMap('dashboardMap').then(function (map) {
+                        var ne = _this.calcCoord(_this.lastLatLong.lat(), _this.lastLatLong.lng(), _this.distanceForSquare, 45);
+                        var sw = _this.calcCoord(_this.lastLatLong.lat(), _this.lastLatLong.lng(), _this.distanceForSquare, -135);
+                        if (ne.lat() >= sw.lat()) {
+                            _this.areaBorders.minLat = sw.lat();
+                            _this.areaBorders.maxLat = ne.lat();
+                        }
+                        else {
+                            _this.areaBorders.minLat = ne.lat();
+                            _this.areaBorders.maxLat = sw.lat();
+                        }
+                        ;
+                        if (ne.lng() >= sw.lng()) {
+                            _this.areaBorders.minLng = sw.lng();
+                            _this.areaBorders.maxLng = ne.lng();
+                        }
+                        else {
+                            _this.areaBorders.minLng = ne.lng();
+                            _this.areaBorders.maxLng = sw.lng();
+                        }
+                        ;
+                        var rBounds = new google.maps.LatLngBounds(sw, ne);
+                        var marker = new google.maps.Marker({
+                            title: " NE",
+                            map: map,
+                            position: ne
+                        });
+                        _this.markers.push(marker);
+                        var marker2 = new google.maps.Marker({
+                            title: " SW",
+                            map: map,
+                            position: sw
+                        });
+                        _this.markers.push(marker2);
+                        var rectangle = new google.maps.Rectangle({
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 0.8,
+                            map: map,
+                            bounds: rBounds
+                        });
+                        _this.forms.push(rectangle);
+                        // rectangle.setMap(map);
+                    });
+                    _this.searchMesterByArea();
+                };
+                this.calcCoord = function (lat, lng, d, brng) {
+                    var toRad = Math.PI / 180;
+                    var R = 6371;
+                    var radDist = d / R;
+                    lat = lat * toRad;
+                    lng = ((lng + 540) % 360 - 180) * toRad;
+                    var lat2 = Math.asin(Math.sin(lat) * Math.cos(radDist) + Math.cos(lat) * Math.sin(radDist) * Math.cos(brng * toRad));
+                    var lgn2 = lng + Math.atan2(Math.sin(brng * toRad) * Math.sin(radDist) * Math.cos(lat), Math.cos(radDist) - Math.sin(lat) * Math.sin(lat2));
+                    return new google.maps.LatLng(lat2 / toRad, lgn2 / toRad);
                 };
                 this.$scope = $scope;
                 this.$location = $location;
                 this.core = core;
                 this.common = common;
                 this.ngDialog = ngDialog;
+                this.NgMap = NgMap;
                 this.log = common.logger.getLogFn();
                 this.logError = common.logger.getLogFn('', 'error');
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
-                this.allElem = 50;
                 this.searchMesterRequest = new App.Services.SearchMesterRequest();
                 this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
+                this.locationListRequest = new App.Services.LocationListRequest();
+                this.areaBorders = new App.Services.SearchMesterByAreaRequest();
                 this.allThis = this.core.sesionService.isLogged;
                 // Queue all promises and wait for them to finish before loading the view
                 this.activate([this.getSpecialities()]);
@@ -117,7 +281,9 @@ var App;
                         _this.searchMesterRequest = _this.core.sesionService.searchMesterRequestMaintener;
                         _this.searchMester();
                     }
-                    _this.log('Activated Dashboard View');
+                    if (google.maps.event) {
+                        _this.initGMaps();
+                    }
                 });
             };
             DashboardCtrl.controllerId = 'dashboardCtrl';
@@ -125,8 +291,8 @@ var App;
         }());
         Controllers.DashboardCtrl = DashboardCtrl;
         // register controller with angular
-        App.app.controller(DashboardCtrl.controllerId, ['$scope', '$location', 'common', 'core', 'ngDialog',
-            function ($scope, $location, common, core, ngDialog) { return new App.Controllers.DashboardCtrl($scope, $location, common, core, ngDialog); }
+        App.app.controller(DashboardCtrl.controllerId, ['$scope', '$location', 'common', 'core', 'ngDialog', 'NgMap',
+            function ($scope, $location, common, core, ngDialog, NgMap) { return new App.Controllers.DashboardCtrl($scope, $location, common, core, ngDialog, NgMap); }
         ]);
         var mapPrice = (function ($sce) {
             var genderHash = {

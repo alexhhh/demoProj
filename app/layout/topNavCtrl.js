@@ -65,9 +65,8 @@ var App;
             }
             // TODO: is there a more elegant way of activating the controller - base class?
             TopNavCtrl.prototype.activate = function (promises) {
-                var _this = this;
                 this.common.activateController(promises, this.controllerId)
-                    .then(function () { _this.log('Activated Dashboard View'); });
+                    .then(function () { });
             };
             TopNavCtrl.controllerId = 'topNavCtrl';
             return TopNavCtrl;

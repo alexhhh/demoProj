@@ -12,10 +12,13 @@
                     <div class="reviewStyle">
                         <div infinite-scroll="vm.myPagingFunction()" infinite-scroll-distance='15'>
                             <div ng-repeat="item in vm.itemResults">
-                                <div class="review1Style {{test && 'show-more' || null}}" ng-init="showFeedback=true ">
+                                <div class="review1Style {{showFeedback && 'show-more' || null}}" ng-init="showFeedback=true ">
                                     <div class="row ">
-                                        <div class="col-md-6 ">
+                                        <div class="col-md-2 ">
                                             <strong>Title:&nbsp;&nbsp;&nbsp;</strong>{{item.title}}
+                                        </div>
+                                         <div class="col-md-4 ">
+                                            <strong>Mester:&nbsp;&nbsp;&nbsp;</strong>{{item.firstName}}  {{item.lastName}}
                                         </div>
                                         <div class="col-md-3 ">
                                             <strong>Rating: </strong></br>
@@ -27,21 +30,25 @@
                                         </div>
                                     </div>
                                     <div class="row ">
-                                        <div class="col-md-10 ">
+                                        <div class="col-md-12">
                                             <strong>Feedback: </strong> </br>
                                             <p> <span> &nbsp; &nbsp;{{item.feedback}}</span></p>
                                             <br/>
-                                            <input type="button" value="Show More/Less" ng-init="test=false" ng-click="test=!test " />
                                         </div>
-                                         <div class="col-md-2">
-                                               <input type="button" value="Delete Review"  ng-click="vm.deleteReview(item)" />
-                                         </div>
+                                        <div class="col-md-9">
+                                            <input type="button" ng-show="item.feedback.length>28" value="Show More/Less" ng-init="showFeedback=false" ng-click="showFeedback=!showFeedback "
+                                            />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="button" value="Delete Review" ng-click="vm.deleteReview(item)" />
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+        </div>
+    </section>
+</section>

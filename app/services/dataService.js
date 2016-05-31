@@ -38,6 +38,15 @@ var App;
                 this.getUsers = function (requestData, callback) {
                     return _this.Request('GET', '/user/all', requestData, callback);
                 };
+                this.resetPassword = function (requestData, callback) {
+                    return _this.Request('GET', '/user/reset/query', requestData, callback);
+                };
+                this.resetUserPassword = function (requestData, callback) {
+                    return _this.Request('PUT', '/user/reset', requestData, callback);
+                };
+                this.getUserToken = function (requestData, callback) {
+                    return _this.Request('GET', '/user/token/query', requestData, callback);
+                };
                 // speciality query
                 this.getSpecialities = function (requestData, callback) {
                     return _this.Request('GET', '/speciality/all', requestData, callback);
@@ -64,6 +73,19 @@ var App;
                 this.searchMester = function (requestData, callback) {
                     return _this.Request('POST', '/mester/search', requestData, callback);
                 };
+                this.searchMesterByArea = function (requestData, callback) {
+                    return _this.Request('POST', '/mester/area', requestData, callback);
+                };
+                // location
+                this.getMesterLocation = function (requestData, callback) {
+                    return _this.Request('GET', '/location/mester/query', requestData, callback);
+                };
+                this.editMesterLocation = function (requestData, callback) {
+                    return _this.Request('PUT', '/location/mester', requestData, callback);
+                };
+                this.getLocationByIds = function (requestData, callback) {
+                    return _this.Request('POST', '/location/all_by_ids', requestData, callback);
+                };
                 // review query
                 this.searchReviewMester = function (requestData, callback) {
                     return _this.Request('GET', '/review/mester/query', requestData, callback);
@@ -73,6 +95,12 @@ var App;
                 };
                 this.getAllReviews = function (requestData, callback) {
                     return _this.Request('GET', '/review/getAll/query', requestData, callback);
+                };
+                this.searchFullReviewFromClient = function (requestData, callback) {
+                    return _this.Request('GET', '/review/full/client/query', requestData, callback);
+                };
+                this.getAllFullReviews = function (requestData, callback) {
+                    return _this.Request('GET', '/review/full/getAll/query', requestData, callback);
                 };
                 this.addMesterReview = function (requestData, callback) {
                     return _this.Request('POST', '/review', requestData, callback);
@@ -126,10 +154,8 @@ var App;
                     }).
                         error(function (data, status, headers, config) {
                         if (status == -1) {
-                            _this.logError(" Error! Request Method:" + method + ".   The response had HTTP status code 401!  Full authentication is required to access this resource !");
                         }
                         else {
-                            _this.logError(" Error! Request Method:" + method + ".  The response had HTTP status code " + status + " !");
                         }
                         if (callback != null) {
                             if (!data) {

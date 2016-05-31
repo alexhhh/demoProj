@@ -103,8 +103,20 @@ module App {
                     title: 'details',
                     templateUrl: 'app/details/details.html' 
                 }
-            },
-            {
+            },{
+                url: '/clientdetails/:clientId',
+                config: {
+                    title: 'details',
+                    templateUrl: 'app/details/clientdetails.html' 
+                }
+            },{
+                url: '/admin/:id',
+                config: {
+                    title: 'details',
+                    templateUrl: 'app/admin/adminprofile.html' ,
+                    roles: ['ROLE_ADMIN'],
+                }
+            },{
                 url: '/client',
                 config: {
                     title: 'client',
@@ -116,8 +128,7 @@ module App {
                         isChild: true
                     }
                 }
-            },
-             {
+            },{
                 url: '/client-reviews',
                 config: {
                     title: 'client',
@@ -141,18 +152,19 @@ module App {
                     title: 'activate',
                     templateUrl: 'app/activate/activate.html'                              
                 }
-            }
-            // {
-            //     url: '/details',
-            //     config: {
-            //         title: 'details',
-            //         templateUrl: 'app/details/details.html',
-            //         settings: {
-            //             nav: 5,
-            //             content: '<i class="fa fa-arrows"></i> details'
-            //         }
-            //     }
-            // }
+            }, {
+                url: '/resetPassword',
+                config: {
+                    title: 'activate',
+                    templateUrl: 'app/activate/resetpassword.html'                              
+                }
+            }, {
+                url: '/resetPassword/:tokenId',
+                config: {
+                    title: 'activate',
+                    templateUrl: 'app/activate/resetform.html'                              
+                }
+            }  
         ];
     }
 

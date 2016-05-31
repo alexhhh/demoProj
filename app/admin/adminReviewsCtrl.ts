@@ -28,8 +28,6 @@ module App.Controllers {
             this.logError = common.logger.getLogFn('', 'error');
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');
-            // this.itemResults = new Array<any>();
-            // this.addMesterReviewRequest = new App.Services.AddMesterReviewRequest();
             this.getAllReviewsRequest = new App.Services.GetAllReviewsRequest();
             this.deleteReviewRequest = new App.Services.DeleteReviewRequest();
             this.activate([]);
@@ -38,9 +36,8 @@ module App.Controllers {
         // TODO: is there a more elegant way of activating the controller - base class?
         activate(promises: Array<ng.IPromise<any>>) {
             this.common.activateController(promises, this.controllerId)
-                .then(() => { this.log('Activated Dashboard View'); });
+                .then(() => { });
         }
-
 
         getAllReviews = () => {
             if (this.lastRequestLength != 0 && this.lastRequestLength == this.itemResults.length) {
@@ -49,17 +46,14 @@ module App.Controllers {
             this.lastRequestLength = this.itemResults.length;
             this.getAllReviewsRequest.pageNumber = (this.itemResults.length);
             this.getAllReviewsRequest.pageSize = 5;
-
-            var promise = this.core.dataService.getAllReviews(this.getAllReviewsRequest, (response, success) => {
-                this.reviewMesterResultPage = response;
-                this.itemResults = this.itemResults.concat(response.contentPage)
-                this.totalResults = response.totalResults;
-                //this.itemResults = this.itemResults.push.apply(response.contentPage);
-                // if (success) {
-                //     this.logSuccess('The search for reviews was succesful !');
-                // } else {
-                //     this.logError('The search for reviews failed !');
-                // }
+            var promise = this.core.dataService.getAllFullReviews(this.getAllReviewsRequest, (response, success) => {
+                if (success) {
+                    this.reviewMesterResultPage = response;
+                    this.itemResults = this.itemResults.concat(response.contentPage)
+                    this.totalResults = response.totalResults;
+                } else {
+                    this.logError('The search for reviews failed !');
+                }
             });
             return promise;
         }
@@ -77,18 +71,15 @@ module App.Controllers {
             var promise = this.core.dataService.deleteReview(this.deleteReviewRequest, (response, success) => {
                 if (success) {
                     var indexItem = this.itemResults.indexOf(item);
-                    if(indexItem >=0 ){
+                    if (indexItem >= 0) {
                         this.itemResults.splice(indexItem, 1);
                     }
-                    
                     this.logSuccess('The review was deleted');
                 } else {
                     this.logError('This review cannot be deleted !');
                 }
             });
         }
-
-
 
     }
     // register controller with angular

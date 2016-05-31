@@ -1,0 +1,27 @@
+<section id="detalis-view" class="mainbar" data-ng-controller="clientDetailsCtrl as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h1 align="left"> <strong>Client:</strong> </h1>
+                </div>
+                <div class="col-md-6"> </div>
+                <div class="col-md-3">
+                    </br>
+                    <input type="submit" value="Go Back" ng-click="vm.goBack()">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4 align="left"> <strong>Basic Info:</strong> </h4>
+                    <div class="mystyle">
+                        <strong>Username: </strong>{{vm.thisUser.userName}}</br>
+                        <strong>First Name:</strong>{{vm.clientDetails.firstName}}</br>
+                        <strong>Last Name: </strong>{{vm.clientDetails.lastName}}</br>
+                        <strong>Email: </strong>{{vm.thisUser.email}}</br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

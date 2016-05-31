@@ -61,9 +61,8 @@ var App;
             }
             // TODO: is there a more elegant way of activating the controller - base class?
             MesterReviewsCtrl.prototype.activate = function (promises) {
-                var _this = this;
                 this.common.activateController(promises, this.controllerId)
-                    .then(function () { _this.log('Activated Dashboard View'); });
+                    .then(function () { });
             };
             MesterReviewsCtrl.controllerId = 'mesterReviewsCtrl';
             return MesterReviewsCtrl;

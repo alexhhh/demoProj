@@ -2,15 +2,8 @@
 'use strict';
 
 module App.Controllers{
-
-    // export interface IAdminCtrl {
-    //     common:App.Shared.ICommon;
-    //     controllerId: string;
-    //     title:string;
-    // }
-
-
-    export class AdminCtrl { //implements IAdminCtrl {
+ 
+    export class AdminCtrl { 
         public static controllerId = 'adminCtrl';
         //#region variables
         controllerId: string;
@@ -20,6 +13,7 @@ module App.Controllers{
         logError: Function;
         logWarning: Function;
         logSuccess: Function;
+        existSpec : boolean =false;
         spec: Array<any>; 
         addSpecialityRequest: App.Services.AddSpecialityRequest ;
         requestData : App.Services.GetSpecialityRequest ; 
@@ -32,12 +26,10 @@ module App.Controllers{
             this.common = common;
             this.controllerId = AdminCtrl.controllerId;
             this.core =core;
-           // this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);
-            this.log = common.logger.getLogFn();
-            this.logError = common.logger.getLogFn('', 'error');
-            this.logWarning = common.logger.getLogFn('', 'warn');
-            this.logSuccess = common.logger.getLogFn('', 'success');
- 
+            this.log = this.common.logger.getLogFn(AdminCtrl.controllerId);           
+            this.logError = this.common.logger.getLogFn('', 'error');
+            this.logWarning = this.common.logger.getLogFn('', 'warn');
+            this.logSuccess = this.common.logger.getLogFn('', 'success');
             this.addSpecialityRequest = new App.Services.AddSpecialityRequest();
             this.requestData = new App.Services.GetSpecialityRequest(); 
             this.deleteSpecialityRequest =  new App.Services.DeleteSpecialityRequest();
@@ -48,7 +40,7 @@ module App.Controllers{
        private activate(promises:Array<ng.IPromise<any>>):void
         {
             this.common.activateController([], AdminCtrl.controllerId)
-                .then(() => { this.log('Activated Admin View'); });
+                .then(() => {   });
         }
         
         getSpecialities = () => {               
@@ -58,16 +50,34 @@ module App.Controllers{
             return promise;
         }
         
+        checkSpeciality = () => {
+            var i=0;
+            while( (i < this.spec.length) && (this.existSpec == false)  ){
+            if ( this.addSpecialityRequest.specialityName != this.spec[i].specialityName){
+                this.existSpec=false;
+            }else {
+                this.existSpec=true;
+                    }++i;                
+            }
+        }
+        
+        
         addSpeciality = () => {
-             var promise = this.core.dataService.addSpeciality( this.addSpecialityRequest, (response, success) =>{
-                 if(success){
-                    this.logSuccess('The speciality was created');
-                }else {
-                    this.logError('This speciality cannot be created');
-                }
-                 this.getSpecialities();
-             } );
-             return promise;
+            this.existSpec=false;
+            this.checkSpeciality();
+            if (this.existSpec) {
+                this.logError('This speciality already exist!');
+            } else {
+                var promise = this.core.dataService.addSpeciality(this.addSpecialityRequest, (response, success) => {
+                    if (success) {
+                        this.logSuccess('The speciality was created');
+                    } else {
+                        this.logError('This speciality cannot be created');
+                    }
+                    this.getSpecialities();
+                });
+                return promise;
+            }
         }
  
         deleteSpeciality = (id: string) => {             

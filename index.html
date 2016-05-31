@@ -72,7 +72,11 @@
     <script src="scripts/lib/ngDialog/ngDialog.js"></script>
     <script src="scripts/lib/infiniteScroll/ng-infinite-scroll.js"></script>
     <script src="scripts/lib/ng-custom-validators.js"></script>
-    <!--<script src="scripts/lib/googleMaps/angular-google-maps.min.js"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgkyoGu3-C7vyTsFys8-cIc1cQ3lefF3E&v=3.exp&libraries=weather,placeses,visualization,drawing,geometry,places,panoramio " async defer></script>
+     <!-- alege google maps-u  -->
+    <script src="scripts/lib/googleMaps/ng-map.min.js"></script> 
+    <script src="https://rawgit.com/allenhwkim/angularjs-google-maps/master/testapp/scripts/markers.js"></script>
+    <script src="https://rawgit.com/allenhwkim/angularjs-google-maps/master/testapp/scripts/markerclusterer.js"></script>
     <!--<script src="scripts/breeze.directives.js"></script>-->
     <!--filters -->
     <script src="scripts/breeze.saveErrorExtensions.js"></script>
@@ -102,7 +106,8 @@
     <!-- app -->
     <script src="app/admin/admin.js"></script>   
     <script src="app/admin/adminReviewsCtrl.js"></script> 
-     <script src="app/admin/adminUsersCtrl.js"></script> 
+    <script src="app/admin/adminUsersCtrl.js"></script>
+    <script src="app/admin/adminProfileCtrl.js"></script>  
     <script src="app/dashboard/dashboardCtrl.js"></script>
     <script src="app/layout/shellCtrl.js"></script>
     <script src="app/layout/sidebarCtrl.js"></script>
@@ -111,9 +116,12 @@
     <script src="app/client/clientCtrl.js"></script>
     <script src="app/client/clientReviewCtrl.js"></script>
     <script src="app/details/detailsCtrl.js"></script>
+    <script src="app/details/clientDetailsCtrl.js"></script>
     <script src="app/layout/topNavCtrl.js"></script>
     <script src="app/signUp/signUpCtrl.js"></script>
-    <script src="app/activate/activateCtrl.js"></script>
+    <script src="app/activate/activateCtrl.js"></script>    
+    <script src="app/activate/resetPasswordCtrl.js"></script>  
+    <script src="app/activate/resetFormCtrl.js"></script>
 
     <!-- app Directives -->
     <script src="app/directives/cc-sidebar.js"></script>

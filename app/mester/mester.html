@@ -30,8 +30,8 @@
                                                             <div class="form-group">
                                                                 <label class="col-md-4 control-label">NewPassword: </label>
                                                                 <div class="col-md-7">
-                                                                    <input type="password" class="form-control" id="newPassword" name="newPassword" ng-model="vm.userViewModel.password"
-                                                                    ng-required="true" />
+                                                                    <input type="password" class="form-control" id="newPassword" name="newPassword" ng-model="vm.userViewModel.password" ng-required="true"
+                                                                    />
                                                                     <div class="msg-block" ng-show="passwordForm.$error">
                                                                         <span class="msg-error" ng-show="passwordForm.newPassword.$error.required && passwordForm.newPassword.$dirty">
 																<font color="red">   This fild is required! </font>
@@ -53,7 +53,6 @@
                                                                 </div>
                                                             </div>
                                                             </br>
-
                                                             <div class="form-group">
                                                                 <div class="col-md-6">
                                                                     <input type="button" align="right" value="submit" ng-click="vm.submit(); closeThisDialog()" />
@@ -62,7 +61,6 @@
                                                         </div>
                                                     </script>
                                                 </form>
-
                                             </div>
                                         </div>
                                     </div>
@@ -93,12 +91,7 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label"> Location: </label>
                                         <div class="col-md-8">
-                                            <input class="form-control" id="focusedInput" name="location" ng-model="vm.editMesterRequest.location" type="text" ng-required="true"
-                                            />
-                                            <div class="msg-block" ng-show="mesteriForm.$error">
-                                                <span class="msg-error" ng-show="mesteriForm.location.$error.required && mesteriForm.location.$dirty">
-                                                     <font color="red">   This fild is required! </font>
-                                                </span>
+                                            <div align="left"> {{vm.editMesterRequest.location}}
                                             </div>
                                         </div>
                                     </div>
@@ -108,13 +101,12 @@
                                             <textarea class="form-control" id="focusedInput" rows="4" ng-model="vm.editMesterRequest.description" type="text" />
                                         </div>
                                     </div>
-
                                     <h3 align="left"> <strong>Contact Info</strong> </h3>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Email:</label>
                                         <div class="col-md-8">
-                                            <input class="form-control" id="focusedInput" name="mesterMail" ng-model="vm.editMesterRequest.contact.email" type="email" alexmail
-                                            />
+                                            <input class="form-control" id="focusedInput" name="mesterMail" ng-model="vm.editMesterRequest.contact.email" type="email"
+                                            alexmail />
                                             <div class="msg-block" ng-show="mesteriForm.$error">
                                                 <span class="msg-error" ng-show="mesteriForm.mesterMail.$error.email && mesteriForm.mesterMail.$dirty">
                                                      <font color="red">This email format is invalid! </font>
@@ -122,7 +114,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Phone Nr:</label>
                                         <div class="col-md-8">
@@ -135,7 +126,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Website:</label>
                                         <div class="col-md-8">
@@ -163,115 +153,18 @@
                                 </div>
                             </div>
                         </div>
-                            <div class="row">
-                                <div class="col-md-9"> </div>
-                                <div class="col-md-1">
-                                    <div align="right">
-                                        <input type="button" ng-disabled="!mesteriForm.$valid"   class="btn btn-primary" ng-click="vm.editMester()"
-                                        value=" SAVE" />
-                                        
-                                    </div>
-                                    
-                                    <!--<div style="font-size: 14px;">
-                                        {{mesteriForm.$error | json}}
-                                    </div>-->
-                                </div>
-                                   <!-- <input type="button" value="asdf" ng-click="vm.clearForm()"> 
-                                    <div align="right">
-                                        <input type="button" ng-show="vm.addMesterRequest.isEdit == false" class="btn btn-primary" ng-click="vm.addMester(item.id) && vm.clearForm()"
-                                        value="Save" />
-                                    </div>
-                                <div class="col-md-1">
-                                    <div align="right">
-                                        <input type="button" value="cancel" class="btn btn-primary" ng-click="vm.clearForm()" value="Cancel" />
-                                    </div>
-                                </div>-->
-
+                        <div class="row">
+                            <div class="col-md-9">
+                                <ng-map id="mesterMap" center="[46.7712 , 23.6236]" zoom="8">
+                                </ng-map>
                             </div>
-                             
-                        </div>
-                    </div>
-                </div>
-
-
-                <!--
-            <div class="col-lg-5">
-                <div class="widget wgreen">
-                    <div data-cc-widget-header title="Mester" allow-collapse="true"></div>
-                    <div class="widget-content text-center text-info">
-                        <div class="row">
-                            <div class="col-md-3 ">Mester Id: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.id }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ">First Name: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.firstName }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ">Last Name: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.lastName }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ">Location: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.location }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">Description: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.description }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ">Phone Nr: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.contact.telNr }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ">Email: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.contact.email }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">Site: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.contact.site }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ">Social: </div>
-                            <div class="col-md-9" align="left">{{ vm.fullMester.contact.socialPlatform }} </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ">Specialities: </div>
-                            <div align="left" ng-repeat="item in vm.fullMester.speciality">
-                                <div class="col-md-9"> {{item.specialityName}} </div>
-                                <div class="col-md-3"> </div>
+                            <div class="col-md-3">
+                                <input type="button" ng-disabled="!mesteriForm.$valid" class="btn btn-primary" ng-click="vm.editMester()" value=" SAVE" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="widget wgreen">
-                        <div data-cc-widget-header title="Find Mester" allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-
-                            <div class="row">
-                                <label class="col-md-2 control-label">Mester id:</label>
-                                <div class="col-md-8">
-                                    <input class="form-control" id="focusedInput" name="mesterId" ng-model="vm.getMesterRequest.idMester" type="text" ng-required="true"
-                                    />
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="button" class="btn btn-success" ng-click="vm.getMester()" value="Get Mester" />
-                                </div>
-                                <div class="col-md-8"> </div>
-                                <div class="col-md-4">
-                                    <input type="button" class="btn btn-warning" ng-click="vm.deleteMester()" value="Delete Mester" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
-            </div>
+        </div>
     </section>
 </section>

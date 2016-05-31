@@ -6,22 +6,20 @@ module App.Services {
         userRole: string;
         userDetails: any;
         userToken: string;
+        selectedUser : any;
         hasRole(role: Array<string>): boolean;
         clear(): void;
         resetDashboardPage() : void;
-        rememberDashboardRequests  () ;
+        
         searchMesterRequestMaintener: App.Services.SearchMesterRequest;  
     }
 
     export class SesionService implements ISesionService {
         public static serviceId: string = 'sesionService';
-        private common: App.Shared.ICommon;
-        //private $q: ng.IQService;
-        //private $http: ng.IHttpService;
-        //private Httpi: IHttpi;
-        //private userToken;
+        private common: App.Shared.ICommon; 
         public userRole: string ;        
         public userDetails: any;
+        public selectedUser : any;
         public userToken: string;
         public log: Function;
         public logError: Function;
@@ -31,14 +29,8 @@ module App.Services {
         public searchMesterRequestMaintener: App.Services.SearchMesterRequest;
 
 
-        constructor($http: ng.IHttpService, common) {
-            this.common = common; 
-            this.userRole='x';
-            this.log = common.logger.getLogFn();
-            this.logError = common.logger.getLogFn('', 'error');
-            this.logWarning = common.logger.getLogFn('', 'warn');
-            this.logSuccess = common.logger.getLogFn('', 'success');
-           
+        constructor($http: ng.IHttpService) {             
+           // this.userRole='x';
         }
         
         public get isLogged(): boolean {
@@ -61,17 +53,12 @@ module App.Services {
         }
         
         public resetDashboardPage = () => {
-            this.searchMesterRequestMaintener=null;
-            
+            this.searchMesterRequestMaintener=null;            
         }
         
-        public rememberDashboardRequests = () => {
-        //  this.searchMesterRequestMaintener= this.dashboard.searchMesterRequest; // save the request obj   
-            }
-        
-        
+       
+  
     }
-
-    app.factory(SesionService.serviceId, ['$http', 'common', ($http, common) => new SesionService($http, common)]);
+    app.factory(SesionService.serviceId, ['$http',  ($http) => new SesionService($http )]);
 
 }

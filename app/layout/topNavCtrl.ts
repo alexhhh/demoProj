@@ -40,7 +40,7 @@ module App.Controllers {
         // TODO: is there a more elegant way of activating the controller - base class?
         activate(promises: Array<ng.IPromise<any>>) {
             this.common.activateController(promises, this.controllerId)
-                .then(() => { this.log('Activated Dashboard View'); });
+                .then(() => { });
         }
 
         logIn = () => {
@@ -72,8 +72,8 @@ module App.Controllers {
             var getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
             var promise = this.core.dataService.getLogOut(getLogCredentialsRequest, (response, success) => {
                 if (success) {
-                     this.logSuccess('You have successfully logged out!');
-                     this.$location.path('#/dashboard');
+                    this.logSuccess('You have successfully logged out!');
+                    this.$location.path('#/dashboard');
                 } else {
                     this.logError('An error occurred !');
                 }
@@ -83,7 +83,6 @@ module App.Controllers {
             });
             return this.userToken;
         }
-
     }
 
     app.controller(TopNavCtrl.controllerId, ['$scope', '$route', 'common', 'core', 'ngDialog', '$location', 

@@ -30,7 +30,8 @@ module App.Controllers {
 
         activate(promises: Array<ng.IPromise<any>>) {
             this.common.activateController(promises, this.controllerId)
-                .then(() => { this.log('Activated Dashboard View'); 
+                .then(() => { 
+                    
         });}
 
         activateUser = (tokenId : String) => {

@@ -31,24 +31,18 @@ var App;
                     });
                 };
                 this.showDetails = function (item) {
+                    _this.core.sesionService.selectedUser = item;
+                    var _url;
                     if (item.roleId == 2) {
-                        var _url = 'details/' + item.id;
-                        _this.$location.path(_url);
+                        _url = 'details/' + item.id;
                     }
                     else if (item.roleId == 3) {
-                        _this.getClient(item.id);
-                        _this.log("The client name is " + _this.clientDetails.firstName + " " + _this.clientDetails.lastName + " !");
+                        _url = 'clientdetails/' + item.id;
                     }
                     else if (item.roleId == 1) {
-                        _this.log("There are no details for this user!");
+                        _url = 'admin/' + item.id;
                     }
-                };
-                this.getClient = function (id) {
-                    _this.getClientRequest.id = id;
-                    var promise = _this.core.dataService.getClient(_this.getClientRequest, function (response, success) {
-                        _this.clientDetails = response;
-                    });
-                    return promise;
+                    _this.$location.path(_url);
                 };
                 this.common = common;
                 this.core = core;
@@ -60,14 +54,12 @@ var App;
                 this.getUserRequest = new App.Services.GetUserRequest();
                 this.userModel = new App.Services.UserProfileViewModel();
                 this.deleteUserRequest = new App.Services.DeleteUserRequest();
-                this.getClientRequest = new App.Services.GetClientRequest();
                 this.activate([this.getAllUsers()]);
             }
             // TODO: is there a more elegant way of activating the controller - base class?
             AdminUsersCtrl.prototype.activate = function (promises) {
-                var _this = this;
                 this.common.activateController(promises, this.controllerId)
-                    .then(function () { _this.log('Activated Dashboard View'); });
+                    .then(function () { });
             };
             AdminUsersCtrl.controllerId = 'adminUsersCtrl';
             return AdminUsersCtrl;

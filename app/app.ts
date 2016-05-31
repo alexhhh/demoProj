@@ -21,7 +21,8 @@ module App{
         'ui.grid.selection',
         'ui.grid.pagination',
         'ngDialog',
-        'infinite-scroll'   //,  'uiGmapgoogle-maps'
+        'ngMap',
+        'infinite-scroll'   
     ]);
     
     // Handle routing errors and success events

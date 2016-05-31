@@ -4,7 +4,8 @@
 
             <form class="form-horizontal" role="form" name="reviewForm" novalidate>
                 <h1 align="left">Registration form </h1>
-                <div class="row">   </br>
+                <div class="row">
+                    </br>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Register as: </label>
                         <div class="col-md-4">
@@ -23,7 +24,7 @@
                         <label class="col-md-2 control-label">Username: </label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="focusedInput" name="username" ng-model="vm.addUserRequest.userName" ng-required="true"
-                            />
+                            ng-blur="vm.checkUser(vm.addUserRequest.userName)" />
                             <div class="msg-block" ng-show="reviewForm.$error">
                                 <span class="msg-error" ng-show="reviewForm.username.$error.required && reviewForm.username.$dirty">
                                     <font color="red">   This fild is required! </font>
@@ -34,55 +35,64 @@
                             <a role="button" ng-click="vm.checkUser(vm.addUserRequest.userName) "> Check availability </a>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="col-md-2 control-label">Password: </label>
                         <div class="col-md-4">
-                            <input type="{{vm.inputType}}" class="form-control" id="password" name="password" ng-model="vm.addUserRequest.password" ng-required="true"  />
-     
+                            <input type="{{vm.inputType}}" class="form-control" id="password" name="password" ng-model="vm.addUserRequest.password" ng-required="true"
+                            />
+
                             <div class="msg-block" ng-show="reviewForm.$error">
                                 <span class="msg-error" ng-show="reviewForm.password.$error.required && reviewForm.password.$dirty">
                                     <font color="red">   This fild is required! </font>
                                  </span>
                             </div>
                         </div>
-                        <div class="col-md-3"> 
-                             <input type="checkbox" id="checkbox" ng-model="passwordCheckbox" ng-click="vm.hideShowPassword()" />
+                        <div class="col-md-3">
+                            <input type="checkbox" id="checkbox" ng-model="passwordCheckbox" ng-click="vm.hideShowPassword()" />
                             <label for="checkbox" ng-if="passwordCheckbox">Hide password</label>
-                            <label for="checkbox" ng-if="!passwordCheckbox">Show password</label>  
-                            
+                            <label for="checkbox" ng-if="!passwordCheckbox">Show password</label>
+
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="col-md-2 control-label">Confirm Password: </label>
                         <div class="col-md-4">
-                            <input type="password" class="form-control" id="checkPassword" name="checkPassword" ng-model="vm.checkPassword" ng-required overwrite-password="password"  />
+                            <input type="password" class="form-control" id="checkPassword" name="checkPassword" ng-model="vm.checkPassword" ng-required="true"
+                            overwrite-password="password" />
                             <div class="msg-block" ng-show="reviewForm.$error">
-                                <span class="msg-error" ng-show="reviewForm.checkPassword.$error.passmatch && reviewForm.checkPassword.$dirty">
+                                <span class="msg-error" ng-show="reviewForm.checkPassword.$error.passmatch ">
                                     <font color="red">   Passwords don't match ! </font>
+                                 </span>
+                                <span class="msg-error" ng-show=" reviewForm.checkPassword.$error.required && reviewForm.checkPassword.$dirty">
+                                    <font color="red ">This field is requried!</font>
                                  </span>
                             </div>
                         </div>
                     </div>
-
 
                     <div class="form-group">
                         <label class="col-md-2 control-label">Email Adress: </label>
                         <div class="col-md-4">
-                            <input class="form-control" id="emailUser" name="emailUser" ng-model="vm.addUserRequest.email" type="email" alexmail />
+                            <input class="form-control" id="emailUser" name="emailUser" ng-model="vm.addUserRequest.email" type="email" ng-required="true"
+                            alexmail />
                             <div class="msg-block" ng-show="reviewForm.$error">
-                                <span class="msg-error" ng-show="reviewForm.emailUser.$error.email ">
-                                    <font color="red">This email format is invalid!</font>
+                                <span class="msg-error" ng-show=" reviewForm.emailUser.$error.email && reviewForm.emailUser.$dirty">
+                                    <font color="red ">This email format is invalid!</font>
+                                 </span>
+                                <span class="msg-error" ng-show=" reviewForm.emailUser.$error.required && reviewForm.emailUser.$dirty">
+                                    <font color="red ">This field is requried!</font>
                                  </span>
                             </div>
                         </div>
                     </div>
- 
-                    <div class="form-group">
-                        <div class="col-md-2"> &nbsp; </div>
-                        <div class="col-md-4">
-                            <input align="center" class="button btn-block btn-lg btn-primary" style="text-align: center;" value="Continue" ng-disabled="!reviewForm.$valid"
-                            ng-required="true" ng-click="vm.addUser() " > 
+
+                    <div class="form-group ">
+                        <div class="col-md-2 "> &nbsp; </div>
+                        <div class="col-md-4 ">
+                            <button align="center " class="btn-block btn-lg btn-primary" style="text-align: center;" ng-disabled="!reviewForm.$valid "
+                            ng-required="true" ng-click="vm.addUser() ">Continue</button>
                             <script type="text/ng-template" id="registrationTemplate">
                                 <div id="target">
                                     <h1 align="center">  Thanks for signing up !  </h1> </br>

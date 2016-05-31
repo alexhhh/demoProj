@@ -25,10 +25,8 @@ var App;
                 this.activate([this.activateUser(this.$routeParams.tokenId)]);
             }
             ActivateCtrl.prototype.activate = function (promises) {
-                var _this = this;
                 this.common.activateController(promises, this.controllerId)
                     .then(function () {
-                    _this.log('Activated Dashboard View');
                 });
             };
             ActivateCtrl.controllerId = 'activateCtrl';

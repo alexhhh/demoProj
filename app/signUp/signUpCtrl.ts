@@ -18,11 +18,12 @@ export class SignUpCtrl
         userToken: any;
         user : any;
         user2: any;
-        checkPassword : string ="";
-        //allThis: boolean = true;
+        checkUsername = false;
+        checkPassword : string =""; 
         inputType = 'password';
         addUserRequest: App.Services.AddUserRequest;
         getLogCredentialsRequest: App.Services.GetLogCredentialsRequest ;
+        checkUserRequest : App.Services.CheckUserRequest;
         //using shortcut syntax on private variables in the constructor
         constructor( $scope, $route, common, core:App.Services.ICore, ngDialog: any)
         {
@@ -36,7 +37,7 @@ export class SignUpCtrl
             this.logSuccess = common.logger.getLogFn('', 'success');
             this.addUserRequest= new App.Services.AddUserRequest();
             this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
-           // this.allThis = this.core.dataService.isLogged;
+            this.checkUserRequest= new App.Services.CheckUserRequest();   
             this.activate([]);
         }
     
@@ -44,32 +45,50 @@ export class SignUpCtrl
    // TODO: is there a more elegant way of activating the controller - base class?
         activate(promises: Array<ng.IPromise<any>>) {
             this.common.activateController(promises, this.controllerId)
-                .then(() => { this.log('Activated Dashboard View'); });                
+                .then(() => {   });                
         }
      
-        addUser =() => {          
+        addUser =() => {    
+            if (this.checkUsername)  { 
+                this.checkUsername=false;  
             var promise = this.core.dataService.addUser(this.addUserRequest, (response, success) => {
-               this.user = response;
+                if (success){
+               this.user = response;              
                this.ngDialog.open({ template: 'registrationTemplate' }); 
-            });           
-            return promise;       
+               this.addUserRequest = new App.Services.AddUserRequest();
+               this.$scope.reviewForm.$setPristine();
+               this.checkPassword="";
+            } else {
+                  this.logError('Cannot create user!');
+             }  });           
+            return promise;   
+            }
+            else{ this.logError('Invalide username!');}    
         }
         
         checkUser = () => {
-             var promise = this.core.dataService.checkUser(this.addUserRequest , (response, success) => {
-                this.user2 = response;
-                if ( this.user2.userName  != null) {
-                    this.logError('The username is taken');
-                } else { 
-                    this.logSuccess('The username is free !');
-        }});}
-
-        hideShowPassword = () =>{ 
-            if (this.inputType == 'password'){
+            this.checkUserRequest.userName = this.addUserRequest.userName;
+            if (this.checkUserRequest.userName != null) {
+                var promise = this.core.dataService.checkUser(this.checkUserRequest, (response, success) => {
+                    this.user2 = response;
+                    if (this.user2.userName != null) {
+                        this.logError('The username is taken');
+                        this.checkUsername = false;
+                    } else {
+                        this.checkUsername = true;
+                        this.logSuccess('The username is free !');
+                    }
+                });
+            } else { this.logError('Invalid username'); }
+        }
+ 
+        hideShowPassword = () => {
+            if (this.inputType == 'password') {
                 this.inputType = 'text';
-            } else{
+            } else {
                 this.inputType = 'password';
-       }}
+            }
+        }
         
 }       
   app.controller(SignUpCtrl.controllerId, ['$scope' ,'$route', 'common', 'core', 'ngDialog',

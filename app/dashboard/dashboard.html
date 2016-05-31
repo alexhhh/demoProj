@@ -116,40 +116,48 @@
                             </script>
                         </div>                   
                 </div>
-                <div class="col-md-1 "> </br>
-                      <!--<a class="btn btn-default " href="/#/dashboard.html "> </a> -->
-                         <input type="submit " value="Reset " ng-click="vm.goBack() ">
-                    
-                </div>
-          
-            </div>     </br>    
-  
+                <div class="col-md-1 col-centered "> &nbsp; </br>
+                        <button class="btn btn-default "  ng-click="vm.goBack() ">Reset </button>
+                          
+                  </div>  
+                  
+            </div>        
+             <div class="row "> 
+                 &nbsp; </br>
+             </div>
             <div class="row ">
                 <div class="col-md-9 " style="padding: 0 0 0 30px; ">
                     <div ui-grid="vm.gridOptions " ui-grid-pagination ui-grid-selection class="myGrid "></div>
                     <div class="row ">
                         <div class="col-md-2 "> <strong>Total results:</strong> </div>
-                        <div class="col-md-1 " align="left ">{{ vm.allElem }} </div>
-                    </div>
-                     
+                        <div class="col-md-1 " align="left ">{{ vm.nrMesteri }} </div>
+                        </br>  
+                    </div>                     
                 </div>
             </div>
-
-            
-             <!--<div class="row " id="map " style="height: 100%;"></div>
-                <script>
-                    var map;
-                    function initMap() {
-                        map = new google.maps.Map(document.getElementById('map'), {
-                        center: {lat: -34.397, lng: 150.644},
-                        zoom: 8
-                        });
-                    }
-                </script>
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgkyoGu3-C7vyTsFys8-cIc1cQ3lefF3E&callback=initMap " async defer>
-
-                </script>-->
-
+               <div class="row "> 
+                 &nbsp; </br>
+             </div>
+            <div class="row ">
+                <div class="col-md-1 "> Distance :</div>
+                <div class="col-md-2 ">
+                    <input id="raza " name="raza " ng-model="vm.distanceForSquare " type="number " /> 
+                </div>
+                <div class="col-md-1"> in km </div>
+                <div class="col-md-1 ">
+                       <button class="btn btn-default " ng-click="vm.drawSquare() ">Draw </button>   &nbsp; </br>
+                </div>
+            </div>
+              
+             <div class="row ">
+                <div class="col-md-10 ">
+                    <ng-map id="dashboardMap " center="[46.7712 , 23.6236] " zoom="8 ">
+                        <!--<shape id="circle " name="circle " centered="true " center="current-position " 
+                        stroke-color='#0000FF' stroke-opacity="0.8 " stroke-weight="2 " radius="4000 " editable="true ">
+                        </shape>-->
+                    </ng-map>
+                </div>
+            </div>
          </div>
     </section>
 </section>

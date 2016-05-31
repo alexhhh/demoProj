@@ -16,16 +16,15 @@ var App;
                     _this.lastRequestLength = _this.itemResults.length;
                     _this.getAllReviewsRequest.pageNumber = (_this.itemResults.length);
                     _this.getAllReviewsRequest.pageSize = 5;
-                    var promise = _this.core.dataService.getAllReviews(_this.getAllReviewsRequest, function (response, success) {
-                        _this.reviewMesterResultPage = response;
-                        _this.itemResults = _this.itemResults.concat(response.contentPage);
-                        _this.totalResults = response.totalResults;
-                        //this.itemResults = this.itemResults.push.apply(response.contentPage);
-                        // if (success) {
-                        //     this.logSuccess('The search for reviews was succesful !');
-                        // } else {
-                        //     this.logError('The search for reviews failed !');
-                        // }
+                    var promise = _this.core.dataService.getAllFullReviews(_this.getAllReviewsRequest, function (response, success) {
+                        if (success) {
+                            _this.reviewMesterResultPage = response;
+                            _this.itemResults = _this.itemResults.concat(response.contentPage);
+                            _this.totalResults = response.totalResults;
+                        }
+                        else {
+                            _this.logError('The search for reviews failed !');
+                        }
                     });
                     return promise;
                 };
@@ -60,17 +59,14 @@ var App;
                 this.logError = common.logger.getLogFn('', 'error');
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
-                // this.itemResults = new Array<any>();
-                // this.addMesterReviewRequest = new App.Services.AddMesterReviewRequest();
                 this.getAllReviewsRequest = new App.Services.GetAllReviewsRequest();
                 this.deleteReviewRequest = new App.Services.DeleteReviewRequest();
                 this.activate([]);
             }
             // TODO: is there a more elegant way of activating the controller - base class?
             AdminReviewsCtrl.prototype.activate = function (promises) {
-                var _this = this;
                 this.common.activateController(promises, this.controllerId)
-                    .then(function () { _this.log('Activated Dashboard View'); });
+                    .then(function () { });
             };
             AdminReviewsCtrl.controllerId = 'adminReviewsCtrl';
             return AdminReviewsCtrl;

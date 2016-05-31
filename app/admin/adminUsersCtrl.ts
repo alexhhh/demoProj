@@ -13,12 +13,11 @@ module App.Controllers {
         logError: Function;
         logWarning: Function;
         logSuccess: Function;
-        users: Array<any>;
-        clientDetails: any;
+        users: Array<any>;       
         getUserRequest: App.Services.GetUserRequest;
         userModel: App.Services.UserProfileViewModel;
         deleteUserRequest: App.Services.DeleteUserRequest;
-        getClientRequest: App.Services.GetClientRequest;
+       
 
         constructor(common, core: App.Services.ICore, $location: ng.ILocationService) {
             this.common = common;
@@ -30,15 +29,14 @@ module App.Controllers {
             this.logSuccess = common.logger.getLogFn('', 'success');
             this.getUserRequest = new App.Services.GetUserRequest();
             this.userModel = new App.Services.UserProfileViewModel();
-            this.deleteUserRequest = new App.Services.DeleteUserRequest();
-            this.getClientRequest = new App.Services.GetClientRequest();
+            this.deleteUserRequest = new App.Services.DeleteUserRequest();          
             this.activate([this.getAllUsers()]);
         }
 
         // TODO: is there a more elegant way of activating the controller - base class?
         activate(promises: Array<ng.IPromise<any>>) {
             this.common.activateController(promises, this.controllerId)
-                .then(() => { this.log('Activated Dashboard View'); });
+                .then(() => { });
         }
 
         getAllUsers = () => {
@@ -66,27 +64,19 @@ module App.Controllers {
         }
 
 
-        showDetails = (item: any) => {
+        showDetails = (item: any) => {               
+            this.core.sesionService.selectedUser=item;  
+            var _url ;           
             if (item.roleId == 2) {
-                var _url = 'details/' + item.id;
-                this.$location.path(_url);
+              _url = 'details/' + item.id;               
             } else if (item.roleId == 3) {
-                this.getClient(item.id);
-                this.log("The client name is " + this.clientDetails.firstName + " " + this.clientDetails.lastName + " !");
+               _url = 'clientdetails/' + item.id;                
             } else if (item.roleId == 1) {
-                this.log("There are no details for this user!");
+               _url = 'admin/' + item.id;
             }
+            this.$location.path(_url); 
         }
-
-        getClient = (id: string) => {
-            this.getClientRequest.id = id;
-            var promise = this.core.dataService.getClient(this.getClientRequest, (response, success) => {
-                this.clientDetails = response;
-            });
-            return promise;
-        }
-
-
+ 
     }
     // register controller with angular
     app.controller(AdminUsersCtrl.controllerId, ['common', 'core', '$location',
