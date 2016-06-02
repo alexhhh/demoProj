@@ -2,14 +2,14 @@
     <section class="matter">
         <div class="container">
             <div class="row">
-                <h3 align="left">Change password:</h3> </br>
+                <h2 align="left">Change password </h2> </br>
                 </br>
             </div>
             <div class="row">   
             <form class="form-horizontal" role="form" name="passwordForm" novalidate>
                 <div class="form-group">
-                    <label class="col-md-4 control-label">NewPassword: </label>
-                    <div class="col-md-7">
+                    <label class="col-md-2 control-label">NewPassword: </label>
+                    <div class="col-md-2">
                         <input type="password" class="form-control" id="newPassword" name="newPassword" ng-model="vm.tokenRequest.password" ng-required="true"
                         />
                         <div class="msg-block" ng-show="passwordForm.$error">
@@ -21,8 +21,8 @@
                 </div>
                 </br>
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Confirm Password: </label>
-                    <div class="col-md-7">
+                    <label class="col-md-2 control-label">Confirm Password: </label>
+                    <div class="col-md-2">
                         <input type="password" class="form-control" id="checkPassword" name="checkPassword" ng-model="vm.checkPassword" ng-required
                         overwrite-password="newPassword" />
                         <div class="msg-block" ng-show="passwordForm.$error">

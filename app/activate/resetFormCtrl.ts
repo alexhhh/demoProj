@@ -28,8 +28,7 @@ module App.Controllers {
             this.logError = common.logger.getLogFn('', 'error');
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success'); 
-            this.tokenRequest=  new App.Services.GetUserTokenRequest();
-            
+            this.tokenRequest=  new App.Services.GetUserTokenRequest();            
             this.activate([this.getUserToken(this.$routeParams.tokenId)]);
         }
 
