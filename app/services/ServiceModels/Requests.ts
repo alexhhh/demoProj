@@ -48,6 +48,12 @@ module App.Services {
     export class GetMesterRequest {
         public idMester: string;
     }
+   
+
+
+    export class GetMesterUserIdRequest {
+        public userId: string;
+    }
 
     export class EditLocationRequest{
         public mesterId: string;
@@ -62,14 +68,14 @@ module App.Services {
             
         }        
         public id: string;
-        public firstName: string;
+        public firstName:string;
         public lastName: string;
-        public location: string;
+        public location: any; 
         public description: string;
         public contact: any;
-        public telNr: string;
-        public email: string;
-        public site: string;         
+        public avgPrice: number;
+        public avgRating: number; 
+        public userId: string;      
         public speciality: Array<any>;         
     }
 
@@ -79,6 +85,10 @@ module App.Services {
     }
 
 
+   export class FullMester {
+      public mester: any;
+   }
+
     export class SearchMesterRequest {
         public firstName: string;
         public lastName: string;
@@ -86,8 +96,8 @@ module App.Services {
         public specialityName: string;
         public telNr: string;
         public email: string;
-        public price: any;
-        public rating: number;
+        public avgPrice: number;
+        public avgRating: number;
         public pageSize: number;
         public pageNumber: number;
     }
@@ -122,8 +132,8 @@ module App.Services {
     }
 
     export class AddMesterReviewRequest {
-        public idMester: string;
-        public idClient: string;
+        public mesterId: string;
+        public clientId: string;
         public title: string;
         public price: any;
         public rating: number;
@@ -141,7 +151,7 @@ module App.Services {
         public userName: string;
         public password: string;
         public email: string;      
-        public roleId: number;
+        public roleId: string;
         public confirm: boolean;
     }
     
@@ -150,10 +160,7 @@ module App.Services {
     }
     
     export class EditUserRequest {
-        public id : string;
-        public userName: string;
-        public password: string;
-        public email: string;
+        public user : any; 
     }
 
     export class ActivateUserRequest {
@@ -163,12 +170,16 @@ module App.Services {
     export class GetClientRequest {
         public id: string;
     }
+    
+    export class GetClientUserRequest {
+        public userId: string;
+    }
 
     export class AddClientRequest {
         public id: string;
         public firstName: string;
         public lastName: string;
-        public clientUserId: string;
+        public userId: string;
 
     }
 
@@ -198,6 +209,7 @@ module App.Services {
         public userName: string;
         public password: string;
      }
+
     export class UserProfileViewModel {
         public id : string;
         public userName: string;

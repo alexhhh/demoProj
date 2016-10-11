@@ -11,11 +11,13 @@ module App.Services {
         addUser(requestData: AddUserRequest, callback: Function): ng.IHttpPromise<any>;
         deleteUser(requestData: DeleteUserRequest, callback: Function): ng.IHttpPromise<any>;
         editUser(requestData: EditUserRequest, callback: Function): ng.IHttpPromise<any>;
+        editUserMail(requestData: EditUserRequest, callback: Function): ng.IHttpPromise<any>;
         checkUser(requestData: CheckUserRequest, callback: Function): ng.IHttpPromise<any>;
         getSpecialities(requestData: GetSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         addSpeciality(requestData: AddSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         deleteSpeciality(requestData: DeleteSpecialityRequest, callback: Function): ng.IHttpPromise<any>;
         getMester(requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any>;
+        getMesterByUserId(requestData: GetMesterUserIdRequest, callback: Function): ng.IHttpPromise<any>; 
         addMester(requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any>;
         editMester(requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any>;
         searchMester(requestData: SearchMesterRequest, callback: Function): ng.IHttpPromise<any>;
@@ -29,6 +31,7 @@ module App.Services {
         deleteMester(requestData: DeleteMesterRequest, callback: Function): ng.IHttpPromise<any>;
         deleteReview(requestData: DeleteReviewRequest, callback: Function): ng.IHttpPromise<any>;
         getClient (requestData: GetClientRequest, callback: Function): ng.IHttpPromise<any>;
+        getClientByUserId (requestData: GetClientUserRequest, callback: Function): ng.IHttpPromise<any>;
         addClient (requestData: AddClientRequest, callback: Function): ng.IHttpPromise<any>;
         editClient (requestData: AddClientRequest, callback: Function): ng.IHttpPromise<any>;
         getMesterLocation (requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any>;
@@ -53,7 +56,7 @@ module App.Services {
         public  logError: Function;
         public  logWarning: Function;
         public  logSuccess: Function;
-        private serviceRoot = 'http://localhost:8080/mesteriApplication/rest';
+        private serviceRoot = 'http://localhost:8080/rest';
 
         constructor(common, httpi: IHttpi, injector) {
             this.injector = injector;
@@ -96,6 +99,9 @@ module App.Services {
        public editUser = (requestData: EditUserRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('PUT', '/user/edit', requestData, callback);
         }
+       public editUserMail = (requestData: EditUserRequest, callback: Function): ng.IHttpPromise<any> => {
+            return this.Request('PUT', '/user/editmail', requestData, callback);
+        }
        public checkUser = (requestData: CheckUserRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('GET', '/user/query', requestData, callback);
         }
@@ -129,6 +135,9 @@ module App.Services {
         // mester query
         public getMester = (requestData: GetMesterRequest, callback: Function): ng.IHttpPromise<any> => { 
             return this.Request('GET', '/mester/query', requestData, callback);
+        }
+        public getMesterByUserId = (requestData: GetMesterUserIdRequest, callback: Function): ng.IHttpPromise<any> => { 
+            return this.Request('GET', '/mester/user/query', requestData, callback);
         }
         public addMester = (requestData: AddEditMesterRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('POST', '/mester', requestData, callback);
@@ -184,6 +193,9 @@ module App.Services {
         // client query
         public getClient = (requestData: GetClientRequest, callback: Function): ng.IHttpPromise<any> => { 
             return this.Request('GET', '/client/query', requestData, callback);
+        }
+        public getClientByUserId = (requestData: GetClientUserRequest, callback: Function): ng.IHttpPromise<any> => { 
+            return this.Request('GET', '/client/user/query', requestData, callback);
         }
         public addClient = (requestData: AddClientRequest, callback: Function): ng.IHttpPromise<any> => {
             return this.Request('POST', '/client', requestData, callback);

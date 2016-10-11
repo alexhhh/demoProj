@@ -14,7 +14,7 @@ var App;
                         return;
                     }
                     _this.lastRequestLength = _this.itemResults.length;
-                    _this.searchReviewMesterRequest.idMester = _this.core.sesionService.userDetails.id;
+                    _this.searchReviewMesterRequest.idMester = _this.core.sesionService.theMester.id;
                     _this.searchReviewMesterRequest.pageNumber = (_this.itemResults.length);
                     _this.searchReviewMesterRequest.pageSize = 5;
                     var promise = _this.core.dataService.searchReviewMester(_this.searchReviewMesterRequest, function (response, success) {

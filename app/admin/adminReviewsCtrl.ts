@@ -20,7 +20,6 @@ module App.Controllers {
         getAllReviewsRequest: App.Services.GetAllReviewsRequest;
         deleteReviewRequest: App.Services.DeleteReviewRequest;
         constructor(common, core: App.Services.ICore) {
-
             this.common = common;
             this.core = core;
             this.itemResults = new Array<any>();
@@ -44,7 +43,7 @@ module App.Controllers {
                 return;
             }
             this.lastRequestLength = this.itemResults.length;
-            this.getAllReviewsRequest.pageNumber = (this.itemResults.length);
+            this.getAllReviewsRequest.pageNumber = (this.itemResults.length)/5;
             this.getAllReviewsRequest.pageSize = 5;
             var promise = this.core.dataService.getAllFullReviews(this.getAllReviewsRequest, (response, success) => {
                 if (success) {
@@ -59,7 +58,9 @@ module App.Controllers {
         }
 
         myPagingFunction = () => {
-            if (this.totalResults <= this.itemResults.length) { return; }
+            if (this.totalResults <= this.itemResults.length) {  
+               return;
+            }
             this.getAllReviews();
         }
 

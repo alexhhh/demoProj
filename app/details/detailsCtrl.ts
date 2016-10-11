@@ -49,8 +49,8 @@ module App.Controllers {
             this.addMesterReviewRequest = new App.Services.AddMesterReviewRequest();
             this.deleteReviewRequest = new App.Services.DeleteReviewRequest();
             this.searchReviewMesterRequest = new App.Services.SearchReviewMesterRequest();     
-            if( core.sesionService.userDetails != null) {
-                this.currentClientId = core.sesionService.userDetails.id;
+            if( core.sesionService.theClient != null) {
+                this.currentClientId = core.sesionService.theClient.id;
             }  else {this.currentClientId =null;} ;
             this.activate([
                 this.getMester(this.$routeParams.mesterId)                
@@ -104,8 +104,8 @@ module App.Controllers {
         }
 
         addMesterReview = () => {
-            this.addMesterReviewRequest.idMester = this.$routeParams.mesterId;  
-            this.addMesterReviewRequest.idClient = this.$routeParams.clientId;  
+            this.addMesterReviewRequest.mesterId = this.$routeParams.mesterId;  
+            this.addMesterReviewRequest.clientId = this.$routeParams.clientId;  
             var promise = this.core.dataService.addMesterReview(this.addMesterReviewRequest, (response, success) => {
                 this.newReviewMester = response;
                 if (success) {

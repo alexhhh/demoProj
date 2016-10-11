@@ -8,7 +8,7 @@ var App;
                 var _this = this;
                 // public authenticated: boolean = false;
                 this.secondCheck = false;
-                this.serviceRoot = 'http://localhost:8080/mesteriApplication/rest';
+                this.serviceRoot = 'http://localhost:8080/rest';
                 // public get isLogged(): boolean {
                 //     var result = this.userToken != null;
                 //     return result;
@@ -28,6 +28,9 @@ var App;
                 };
                 this.editUser = function (requestData, callback) {
                     return _this.Request('PUT', '/user/edit', requestData, callback);
+                };
+                this.editUserMail = function (requestData, callback) {
+                    return _this.Request('PUT', '/user/editmail', requestData, callback);
                 };
                 this.checkUser = function (requestData, callback) {
                     return _this.Request('GET', '/user/query', requestData, callback);
@@ -60,6 +63,9 @@ var App;
                 // mester query
                 this.getMester = function (requestData, callback) {
                     return _this.Request('GET', '/mester/query', requestData, callback);
+                };
+                this.getMesterByUserId = function (requestData, callback) {
+                    return _this.Request('GET', '/mester/user/query', requestData, callback);
                 };
                 this.addMester = function (requestData, callback) {
                     return _this.Request('POST', '/mester', requestData, callback);
@@ -111,6 +117,9 @@ var App;
                 // client query
                 this.getClient = function (requestData, callback) {
                     return _this.Request('GET', '/client/query', requestData, callback);
+                };
+                this.getClientByUserId = function (requestData, callback) {
+                    return _this.Request('GET', '/client/user/query', requestData, callback);
                 };
                 this.addClient = function (requestData, callback) {
                     return _this.Request('POST', '/client', requestData, callback);

@@ -14,7 +14,7 @@ var App;
                         return;
                     }
                     _this.lastRequestLength = _this.itemResults.length;
-                    _this.getAllReviewsRequest.pageNumber = (_this.itemResults.length);
+                    _this.getAllReviewsRequest.pageNumber = (_this.itemResults.length) / 5;
                     _this.getAllReviewsRequest.pageSize = 5;
                     var promise = _this.core.dataService.getAllFullReviews(_this.getAllReviewsRequest, function (response, success) {
                         if (success) {

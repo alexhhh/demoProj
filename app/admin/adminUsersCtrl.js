@@ -30,19 +30,51 @@ var App;
                         _this.getAllUsers();
                     });
                 };
+                this.getMesterByUserId = function (item, callback) {
+                    _this.getMesterUserIdRequest.userId = item.id;
+                    var promise = _this.core.dataService.getMesterByUserId(_this.getMesterUserIdRequest, function (response, success) {
+                        if (success) {
+                            _this.dbUser = response;
+                            _this.logSuccess('The mester was found');
+                            callback();
+                        }
+                        else {
+                            _this.logError('The mester is missing !');
+                        }
+                    });
+                };
+                this.getClientByUserId = function (item, callback) {
+                    _this.getClientUserRequest.userId = item.id;
+                    var promise = _this.core.dataService.getClientByUserId(_this.getClientUserRequest, function (response, success) {
+                        if (success) {
+                            _this.dbUser = response;
+                            _this.logSuccess('The mester was found');
+                            callback();
+                        }
+                        else {
+                            _this.logError('The mester is missing !');
+                        }
+                    });
+                };
                 this.showDetails = function (item) {
                     _this.core.sesionService.selectedUser = item;
                     var _url;
                     if (item.roleId == 2) {
-                        _url = 'details/' + item.id;
+                        _this.getMesterByUserId(item, function () {
+                            _url = 'details/' + _this.dbUser.id;
+                            _this.$location.path(_url);
+                        });
                     }
                     else if (item.roleId == 3) {
-                        _url = 'clientdetails/' + item.id;
+                        _this.getClientByUserId(item, function () {
+                            _url = 'clientdetails/' + _this.dbUser.id;
+                            _this.$location.path(_url);
+                        });
                     }
                     else if (item.roleId == 1) {
                         _url = 'admin/' + item.id;
+                        _this.$location.path(_url);
                     }
-                    _this.$location.path(_url);
                 };
                 this.common = common;
                 this.core = core;
@@ -54,6 +86,8 @@ var App;
                 this.getUserRequest = new App.Services.GetUserRequest();
                 this.userModel = new App.Services.UserProfileViewModel();
                 this.deleteUserRequest = new App.Services.DeleteUserRequest();
+                this.getClientUserRequest = new App.Services.GetClientUserRequest();
+                this.getMesterUserIdRequest = new App.Services.GetMesterUserIdRequest();
                 this.activate([this.getAllUsers()]);
             }
             // TODO: is there a more elegant way of activating the controller - base class?

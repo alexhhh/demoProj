@@ -9,6 +9,7 @@ module App.Controllers{
         controllerId: string;
         core: App.Services.ICore;
         common: App.Shared.ICommon;
+        $scope : any;
         log: Function;
         logError: Function;
         logWarning: Function;
@@ -21,8 +22,9 @@ module App.Controllers{
         //#endregion
         
         
-        constructor(common: App.Shared.ICommon, core: App.Services.ICore)
+        constructor($scope, common: App.Shared.ICommon, core: App.Services.ICore)
         {
+            this.$scope= $scope;
             this.common = common;
             this.controllerId = AdminCtrl.controllerId;
             this.core =core;
@@ -70,6 +72,7 @@ module App.Controllers{
             } else {
                 var promise = this.core.dataService.addSpeciality(this.addSpecialityRequest, (response, success) => {
                     if (success) {
+                        this.addSpecialityRequest.specialityName="";
                         this.logSuccess('The speciality was created');
                     } else {
                         this.logError('This speciality cannot be created');
@@ -97,6 +100,6 @@ module App.Controllers{
         }}
     
     // Register with angular
-    app.controller(AdminCtrl.controllerId, ['common', 'core', (common: any, core) => new AdminCtrl(common, core)]);
+    app.controller(AdminCtrl.controllerId, ['$scope','common', 'core', ($scope ,common: any, core) => new AdminCtrl($scope, common, core)]);
 
 }

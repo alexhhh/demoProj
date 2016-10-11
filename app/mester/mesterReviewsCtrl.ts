@@ -47,7 +47,7 @@ module App.Controllers {
                 return;
             }
             this.lastRequestLength = this.itemResults.length;
-            this.searchReviewMesterRequest.idMester = this.core.sesionService.userDetails.id;
+            this.searchReviewMesterRequest.idMester = this.core.sesionService.theMester.id;
             this.searchReviewMesterRequest.pageNumber = (this.itemResults.length);
             this.searchReviewMesterRequest.pageSize = 5;
 

@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-1 col-centered">
                     Rating :</br>
-                    <select ng-model="vm.searchMesterRequest.rating" ng-change="vm.searchMester()">
+                    <select ng-model="vm.searchMesterRequest.avgRating" ng-change="vm.searchMester()">
                         <option value="1">*</option>
                         <option value="2">**</option>
                         <option value="3">***</option>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-md-1 col-centered">
                     Price : </br>
-                    <select ng-model="vm.searchMesterRequest.price" ng-change="vm.searchMester()">
+                    <select ng-model="vm.searchMesterRequest.avgPrice" ng-change="vm.searchMester()">
                         <option value="1">LOW</option>
                         <option value="2">MEDIUM</option>
                         <option value="3">HIGH</option>
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <strong>  Rating : </strong>
-                                        <select ng-model="vm.searchMesterRequest.rating" ng-change="vm.searchMester()">
+                                        <select ng-model="vm.searchMesterRequest.avgRating" ng-change="vm.searchMester()">
                                             <option value="1">*</option>
                                             <option value="2">**</option>
                                             <option value="3">***</option>
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <strong>  Price : </strong>
-                                        <select ng-model="vm.searchMesterRequest.price" ng-change="vm.searchMester()">
+                                        <select ng-model="vm.searchMesterRequest.avgPrice" ng-change="vm.searchMester()">
                                             <option value="1">LOW</option>
                                             <option value="2">MEDIUM</option>
                                             <option value="3">HIGH</option>

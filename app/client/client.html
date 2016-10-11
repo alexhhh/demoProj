@@ -25,9 +25,8 @@
                                     <div class="col-md-8">
                                         <div align="left">
                                             <a align="left" ng-click="vm.changePassword()">Change password</a>
-
-                                            <script type="text/ng-template" id="passwordTemplate">
-                                                <form class="form-horizontal" role="form" name="passwordForm" novalidate>
+                                           <form class="form-horizontal" role="form" name="passwordForm" novalidate>
+                                            <script type="text/ng-template" id="passwordTemplate2">
                                                     <h5 align="left">Change password:</h5>
                                                     <div class="row">
                                                         </br>
@@ -61,8 +60,8 @@
 
                                                         <div class="form-group">
                                                             <div class="col-md-6">
-                                                                <input type="button" align="right" value="submit" ng-click="vm.submit(); closeThisDialog()" ng-submit="vm.submit(); closeThisDialog()"
-                                                                />
+                                                                 <input type="button" align="right" value="submit" ng-click="vm.submit(); closeThisDialog()" />
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -75,7 +74,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">First Name:</label>
                                     <div class="col-md-8">
-                                        <input class="form-control" id="focusedInput" name="firstName" ng-model="vm.clientViewModel.firstName" type="text" ng-required="true"
+                                        <input class="form-control" id="focusedInput" name="firstName" ng-model="vm.addClientRequest.firstName" type="text" ng-required="true"
                                         />
                                         <div class="msg-block" ng-show="clientForm.$error">
                                             <span class="msg-error" ng-show="clientForm.firstName.$error.required && clientForm.firstName.$dirty">
@@ -87,7 +86,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Last Name:</label>
                                     <div class="col-md-8">
-                                        <input class="form-control" id="focusedInput" name="lastName" ng-model="vm.clientViewModel.lastName" type="text" ng-required="true"
+                                        <input class="form-control" id="focusedInput" name="lastName" ng-model="vm.addClientRequest.lastName" type="text" ng-required="true"
                                         />
                                         <div class="msg-block" ng-show="clientForm.$error">
                                             <span class="msg-error" ng-show="clientForm.lastName.$error.required && clientForm.lastName.$dirty">

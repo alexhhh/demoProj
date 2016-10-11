@@ -19,6 +19,8 @@ module App.Controllers {
         userToken: string;
         userName: string;
         allThis: boolean = true;
+        clientUserRequest : App.Services.GetClientUserRequest;
+        getMesterUserIdRequest: App.Services.GetMesterUserIdRequest;
         getLogCredentialsRequest: App.Services.GetLogCredentialsRequest;
 
         //using shortcut syntax on private variables in the constructor
@@ -33,6 +35,8 @@ module App.Controllers {
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');
             this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
+            this.getMesterUserIdRequest = new App.Services.GetMesterUserIdRequest();
+            this.clientUserRequest = new App.Services.GetClientUserRequest();
             this.allThis = this.core.sesionService.isLogged;
             this.activate([]);
         }
@@ -57,6 +61,12 @@ module App.Controllers {
                     this.core.sesionService.userDetails = response.user;
                     this.userName = this.getLogCredentialsRequest.userName;
                     this.allThis = true;
+                    if ( this.core.sesionService.userRole == "ROLE_CLIENT") {
+                        this.getClientByTheUser();
+                    }
+                     else if ( this.core.sesionService.userRole == "ROLE_MESTER"){
+                        this.getMesterByTheUser();
+                    }
                 } else {
                     this.userToken = null;
                     this.allThis = false;
@@ -65,6 +75,23 @@ module App.Controllers {
             });
         }
 
+
+        getMesterByTheUser = () => {            
+            this.getMesterUserIdRequest.userId = this.core.sesionService.userDetails.id;              
+            var promise = this.core.dataService.getMesterByUserId(this.getMesterUserIdRequest, (response, success) => {
+                this.core.sesionService.theMester =response;                
+            });
+            return promise;             
+        }
+
+        getClientByTheUser = () => {                    
+            this.clientUserRequest.userId = this.core.sesionService.userDetails.id; 
+            var promise = this.core.dataService.getClientByUserId(this.clientUserRequest, (response, success) => {
+                this.core.sesionService.theClient =response;                
+            });
+            return promise;        
+        }
+        
         logOut = () => {
             if (!confirm('Are you sure about this ?')) {
                 return;

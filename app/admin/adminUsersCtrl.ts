@@ -13,7 +13,10 @@ module App.Controllers {
         logError: Function;
         logWarning: Function;
         logSuccess: Function;
-        users: Array<any>;       
+        users: Array<any>; 
+        dbUser:any;   
+        getMesterUserIdRequest: App.Services.GetMesterUserIdRequest; 
+        getClientUserRequest: App.Services.GetClientUserRequest;  
         getUserRequest: App.Services.GetUserRequest;
         userModel: App.Services.UserProfileViewModel;
         deleteUserRequest: App.Services.DeleteUserRequest;
@@ -29,7 +32,9 @@ module App.Controllers {
             this.logSuccess = common.logger.getLogFn('', 'success');
             this.getUserRequest = new App.Services.GetUserRequest();
             this.userModel = new App.Services.UserProfileViewModel();
-            this.deleteUserRequest = new App.Services.DeleteUserRequest();          
+            this.deleteUserRequest = new App.Services.DeleteUserRequest();  
+            this.getClientUserRequest = new App.Services.GetClientUserRequest();
+            this.getMesterUserIdRequest = new App.Services.GetMesterUserIdRequest();        
             this.activate([this.getAllUsers()]);
         }
 
@@ -64,17 +69,51 @@ module App.Controllers {
         }
 
 
+        
+        getMesterByUserId =(item: any, callback: Function) =>{
+            this.getMesterUserIdRequest.userId=item.id;
+            var promise = this.core.dataService.getMesterByUserId (this.getMesterUserIdRequest  , (response, success) => {
+                if (success) {
+                     this.dbUser = response;
+                    this.logSuccess('The mester was found');
+                    callback();
+                } else {
+                    this.logError('The mester is missing !');
+                } 
+            }); 
+        }
+
+        getClientByUserId =(item: any, callback: Function) =>{
+            this.getClientUserRequest.userId =item.id;
+            var promise = this.core.dataService.getClientByUserId (this.getClientUserRequest  , (response, success) => {
+                if (success) {
+                     this.dbUser = response;
+                    this.logSuccess('The mester was found');
+                    callback();
+                } else {
+                    this.logError('The mester is missing !');
+                } 
+            }); 
+        }
+
+
         showDetails = (item: any) => {               
             this.core.sesionService.selectedUser=item;  
-            var _url ;           
-            if (item.roleId == 2) {
-              _url = 'details/' + item.id;               
+            var _url ;  
+            if (item.roleId == 2) {                           
+                   this.getMesterByUserId(item, () => {
+                       _url = 'details/' + this.dbUser.id;  
+                         this.$location.path(_url);                        
+                   });
             } else if (item.roleId == 3) {
-               _url = 'clientdetails/' + item.id;                
+                  this.getClientByUserId(item, () => {
+                    _url = 'clientdetails/' + this.dbUser.id;  
+                      this.$location.path(_url);  
+                   });     
             } else if (item.roleId == 1) {
                _url = 'admin/' + item.id;
+                 this.$location.path(_url); 
             }
-            this.$location.path(_url); 
         }
  
     }

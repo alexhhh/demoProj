@@ -21,11 +21,13 @@ module App.Controllers {
         mesterResultPage: any;
         mesterAvgRating: number;
         reviewMesterResultPage: any;         
-        loggedClient: any;        
+        loggedClient: any;   
+        thisClientId: string;     
         checkPassword : string ="";
-        getClientRequest: App.Services.GetClientRequest;         
+        clientUserRequest: App.Services.GetClientUserRequest;         
         editUserRequest: App.Services.EditUserRequest;
         clientViewModel: App.Services.ClientProfileViewModel;
+        addClientRequest : App.Services.AddClientRequest;
         getLogCredentialsRequest: App.Services.GetLogCredentialsRequest;
         
         //#endregion
@@ -39,37 +41,34 @@ module App.Controllers {
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');  
             this.clientViewModel = new App.Services.ClientProfileViewModel();
-            this.getClientRequest = new App.Services.GetClientRequest();
+            this.clientUserRequest = new App.Services.GetClientUserRequest();
             this.editUserRequest = new App.Services.EditUserRequest();
+            this.addClientRequest = new App.Services.AddClientRequest();
             this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest(); 
-            this.activate([this.getClient()]);
+            this.activate([ ]);
         }
 
         // TODO: is there a more elegant way of activating the controller - base class?
         activate(promises: Array<ng.IPromise<any>>) {
             this.common.activateController(promises, this.controllerId)
-                .then(() => {   });
-        }
-
-
-        getClient = () => {
-            this.getClientRequest.id = this.core.sesionService.userDetails.id;
+                .then(() => { 
+            this.editUserRequest.user=this.core.sesionService.userDetails;
             this.clientViewModel.userName = this.core.sesionService.userDetails.userName;
-            this.clientViewModel.email = this.core.sesionService.userDetails.email;
-            var promise = this.core.dataService.getClient(this.getClientRequest, (response, success) => {
-                this.clientViewModel.firstName = response.firstName;
-                this.clientViewModel.lastName = response.lastName;
+            this.clientViewModel.email = this.core.sesionService.userDetails.email;  
+            this.clientViewModel.firstName = this.core.sesionService.theClient.firstName;
+            this.clientViewModel.lastName = this.core.sesionService.theClient.lastName;  
+            this.addClientRequest.firstName = this.clientViewModel.firstName;
+            this.addClientRequest.lastName = this.clientViewModel.lastName;
             });
-            return promise;
         }
+
+
+    
  
         editClient = () => {
-            var addClientRequest = new App.Services.AddClientRequest();
-            addClientRequest.id = this.core.sesionService.userDetails.id;
-            addClientRequest.firstName = this.clientViewModel.firstName;
-            addClientRequest.lastName = this.clientViewModel.lastName;
-            addClientRequest.clientUserId = this.core.sesionService.userDetails.id;
-            var promise = this.core.dataService.editClient(addClientRequest, (response, success) => {
+            this.addClientRequest.id = this.core.sesionService.theClient.id;
+            this.addClientRequest.userId = this.core.sesionService.userDetails.id;
+            var promise = this.core.dataService.editClient(this.addClientRequest, (response, success) => {
                  if(success){
                     this.logSuccess("The client profile was modified !");
                 }
@@ -79,21 +78,20 @@ module App.Controllers {
         }
  
         changePassword = () => {
-            this.ngDialog.open({ template: 'passwordTemplate', scope: this.$scope });
+            this.ngDialog.open({ template: 'passwordTemplate2', scope: this.$scope });
         }
         
-        submit = () => { 
-            this.editUserRequest.password = this.clientViewModel.password;
+        submit = () => {   
+            this.editUserRequest.user.password = this.clientViewModel.password;
             this.editUser(); 
         }
 
-        editUser = () => {
-            this.editUserRequest.id =this.core.sesionService.userDetails.id; 
-            var promise = this.core.dataService.editUser(this.editUserRequest, (response, success) => {  
+        editUser = () => { 
+            var promise = this.core.dataService.editUser(this.editUserRequest.user, (response, success) => {  
              if (success){     
              this.core.sesionService.userToken=null;
              this.getLogCredentialsRequest.userName = this.clientViewModel.userName;  
-             this.getLogCredentialsRequest.password = this.editUserRequest.password;  
+             this.getLogCredentialsRequest.password = this.editUserRequest.user.password;  
              this.logIn();            
              } });
             return promise;

@@ -23,6 +23,12 @@ var App;
                             _this.core.sesionService.userDetails = response.user;
                             _this.userName = _this.getLogCredentialsRequest.userName;
                             _this.allThis = true;
+                            if (_this.core.sesionService.userRole == "ROLE_CLIENT") {
+                                _this.getClientByTheUser();
+                            }
+                            else if (_this.core.sesionService.userRole == "ROLE_MESTER") {
+                                _this.getMesterByTheUser();
+                            }
                         }
                         else {
                             _this.userToken = null;
@@ -30,6 +36,20 @@ var App;
                             _this.logError('An error occurred whit the log in process!');
                         }
                     });
+                };
+                this.getMesterByTheUser = function () {
+                    _this.getMesterUserIdRequest.userId = _this.core.sesionService.userDetails.id;
+                    var promise = _this.core.dataService.getMesterByUserId(_this.getMesterUserIdRequest, function (response, success) {
+                        _this.core.sesionService.theMester = response;
+                    });
+                    return promise;
+                };
+                this.getClientByTheUser = function () {
+                    _this.clientUserRequest.userId = _this.core.sesionService.userDetails.id;
+                    var promise = _this.core.dataService.getClientByUserId(_this.clientUserRequest, function (response, success) {
+                        _this.core.sesionService.theClient = response;
+                    });
+                    return promise;
                 };
                 this.logOut = function () {
                     if (!confirm('Are you sure about this ?')) {
@@ -60,6 +80,8 @@ var App;
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
                 this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
+                this.getMesterUserIdRequest = new App.Services.GetMesterUserIdRequest();
+                this.clientUserRequest = new App.Services.GetClientUserRequest();
                 this.allThis = this.core.sesionService.isLogged;
                 this.activate([]);
             }

@@ -6,6 +6,8 @@ module App.Services {
         userRole: string;
         userDetails: any;
         userToken: string;
+        theMester: any;
+        theClient: any;
         selectedUser : any;
         hasRole(role: Array<string>): boolean;
         clear(): void;
@@ -20,6 +22,8 @@ module App.Services {
         public userRole: string ;        
         public userDetails: any;
         public selectedUser : any;
+        public theMester : any;
+        public theClient : any;
         public userToken: string;
         public log: Function;
         public logError: Function;
@@ -50,6 +54,8 @@ module App.Services {
             this.userRole = 'x';
             this.userDetails=null;
             this.userToken='x';
+            this.theMester=null;
+            this.theClient=null;
         }
         
         public resetDashboardPage = () => {

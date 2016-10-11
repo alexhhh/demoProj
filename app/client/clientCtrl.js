@@ -10,23 +10,10 @@ var App;
                 //#region Variables
                 this.controllerId = ClientCtrl.controllerId;
                 this.checkPassword = "";
-                this.getClient = function () {
-                    _this.getClientRequest.id = _this.core.sesionService.userDetails.id;
-                    _this.clientViewModel.userName = _this.core.sesionService.userDetails.userName;
-                    _this.clientViewModel.email = _this.core.sesionService.userDetails.email;
-                    var promise = _this.core.dataService.getClient(_this.getClientRequest, function (response, success) {
-                        _this.clientViewModel.firstName = response.firstName;
-                        _this.clientViewModel.lastName = response.lastName;
-                    });
-                    return promise;
-                };
                 this.editClient = function () {
-                    var addClientRequest = new App.Services.AddClientRequest();
-                    addClientRequest.id = _this.core.sesionService.userDetails.id;
-                    addClientRequest.firstName = _this.clientViewModel.firstName;
-                    addClientRequest.lastName = _this.clientViewModel.lastName;
-                    addClientRequest.clientUserId = _this.core.sesionService.userDetails.id;
-                    var promise = _this.core.dataService.editClient(addClientRequest, function (response, success) {
+                    _this.addClientRequest.id = _this.core.sesionService.theClient.id;
+                    _this.addClientRequest.userId = _this.core.sesionService.userDetails.id;
+                    var promise = _this.core.dataService.editClient(_this.addClientRequest, function (response, success) {
                         if (success) {
                             _this.logSuccess("The client profile was modified !");
                         }
@@ -37,19 +24,18 @@ var App;
                     return promise;
                 };
                 this.changePassword = function () {
-                    _this.ngDialog.open({ template: 'passwordTemplate', scope: _this.$scope });
+                    _this.ngDialog.open({ template: 'passwordTemplate2', scope: _this.$scope });
                 };
                 this.submit = function () {
-                    _this.editUserRequest.password = _this.clientViewModel.password;
+                    _this.editUserRequest.user.password = _this.clientViewModel.password;
                     _this.editUser();
                 };
                 this.editUser = function () {
-                    _this.editUserRequest.id = _this.core.sesionService.userDetails.id;
-                    var promise = _this.core.dataService.editUser(_this.editUserRequest, function (response, success) {
+                    var promise = _this.core.dataService.editUser(_this.editUserRequest.user, function (response, success) {
                         if (success) {
                             _this.core.sesionService.userToken = null;
                             _this.getLogCredentialsRequest.userName = _this.clientViewModel.userName;
-                            _this.getLogCredentialsRequest.password = _this.editUserRequest.password;
+                            _this.getLogCredentialsRequest.password = _this.editUserRequest.user.password;
                             _this.logIn();
                         }
                     });
@@ -75,15 +61,25 @@ var App;
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
                 this.clientViewModel = new App.Services.ClientProfileViewModel();
-                this.getClientRequest = new App.Services.GetClientRequest();
+                this.clientUserRequest = new App.Services.GetClientUserRequest();
                 this.editUserRequest = new App.Services.EditUserRequest();
+                this.addClientRequest = new App.Services.AddClientRequest();
                 this.getLogCredentialsRequest = new App.Services.GetLogCredentialsRequest();
-                this.activate([this.getClient()]);
+                this.activate([]);
             }
             // TODO: is there a more elegant way of activating the controller - base class?
             ClientCtrl.prototype.activate = function (promises) {
+                var _this = this;
                 this.common.activateController(promises, this.controllerId)
-                    .then(function () { });
+                    .then(function () {
+                    _this.editUserRequest.user = _this.core.sesionService.userDetails;
+                    _this.clientViewModel.userName = _this.core.sesionService.userDetails.userName;
+                    _this.clientViewModel.email = _this.core.sesionService.userDetails.email;
+                    _this.clientViewModel.firstName = _this.core.sesionService.theClient.firstName;
+                    _this.clientViewModel.lastName = _this.core.sesionService.theClient.lastName;
+                    _this.addClientRequest.firstName = _this.clientViewModel.firstName;
+                    _this.addClientRequest.lastName = _this.clientViewModel.lastName;
+                });
             };
             ClientCtrl.controllerId = 'clientCtrl';
             return ClientCtrl;

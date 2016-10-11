@@ -68,6 +68,12 @@ var App;
             return GetMesterRequest;
         }());
         Services.GetMesterRequest = GetMesterRequest;
+        var GetMesterUserIdRequest = (function () {
+            function GetMesterUserIdRequest() {
+            }
+            return GetMesterUserIdRequest;
+        }());
+        Services.GetMesterUserIdRequest = GetMesterUserIdRequest;
         var EditLocationRequest = (function () {
             function EditLocationRequest() {
             }
@@ -87,6 +93,12 @@ var App;
             return LocationListRequest;
         }());
         Services.LocationListRequest = LocationListRequest;
+        var FullMester = (function () {
+            function FullMester() {
+            }
+            return FullMester;
+        }());
+        Services.FullMester = FullMester;
         var SearchMesterRequest = (function () {
             function SearchMesterRequest() {
             }
@@ -165,6 +177,12 @@ var App;
             return GetClientRequest;
         }());
         Services.GetClientRequest = GetClientRequest;
+        var GetClientUserRequest = (function () {
+            function GetClientUserRequest() {
+            }
+            return GetClientUserRequest;
+        }());
+        Services.GetClientUserRequest = GetClientUserRequest;
         var AddClientRequest = (function () {
             function AddClientRequest() {
             }

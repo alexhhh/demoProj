@@ -75,7 +75,7 @@ var App;
                         { name: 'id', visible: false },
                         { name: 'firstName' },
                         { name: 'lastName' },
-                        { name: 'location' },
+                        { name: 'location.location' },
                         { name: 'description' },
                         { name: 'avgPrice', cellFilter: 'mapPrice' },
                         { name: 'avgRating', cellFilter: 'mapRating' }
@@ -178,7 +178,7 @@ var App;
                 this.redirectToDetails = function (iduAsta) {
                     var _url = 'details/' + iduAsta;
                     if (_this.core.sesionService.userRole == 'ROLE_CLIENT') {
-                        _url = _url + '/' + _this.core.sesionService.userDetails.id;
+                        _url = _url + '/' + _this.core.sesionService.theClient.id;
                     }
                     _this.$location.path(_url);
                 };

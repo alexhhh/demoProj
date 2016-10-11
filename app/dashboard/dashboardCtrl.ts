@@ -139,7 +139,7 @@ module App.Controllers {
                 { name: 'id', visible: false },
                 { name: 'firstName' },
                 { name: 'lastName' },
-                { name: 'location' },
+                { name: 'location.location' },
                 { name: 'description' },
                 { name: 'avgPrice', cellFilter: 'mapPrice' },
                 { name: 'avgRating', cellFilter: 'mapRating' }
@@ -242,7 +242,7 @@ module App.Controllers {
         redirectToDetails = (iduAsta: string) => {
             var _url = 'details/' + iduAsta;
             if (this.core.sesionService.userRole == 'ROLE_CLIENT') {
-                _url = _url + '/' + this.core.sesionService.userDetails.id
+                _url = _url + '/' + this.core.sesionService.theClient.id
             }
             this.$location.path(_url);
         }

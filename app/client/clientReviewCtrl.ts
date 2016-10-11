@@ -15,8 +15,10 @@ module App.Controllers {
         logWarning: Function;
         logSuccess: Function;
         totalResults: number;
+        thisClientId : string;
         lastRequestLength : number = 0;
         reviewMesterResultPage: any;
+        clientUserRequest : App.Services.GetClientUserRequest;
         searchReviewformClientRequest : App.Services.SearchReviewFromClientRequest;
         deleteReviewRequest : App.Services.DeleteReviewRequest;
         
@@ -28,9 +30,11 @@ module App.Controllers {
             this.logError = common.logger.getLogFn('', 'error');
             this.logWarning = common.logger.getLogFn('', 'warn');
             this.logSuccess = common.logger.getLogFn('', 'success');
+            
+            this.clientUserRequest = new App.Services.GetClientUserRequest();
             this.searchReviewformClientRequest = new App.Services.SearchReviewFromClientRequest();
             this.deleteReviewRequest = new App.Services.DeleteReviewRequest();
-            this.activate([  ]);
+            this.activate([   ]);
         }
 
         // TODO: is there a more elegant way of activating the controller - base class?
@@ -39,12 +43,23 @@ module App.Controllers {
                  .then(() => { });
          }
  
+        //   getClientByUserId = () => {
+        //     this.clientUserRequest.userId = this.core.sesionService.userDetails.id;
+        //     var promise = this.core.dataService.getClientByUserId(this.clientUserRequest, (response, success) => {
+        //         this.thisClientId= response.id;
+        //         this.searchReviewMester();
+        //        });
+        //     return promise;
+        // }
+ 
+ 
+ 
          searchReviewMester = () => {
             if (this.lastRequestLength != 0 && this.lastRequestLength == this.itemResults.length) {
                 return;
             }
             this.lastRequestLength = this.itemResults.length;
-            this.searchReviewformClientRequest.idClient = this.core.sesionService.userDetails.id;
+            this.searchReviewformClientRequest.idClient =   this.core.sesionService.theClient.id;           
             this.searchReviewformClientRequest.pageNumber = (this.itemResults.length);
             this.searchReviewformClientRequest.pageSize = 5;
 

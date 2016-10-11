@@ -6,7 +6,7 @@ var App;
     (function (Controllers) {
         var AdminCtrl = (function () {
             //#endregion
-            function AdminCtrl(common, core) {
+            function AdminCtrl($scope, common, core) {
                 var _this = this;
                 this.existSpec = false;
                 this.getSpecialities = function () {
@@ -36,6 +36,7 @@ var App;
                     else {
                         var promise = _this.core.dataService.addSpeciality(_this.addSpecialityRequest, function (response, success) {
                             if (success) {
+                                _this.addSpecialityRequest.specialityName = "";
                                 _this.logSuccess('The speciality was created');
                             }
                             else {
@@ -62,6 +63,7 @@ var App;
                     });
                     return promise;
                 };
+                this.$scope = $scope;
                 this.common = common;
                 this.controllerId = AdminCtrl.controllerId;
                 this.core = core;
@@ -83,7 +85,7 @@ var App;
         }());
         Controllers.AdminCtrl = AdminCtrl;
         // Register with angular
-        App.app.controller(AdminCtrl.controllerId, ['common', 'core', function (common, core) { return new AdminCtrl(common, core); }]);
+        App.app.controller(AdminCtrl.controllerId, ['$scope', 'common', 'core', function ($scope, common, core) { return new AdminCtrl($scope, common, core); }]);
     })(Controllers = App.Controllers || (App.Controllers = {}));
 })(App || (App = {}));
 //# sourceMappingURL=admin.js.map

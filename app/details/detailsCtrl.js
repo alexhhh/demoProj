@@ -48,8 +48,8 @@ var App;
                     _this.ngDialog.open({ template: 'templateId', scope: _this.$scope });
                 };
                 this.addMesterReview = function () {
-                    _this.addMesterReviewRequest.idMester = _this.$routeParams.mesterId;
-                    _this.addMesterReviewRequest.idClient = _this.$routeParams.clientId;
+                    _this.addMesterReviewRequest.mesterId = _this.$routeParams.mesterId;
+                    _this.addMesterReviewRequest.clientId = _this.$routeParams.clientId;
                     var promise = _this.core.dataService.addMesterReview(_this.addMesterReviewRequest, function (response, success) {
                         _this.newReviewMester = response;
                         if (success) {
@@ -117,8 +117,8 @@ var App;
                 this.addMesterReviewRequest = new App.Services.AddMesterReviewRequest();
                 this.deleteReviewRequest = new App.Services.DeleteReviewRequest();
                 this.searchReviewMesterRequest = new App.Services.SearchReviewMesterRequest();
-                if (core.sesionService.userDetails != null) {
-                    this.currentClientId = core.sesionService.userDetails.id;
+                if (core.sesionService.theClient != null) {
+                    this.currentClientId = core.sesionService.theClient.id;
                 }
                 else {
                     this.currentClientId = null;

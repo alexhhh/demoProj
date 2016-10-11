@@ -17,7 +17,7 @@
                     <div class="mystyle">
                         <strong>First Name:</strong>{{vm.dbMester.firstName}}</br>
                         <strong>Last Name: </strong>{{vm.dbMester.lastName}}</br>
-                        <strong>Location: </strong>{{vm.dbMester.location}}</br>
+                        <strong>Location: </strong>{{vm.dbMester.location.location}}</br>
                         <strong>Details: </strong>{{vm.dbMester.description}}</br>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                                             />
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="button" ng-show="vm.currentClientId==item.idClient || vm.core.sesionService.userRole=='ROLE_ADMIN'" value="Delete Review"
+                                            <input type="button" ng-show="vm.currentClientId==item.clientId || vm.core.sesionService.userRole=='ROLE_ADMIN'" value="Delete Review"
                                             ng-click="vm.deleteReview(item)" />
                                         </div>
                                     </div>

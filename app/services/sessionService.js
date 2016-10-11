@@ -17,6 +17,8 @@ var App;
                     _this.userRole = 'x';
                     _this.userDetails = null;
                     _this.userToken = 'x';
+                    _this.theMester = null;
+                    _this.theClient = null;
                 };
                 this.resetDashboardPage = function () {
                     _this.searchMesterRequestMaintener = null;

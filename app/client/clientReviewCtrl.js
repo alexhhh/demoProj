@@ -9,12 +9,20 @@ var App;
                 //#region Variables
                 this.controllerId = ClientReviewCtrl.controllerId;
                 this.lastRequestLength = 0;
+                //   getClientByUserId = () => {
+                //     this.clientUserRequest.userId = this.core.sesionService.userDetails.id;
+                //     var promise = this.core.dataService.getClientByUserId(this.clientUserRequest, (response, success) => {
+                //         this.thisClientId= response.id;
+                //         this.searchReviewMester();
+                //        });
+                //     return promise;
+                // }
                 this.searchReviewMester = function () {
                     if (_this.lastRequestLength != 0 && _this.lastRequestLength == _this.itemResults.length) {
                         return;
                     }
                     _this.lastRequestLength = _this.itemResults.length;
-                    _this.searchReviewformClientRequest.idClient = _this.core.sesionService.userDetails.id;
+                    _this.searchReviewformClientRequest.idClient = _this.core.sesionService.theClient.id;
                     _this.searchReviewformClientRequest.pageNumber = (_this.itemResults.length);
                     _this.searchReviewformClientRequest.pageSize = 5;
                     var promise = _this.core.dataService.searchFullReviewFromClient(_this.searchReviewformClientRequest, function (response, success) {
@@ -60,6 +68,7 @@ var App;
                 this.logError = common.logger.getLogFn('', 'error');
                 this.logWarning = common.logger.getLogFn('', 'warn');
                 this.logSuccess = common.logger.getLogFn('', 'success');
+                this.clientUserRequest = new App.Services.GetClientUserRequest();
                 this.searchReviewformClientRequest = new App.Services.SearchReviewFromClientRequest();
                 this.deleteReviewRequest = new App.Services.DeleteReviewRequest();
                 this.activate([]);
